@@ -1,8 +1,10 @@
-import { Router } from 'https://deno.land/x/oak/mod.ts'
+import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
 
-export const router = new Router()
+const router = new Router()
 
-router.get('api/teste', (ctx) => {
+router.get('/api/teste', (ctx) => {
     ctx.response.status = 200
-    ctx.response.body = {message: 'salve, família!!'}
+    ctx.response.body = {salve: 'salve, família!!'}
 })
+
+export {router}

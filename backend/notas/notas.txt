@@ -34,3 +34,8 @@ perfil:
 - chats
 
 https://sqlzoo.net/wiki/SQL_Tutorial
+https://youtu.be/ThDTt_wd2Y4
+
+https://deno.land/x/denon@2.5.0
+https://deno.land/x/dotenv@v3.2.0
+https://deno.land/x/oak@v10.6.0
