@@ -6,6 +6,10 @@ ALTER TABLE
 ALTER COLUMN
   "id_da_postagem" TYPE "id" uuid not null default uuid_generate_v4();
 
+ALTER TABLE public.posts ALTER COLUMN texto_da_posatgem TYPE varchar USING texto_da_posatgem::varchar;
+
+ALTER TABLE public.perfis RENAME COLUMN url_da_bio TO url_na_bio;
+
 create EXTENSION if not exists "uuid-ossp";
 
 CREATE TABLE "public.questions" (

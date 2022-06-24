@@ -1,16 +1,23 @@
-const objeto = {
-    nome: 'Everaldo',
-    idade: 710,
-    corno: true
+const json = await Deno.readTextFile('./teste.json')
+const object = JSON.parse(json)
+
+const getDataForQuery = function (object) {
+    let [keys, values, fixer] = ['', '', true]
+
+    for (const key in object) {
+        if (fixer) {
+            keys += `${key}`
+            values += `${object[key]}`
+        }
+        else {
+            keys += `, ${key}`
+            values += `, ${object[key]}`
+        }
+        fixer = false
+    }
+
+    return [keys, values]
 }
 
-for (const key in objeto) {
-
-    const key = {objeto}
-    // if (Object.hasOwnProperty.call(objeto, key)) {
-    //     const element = objeto[key];
-        
-    // }
-
-    console.log(key)
-}
+const [keys, values] = getDataForQuery(object)
+console.log(keys)
