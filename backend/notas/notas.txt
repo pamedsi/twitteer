@@ -1,0 +1,36 @@
+Tabelas:
+
+perfil:
+
+    - Nome completo
+    - Nome social
+    - @
+    - Telefone
+    - email (chave primária)
+    - id
+    - senha
+    - data de nascimento
+    - cidade, estado e país
+
+- posts:
+
+    - id do post
+    - dono do post
+    - texto do post
+    - data e hora do post
+    - likes
+    - retweets
+    - comentarios
+
+- comentarios:
+    - id_do_comentario
+    - dono do comentarios
+    - tweet comentado
+    - data e hora do comentário
+    - likes
+    - retweets
+    - comentarios
+
+- chats
+
+https://sqlzoo.net/wiki/SQL_Tutorial
