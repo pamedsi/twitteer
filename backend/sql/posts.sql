@@ -1,9 +1,9 @@
-CREATE TABLE posts (
-    id_da_postagem uuid not null default uuid_generate_v4(),
-    id_do_usuario uuid,
-    texto_da_posatgem text,
-    data_e_hora_da_postagem timestamp,
-    curtidas int,
+CREATE TABLE public.posts (
+    post_id uuid not null default uuid_generate_v4() primary key,
+    user_id uuid,
+    content varchar,
+    post_datetime timestamp,
+    likes int,
     retweets int,
-    comentarios int
+    comments int
 );

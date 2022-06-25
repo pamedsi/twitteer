@@ -1,20 +1,17 @@
-CREATE TABLE perfis
-
-(
-	nome_completo text,
-    data_de_nascimento date,
-    localizacao text,
-    telefone text,
-    email text,
-    nome_de_usuario text,
-    senha text,
-    id_do_usuario uuid not null default uuid_generate_v4(),
-
-    nome_social text,
-    data_de_criacao_do_perfil date,
-    descricao text,
-    url_da_bio text,
-    foto_de_perfil text,
-    foto_de_capa text
+CREATE TABLE public.users (
+	user_id uuid not null default uuid_generate_v4() primary key,
+    full_name varchar NOT NULL,
+    birth_date date,
+    city varchar,
+    phone varchar,
+    email varchar,
+    username varchar not null,
+    "password" varchar not null,
+    social_name varchar,
+    profile_creation_date date,
+    bio varchar,
+    url_on_bio varchar,
+    profile_pic varchar,
+    cover_pic varchar
 );
 -- DEFAULT CHARSET = utf8; não deu certo!
