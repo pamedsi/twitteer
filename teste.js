@@ -5,13 +5,17 @@ const getDataForQuery = function (object) {
     let [keys, values, fixer] = ['', '', true]
 
     for (const key in object) {
-        if (fixer) {
+        if (key === "password") {
+            keys += `, "${key}"`
+            values += `, '${object[key]}'`
+        }
+        else if (fixer) {
             keys += `${key}`
-            values += `${object[key]}`
+            values += `'${object[key]}'`
         }
         else {
             keys += `, ${key}`
-            values += `, ${object[key]}`
+            values += `, '${object[key]}'`
         }
         fixer = false
     }
@@ -20,4 +24,4 @@ const getDataForQuery = function (object) {
 }
 
 const [keys, values] = getDataForQuery(object)
-console.log(keys)
+console.log(`INSERT INTO public.users (${keys}) VALUES (${values})`)

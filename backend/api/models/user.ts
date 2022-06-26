@@ -1,16 +1,15 @@
 export interface user {
-	nome_completo: string,
-    data_de_nascimento?: string,
-    localizacao?: string,
-    telefone?: string,
+	full_name: string,
+    birth_date: string,
+    city?: string,
+    phone?: string,
     email: string,
-    nome_de_usuario: string,
-    senha: string,
-    id_do_usuario?: string,
-    nome_social?: string,
-    data_de_criacao_do_perfil?: string,
-    descricao?: string,
-    url_na_bio?: string,
-    foto_de_perfil?: string,
-    foto_de_capa?: string
+    username: string,
+    password: string,
+    social_name?: string,
+    profile_creation_date?: string,
+    bio?: string
+    url_on_bio?: string,
+    profile_pic?: string,
+    cover_pic?: string
 }

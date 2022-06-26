@@ -1,10 +1,10 @@
 CREATE TABLE public.users (
 	user_id uuid not null default uuid_generate_v4() primary key,
     full_name varchar NOT NULL,
-    birth_date date,
+    birth_date NOT NULL date,
     city varchar,
     phone varchar,
-    email varchar,
+    email not null varchar,
     username varchar not null,
     "password" varchar not null,
     social_name varchar,
