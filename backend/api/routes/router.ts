@@ -1,13 +1,12 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
-import { getUsers, createUser, updateUser } from './../controllers/user.controller.ts';
+import { getUsers, createUser, updateUser, removeUser } from './../controllers/user.controller.ts';
 
-const router = new Router()
+export const router = new Router()
 
-router.get('/api/users', getUsers) // ok
+router.get('/api/users', getUsers)
 
-router.post('/api/users', createUser) // ok
+router.post('/api/users', createUser)
 
-router.put('/api/users', updateUser)
+router.put('/api/users/:user_id', updateUser)
 
-router.delete('/api/users', getUsers)
-export {router}
+router.delete('/api/users/:user_id', removeUser)

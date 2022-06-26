@@ -1,27 +1,5 @@
 import {client} from '../database.ts'
-import { user } from './../models/user.ts';
-
-const getDataForQuery = function (object: user) {
-    let [keys, values, fixer] = ['', '', true]
-
-    for (const key in object) {
-        if (key === "password") {
-            keys += `, "${key}"`
-            values += `, '${object[key]}'`
-        }
-        else if (fixer) {
-            keys += `${key}`
-            values += `'${object[key]}'`
-        }
-        else {
-            keys += `, ${key}`
-            values += `, '${object[key]}'`
-        }
-        fixer = false
-    }
-
-    return [keys, values]
-}
+import {stringForPost, stringForPut} from './settingQueries.ts'
 
 export const getUsers = async function (ctx: any) {
     try {
@@ -30,38 +8,43 @@ export const getUsers = async function (ctx: any) {
     }
     catch (error) {
         console.log(`Requisição mal sucedida!\n`, error)
+        ctx.response.body = {message: "Não foi possível buscar os usuários"}
+        
     }
 }
 
 export const createUser = async function (ctx: any) {
     try {
         const object = await ctx.request.body().value
-        const [keys, values] = getDataForQuery(object)
+        const [keys, values] = stringForPost(object)
         await client.queryObject(`INSERT INTO public.users (${keys}) VALUES (${values});`)
         ctx.response.body = {message : "Usuário cadastrado!"}
     }
     catch (error) {
-        console.log(`Requisição mal sucedida!\n`, error)
+        console.log(`Nao foi possível cadastrar o usuário.\n`, error)
+        ctx.response.body = {message: "Não foi possível cadastrar o usuário"}
     }
 }
 
 export const updateUser = async function(ctx: any) {
     try {
         const object = await ctx.request.body().value
-        const [keys, values] = getDataForQuery(object)
-
-        await client.queryObject(`UPDATE public.users SET (${keys}) = (${values}) WHERE user_id='${ctx.params.user_id}'`)
+        const changes = stringForPut(object)
+        await client.queryObject(`UPDATE public.users SET ${changes} WHERE user_id='${ctx.params.user_id}'`)
+        ctx.response.body = {message : "Atualização feita com sucesso!"}
     } catch (error) {
-        
+        console.log(`Não foi possível atualizar o usuário!\n`, error)
+        ctx.response.body = {message: "Não foi possível atualizar o usuário"}
     }
 }
 
 export const removeUser = async function(ctx: any) {
     try {
-        const result = await client.queryObject('SELECT * FROM perfis')
-        ctx.response.body = result.rows
+        await client.queryObject(`DELETE FROM public.users WHERE user_id='${ctx.params.user_id}'`)
+        ctx.response.body = {message: "Usuário exluído com sucesso!"}
     }
     catch (error) {
-        console.log(`Requisição mal sucedida!\n`, error)
+        ctx.response.body = {message: "Não foi possível deletar o usuário"}
+        console.log(`Não foi possível deletar o usuário.\n`, error)
     }
 }
