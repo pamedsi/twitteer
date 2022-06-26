@@ -14,4 +14,4 @@ CREATE TABLE public.users (
     profile_pic varchar,
     cover_pic varchar
 );
--- DEFAULT CHARSET = utf8; não deu certo!
+-- DEFAULT CHARSET = utf8; não funcionou.
