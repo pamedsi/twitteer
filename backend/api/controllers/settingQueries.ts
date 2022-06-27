@@ -37,3 +37,14 @@ export const stringForPut = function (object: user) {
 
     return changes
 }
+
+export const checkingProperty = function (queryResults: user[], key, value) {
+    let finder = false
+    queryResults.forEach(user => {
+        if (user[key] === value) {
+            finder = true
+            return
+        }
+    })
+    return finder
+}
