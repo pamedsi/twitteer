@@ -57,7 +57,7 @@ export const createUser = async function (ctx: any) {
 export const updateUser = async function(ctx: any) {
     try {
         const object = await ctx.request.body().value
-        const changes = stringForPut(object)
+        const changes = await stringForPut(object)
         await client.queryObject(`UPDATE public.users SET ${changes} WHERE user_id='${ctx.params.user_id}'`)
         ctx.response.body = {message : "Atualização feita com sucesso!"}
     } catch (error) {

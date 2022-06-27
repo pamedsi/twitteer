@@ -23,11 +23,17 @@ export const stringForPost = async function (object: user) {
     return [keys, values]
 }
 
-export const stringForPut = function (object: user) {
+export const stringForPut = async function (object: user) {
     let [changes, fixer] = ['', true]
 
     for (const key in object) {
-        if (fixer) {
+        if (key === 'password' && fixer) {
+            changes += `"${key}"='${await hash(object[key])}'`
+        }
+        else if (key === 'password' && !fixer) {
+            changes += `,"${key}"='${await hash(object[key])}'`
+        }
+        else if (fixer) {
             changes += `${key}='${object[key]}'`
         }
         else {
