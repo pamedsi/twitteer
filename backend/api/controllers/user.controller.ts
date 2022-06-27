@@ -1,3 +1,4 @@
+import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
 import {client} from './database.ts'
 import {stringForPost, stringForPut, checkingProperty} from './settingQueries.ts'
 
@@ -29,11 +30,11 @@ export const createUser = async function (ctx: any) {
         let phone
         if (!object.phone) phone = null
         else phone = object.phone
-        
+
         const result = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username}';`)
 
         if(result.rows.length === 0) {
-            const [keys, values] = stringForPost(object)
+            const [keys, values] = await stringForPost(object)
             await client.queryObject(`INSERT INTO public.users (${keys}) VALUES (${values});`)
             ctx.response.body = {message : "Usuário cadastrado!"}
         }

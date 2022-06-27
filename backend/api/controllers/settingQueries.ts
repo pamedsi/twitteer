@@ -1,12 +1,13 @@
+import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
 import { user } from '../models/user.ts';
 
-export const stringForPost = function (object: user) {
+export const stringForPost = async function (object: user) {
     let [keys, values, fixer] = ['', '', true]
 
     for (const key in object) {
         if (key === "password") {
             keys += `, "${key}"`
-            values += `, '${object[key]}'`
+            values += `, '${await hash(object[key])}'`
         }
         else if (fixer) {
             keys += `${key}`
