@@ -1,6 +1,6 @@
 import { Client } from 'https://deno.land/x/postgres@v0.16.1/mod.ts'
 
-const client = new Client({
+export const client = new Client({
     user: "postgres",
     database: "postgres",
     hostname: "localhost",
@@ -9,5 +9,3 @@ const client = new Client({
   });
 
 await client.connect()
-
-export {client}

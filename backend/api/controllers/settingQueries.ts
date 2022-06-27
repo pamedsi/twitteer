@@ -1,4 +1,4 @@
-import { user } from './../models/user.ts';
+import { user } from '../models/user.ts';
 
 export const stringForPost = function (object: user) {
     let [keys, values, fixer] = ['', '', true]

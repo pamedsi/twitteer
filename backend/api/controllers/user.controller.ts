@@ -1,10 +1,17 @@
-import {client} from '../database.ts'
+import {client} from './database.ts'
 import {stringForPost, stringForPut} from './settingQueries.ts'
 
 export const getUsers = async function (ctx: any) {
     try {
+        if (Object.keys(ctx.params).length === 0) {
         const result = await client.queryObject('SELECT * FROM public.users;')
         ctx.response.body = result.rows
+        }
+        else {
+            const {key, value} = ctx.params
+            const result = await client.queryObject(`SELECT * FROM public.users WHERE ${key}='${value}';`)
+            ctx.response.body = result.rows
+        }
     }
     catch (error) {
         console.log(`Requisição mal sucedida!\n`, error)
@@ -17,6 +24,9 @@ export const createUser = async function (ctx: any) {
     try {
         const object = await ctx.request.body().value
         const [keys, values] = stringForPost(object)
+
+        // email, phone, user_name, se já tiver algum desses cadastrados. Não cadastra!
+
         await client.queryObject(`INSERT INTO public.users (${keys}) VALUES (${values});`)
         ctx.response.body = {message : "Usuário cadastrado!"}
     }
