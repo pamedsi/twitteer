@@ -1,42 +1,29 @@
-Tabelas:
-
-perfil:
-
-    - Nome completo
-    - Nome social
-    - @
-    - Telefone
-    - email (chave primária)
-    - id
-    - senha
-    - data de nascimento
-    - cidade, estado e país
-
-- posts:
-
-    - id do post
-    - dono do post
-    - texto do post
-    - data e hora do post
-    - likes
-    - retweets
-    - comentarios
-
-- comentarios:
-    - id_do_comentario
-    - dono do comentarios
-    - tweet comentado
-    - data e hora do comentário
-    - likes
-    - retweets
-    - comentarios
+Tabelas pendentes:
 
 - chats
+- users:
+    coluna de seguidores e seguindo
 
-https://sqlzoo.net/wiki/SQL_Tutorial
-https://youtu.be/ThDTt_wd2Y4
+Screens:
+    Feed
+    Tweet
+    Profile
 
-https://deno.land/x/denon@2.5.0
-https://deno.land/x/dotenv@v3.2.0
-https://deno.land/x/oak@v10.6.0
-https://deno.land/x/postgres@v0.16.1
+SQL:
+    https://sqlzoo.net/wiki/SQL_Tutorial
+
+Deno:
+    https://youtu.be/ThDTt_wd2Y4
+    https://deno.land/x/denon@2.5.0
+    https://deno.land/x/dotenv@v3.2.0
+    https://deno.land/x/oak@v10.6.0
+    https://deno.land/x/postgres@v0.16.1
+
+React Native:
+    https://www.youtube.com/watch?v=Fdi6FRCT1uY&t=1s
+
+Figma:
+https://www.figma.com/file/MZsaMjLP4vloejUkbDVpji/Twitter-UI-Kit-(Community)?node-id=45%3A4781
+
+Twitter:
+https://youtu.be/DLftEcoUAgQ
