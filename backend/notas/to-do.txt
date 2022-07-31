@@ -1,1 +1,1 @@
-Criar tabela de seguidor e seguidos:
+- Preparar o código pra receber um id inválido.
