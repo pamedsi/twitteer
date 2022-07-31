@@ -17,5 +17,7 @@ router.delete('/api/users/:user_id', removeUser)
 
 // Para seguir e deixar de seguir
 
-router.post('api/followers/:user_following/:user-followed', follow)
+router.post('/api/followers', follow)
+// router.post('/api/followers/', follow)
+
 // router.delete()
