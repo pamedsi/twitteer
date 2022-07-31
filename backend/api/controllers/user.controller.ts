@@ -1,4 +1,3 @@
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
 import {client} from './database.ts'
 import {stringForPost, stringForPut, checkingProperty} from './settingQueries.ts'
 
@@ -7,13 +6,18 @@ export const getUsers = async function (ctx: any) {
         if (Object.keys(ctx.params).length === 0) {
         const result = await client.queryObject('SELECT * FROM public.users;')
         ctx.response.body = result.rows
+        ctx.response.status = 200
 
+        }
+        else if (result.rows.length === 0) {
+            ctx.response.status = 404
+            ctx.response.body = {message: "Usuário não encontrado!"}
         }
         else {
             const {key, value} = ctx.params
             const result = await client.queryObject(`SELECT * FROM public.users WHERE ${key}='${value}';`)
             ctx.response.body = result.rows
-
+            ctx.response.status = 200
         }
     }
     catch (error) {
@@ -36,6 +40,7 @@ export const createUser = async function (ctx: any) {
         if(result.rows.length === 0) {
             const [keys, values] = await stringForPost(object)
             await client.queryObject(`INSERT INTO public.users (${keys}) VALUES (${values});`)
+            ctx.response.status = 201
             ctx.response.body = {message : "Usuário cadastrado!"}
         }
         else if(checkingProperty(result.rows, 'phone', phone) && phone !== null) {
@@ -60,9 +65,11 @@ export const updateUser = async function(ctx: any) {
         const changes = await stringForPut(object)
         await client.queryObject(`UPDATE public.users SET ${changes} WHERE user_id='${ctx.params.user_id}'`)
         ctx.response.body = {message : "Atualização feita com sucesso!"}
+        ctx.response.status = 201
     } catch (error) {
         console.log(`Não foi possível atualizar o usuário!\n`, error)
         ctx.response.body = {message: "Não foi possível atualizar o usuário"}
+        ctx.response.status = 404
     }
 }
 
@@ -70,9 +77,11 @@ export const removeUser = async function(ctx: any) {
     try {
         await client.queryObject(`DELETE FROM public.users WHERE user_id='${ctx.params.user_id}'`)
         ctx.response.body = {message: "Usuário exluído com sucesso!"}
+        ctx.response.status = 204
     }
     catch (error) {
         ctx.response.body = {message: "Não foi possível deletar o usuário"}
+        ctx.response.status = 404
         console.log(`Não foi possível deletar o usuário.\n`, error)
     }
 }
