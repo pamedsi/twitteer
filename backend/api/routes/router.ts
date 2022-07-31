@@ -1,6 +1,6 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
 import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller.ts';
-import { follow } from '../controllers/follower.controller.ts'
+import { follow, unfollow } from '../controllers/follower.controller.ts'
 
 export const router = new Router()
 
@@ -18,6 +18,4 @@ router.delete('/api/users/:user_id', removeUser)
 // Para seguir e deixar de seguir
 
 router.post('/api/followers', follow)
-// router.post('/api/followers/', follow)
-
-// router.delete()
+router.delete('/api/followers', unfollow)

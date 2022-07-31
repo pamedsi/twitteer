@@ -81,7 +81,7 @@ export const removeUser = async function(ctx: any) {
     }
     catch (error) {
         ctx.response.body = {message: "Não foi possível deletar o usuário"}
-        ctx.response.status = 404
+        ctx.response.status = 200
         console.log(`Não foi possível deletar o usuário.\n`, error)
     }
 }
