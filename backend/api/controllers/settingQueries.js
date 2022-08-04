@@ -57,11 +57,17 @@ export const checkingProperty = function (queryResults, key, value) {
 
 export const timeStampConversor = function () {
     // YYYY-MM-DD HH:MM:SS
-    const now = new Date
-    let [month, day, second] = [now.getUTCMonth() + 1, now.getUTCDay(), now.getUTCSeconds()]
+    const now = new Date()
+    let [month, day] = [now.getUTCMonth() + 1, now.getUTCDay()]
+    let [hour, minute, second] = [now.getUTCHours() - 3, now.getUTCMinutes(), now.getUTCSeconds() ]
 
     if (month < 10) month = `0${month}`
     if (day < 10) day = `0${day}`
+
+    if (hour < 10) hour = `0${hour}`
+    if (minute < 10) minute = `0${minute}`
     if (second < 10) second = `0${second}`
-    return `${now.getUTCFullYear()}-${month}-${day} ${now.getUTCHours() - 3}:${now.getUTCMinutes()}:${second}`
+    return `${now.getUTCFullYear()}-${month}-${day} ${hour}:${minute}:${second}`
 }
+
+console.log(timeStampConversor())

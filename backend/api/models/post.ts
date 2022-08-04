@@ -1,7 +1,6 @@
-export interface comment {
-    comment_id: string,
-    comment_owner_id: string,
-    commented_post_id: string,
+export interface post {
+    post_id: string,
+    post_owner_id: string,
     content: string,
     post_datetime: string,
     likes: number,

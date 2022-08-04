@@ -1,6 +1,5 @@
 import {client} from './database.ts'
 import {timeStampConversor} from './settingQueries.js'
-// import { follower } from './../models/follower.ts';
 
 export const follow = async function (ctx) {
 

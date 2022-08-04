@@ -3,11 +3,10 @@ import {stringForPost, stringForPut, checkingProperty} from './settingQueries.js
 
 export const getUsers = async function (ctx) {
     try {
-        if (Object.keys(ctx.params).length === 0) {
         const result = await client.queryObject('SELECT * FROM public.users;')
+        if (Object.keys(ctx.params).length === 0) {
         ctx.response.body = result.rows
         ctx.response.status = 200
-
         }
         else if (result.rows.length === 0) {
             ctx.response.status = 404
@@ -29,16 +28,16 @@ export const getUsers = async function (ctx) {
 
 export const createUser = async function (ctx) {
     try {
-        const object = await ctx.request.body().value
-        const {email, username} = object
+        const user = await ctx.request.body().value
+        const {email, username} = user
         let phone
-        if (!object.phone) phone = null
-        else phone = object.phone
+        if (!user.phone) phone = null
+        else phone = user.phone
 
-        const result = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username}';`)
+        const result = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username} LIMIT 0,1';`)
 
         if(result.rows.length === 0) {
-            const [keys, values] = await stringForPost(object)
+            const [keys, values] = await stringForPost(user)
             await client.queryObject(`INSERT INTO public.users (${keys}) VALUES (${values});`)
             ctx.response.status = 201
             ctx.response.body = {message : "Usuário cadastrado!"}
@@ -61,8 +60,8 @@ export const createUser = async function (ctx) {
 
 export const updateUser = async function(ctx) {
     try {
-        const object = await ctx.request.body().value
-        const changes = await stringForPut(object)
+        const user = await ctx.request.body().value
+        const changes = await stringForPut(user)
         await client.queryObject(`UPDATE public.users SET ${changes} WHERE user_id='${ctx.params.user_id}'`)
         ctx.response.body = {message : "Atualização feita com sucesso!"}
         ctx.response.status = 201
