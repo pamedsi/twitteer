@@ -1,7 +1,7 @@
 import {client} from './database.ts'
-import {stringForPost, stringForPut, checkingProperty} from './settingQueries.ts'
+import {stringForPost, stringForPut, checkingProperty} from './settingQueries.js'
 
-export const getUsers = async function (ctx: any) {
+export const getUsers = async function (ctx) {
     try {
         if (Object.keys(ctx.params).length === 0) {
         const result = await client.queryObject('SELECT * FROM public.users;')
@@ -23,11 +23,11 @@ export const getUsers = async function (ctx: any) {
     catch (error) {
         console.log(`Requisição mal sucedida!\n`, error)
         ctx.response.body = {message: "Não foi possível buscar os usuários"}
-        
+
     }
 }
 
-export const createUser = async function (ctx: any) {
+export const createUser = async function (ctx) {
     try {
         const object = await ctx.request.body().value
         const {email, username} = object
@@ -59,7 +59,7 @@ export const createUser = async function (ctx: any) {
     }
 }
 
-export const updateUser = async function(ctx: any) {
+export const updateUser = async function(ctx) {
     try {
         const object = await ctx.request.body().value
         const changes = await stringForPut(object)
@@ -73,7 +73,7 @@ export const updateUser = async function(ctx: any) {
     }
 }
 
-export const removeUser = async function(ctx: any) {
+export const removeUser = async function(ctx) {
     try {
         await client.queryObject(`DELETE FROM public.users WHERE user_id='${ctx.params.user_id}'`)
         ctx.response.body = {message: "Usuário exluído com sucesso!"}

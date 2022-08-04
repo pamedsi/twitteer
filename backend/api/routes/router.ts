@@ -1,6 +1,6 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
-import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller.ts';
-import { follow, unfollow } from '../controllers/follower.controller.ts'
+import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller.js';
+import { follow, unfollow } from '../controllers/follower.controller.js'
 
 export const router = new Router()
 

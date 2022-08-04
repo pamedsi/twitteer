@@ -1,7 +1,6 @@
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
-import { user } from '../models/user.ts';
 
-export const stringForPost = async function (object: user) {
+export const stringForPost = async function (object) {
     let [keys, values, fixer] = ['', '', true]
 
     for (const key in object) {
@@ -23,7 +22,7 @@ export const stringForPost = async function (object: user) {
     return [keys, values]
 }
 
-export const stringForPut = async function (object: user) {
+export const stringForPut = async function (object) {
     let [changes, fixer] = ['', true]
 
     for (const key in object) {
@@ -45,22 +44,21 @@ export const stringForPut = async function (object: user) {
     return changes
 }
 
-// export const checkingProperty = function (queryResults: user[], key, value) {
-//     let finder = false
-//     queryResults.forEach(user => {
-//         if (user[key] === value) {
-//             finder = true
-//             return
-//         }
-//     })
-//     return finder
-// }
+export const checkingProperty = function (queryResults, key, value) {
+    let finder = false
+    queryResults.forEach(user => {
+        if (user[key] === value) {
+            finder = true
+            return
+        }
+    })
+    return finder
+}
 
 export const timeStampConversor = function () {
     // YYYY-MM-DD HH:MM:SS
     const now = new Date
-    let month: number | string, day: number | string , second: number | string
-    [month, day, second] = [now.getUTCMonth() + 1, now.getUTCDay(), now.getUTCSeconds()]
+    let [month, day, second] = [now.getUTCMonth() + 1, now.getUTCDay(), now.getUTCSeconds()]
 
     if (month < 10) month = `0${month}`
     if (day < 10) day = `0${day}`

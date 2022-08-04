@@ -1,7 +1,7 @@
 import {client} from './database.ts'
 // import { follower } from './../models/follower.ts';
 
-export const follow = async function (ctx: any) {
+export const follow = async function (ctx) {
 
     try {
         const {followed_id, following_id} = await ctx.request.body().value
@@ -24,7 +24,7 @@ export const follow = async function (ctx: any) {
     }
 }
 
-export const unfollow = async function (ctx: any) {
+export const unfollow = async function (ctx) {
     try {
     const {followed_id, following_id} = await ctx.request.body().value
     const {rows} = await client.queryObject(`SELECT * FROM public.followers WHERE followed_id='${followed_id}' AND following_id='${following_id}' LIMIT 0, 1;`)
