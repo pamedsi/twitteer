@@ -6,5 +6,7 @@ CREATE TABLE public.comments (
     post_datetime timestamp,
     likes int,
     retweets int,
-    comments int
+    comments int,
+    CONSTRAINT comments_fk FOREIGN KEY (comment_owner_id) REFERENCES public.users(user_id)
+    CONSTRAINT comments_fk_1 FOREIGN KEY (commented_post_id) REFERENCES public.posts(post_id)
 );

@@ -45,13 +45,25 @@ export const stringForPut = async function (object: user) {
     return changes
 }
 
-export const checkingProperty = function (queryResults: user[], key, value) {
-    let finder = false
-    queryResults.forEach(user => {
-        if (user[key] === value) {
-            finder = true
-            return
-        }
-    })
-    return finder
+// export const checkingProperty = function (queryResults: user[], key, value) {
+//     let finder = false
+//     queryResults.forEach(user => {
+//         if (user[key] === value) {
+//             finder = true
+//             return
+//         }
+//     })
+//     return finder
+// }
+
+export const timeStampConversor = function () {
+    // YYYY-MM-DD HH:MM:SS
+    const now = new Date
+    let month: number | string, day: number | string , second: number | string
+    [month, day, second] = [now.getUTCMonth() + 1, now.getUTCDay(), now.getUTCSeconds()]
+
+    if (month < 10) month = `0${month}`
+    if (day < 10) day = `0${day}`
+    if (second < 10) second = `0${second}`
+    return `${now.getUTCFullYear()}-${month}-${day} ${now.getUTCHours() - 3}:${now.getUTCMinutes()}:${second}`
 }

@@ -5,6 +5,6 @@ CREATE TABLE public.posts (
     post_datetime timestamp,
     likes int,
     retweets int,
-    comments int
+    comments int,
+    CONSTRAINT posts_fk FOREIGN KEY (post_owner_id) REFERENCES public.users(user_id)
 );
-
