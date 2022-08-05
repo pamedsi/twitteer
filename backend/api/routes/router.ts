@@ -17,7 +17,7 @@ router.delete('/api/users/:user_id', removeUser)
 
 router.get('/api/followers', seeFollowers)
 router.post('/api/followers', follow)
-router.delete('/api/followers/:follow_id', unfollow)
+router.delete('/api/followers', unfollow)
 
 // Para tweets:
 

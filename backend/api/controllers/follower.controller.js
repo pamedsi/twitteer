@@ -35,7 +35,7 @@ export const unfollow = async function (ctx) {
         ctx.response.status = 200
     }
     else {
-        await client.queryObject(`DELETE FROM public.followers WHERE follow_id='${rows[0].follow_id};`)
+        await client.queryObject(`DELETE FROM public.followers WHERE follow_id='${rows[0].follow_id}';`)
         ctx.response.body = {message: "Usuário deixou de seguir com sucesso!"}
         ctx.response.status = 200
     }
