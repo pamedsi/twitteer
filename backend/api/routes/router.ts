@@ -1,6 +1,6 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
 import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller.js';
-import { follow, unfollow } from '../controllers/follower.controller.js'
+import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.js'
 import { createPost, getTweets,removePost } from './../controllers/posts.controller.js';
 
 export const router = new Router()
@@ -15,8 +15,9 @@ router.delete('/api/users/:user_id', removeUser)
 
 // Para seguir e deixar de seguir:
 
+router.get('/api/followers', seeFollowers)
 router.post('/api/followers', follow)
-router.delete('/api/followers/follow_id', unfollow)
+router.delete('/api/followers/:follow_id', unfollow)
 
 // Para tweets:
 

@@ -75,8 +75,8 @@ export const updateUser = async function(ctx) {
 export const removeUser = async function(ctx) {
     try {
         await client.queryObject(`DELETE FROM public.users WHERE user_id='${ctx.params.user_id}'`)
+        ctx.response.status = 200
         ctx.response.body = {message: "Usuário exluído com sucesso!"}
-        ctx.response.status = 204
     }
     catch (error) {
         ctx.response.body = {message: "Não foi possível deletar o usuário"}
