@@ -1,4 +1,4 @@
-import {client} from './database.ts'
+import {client} from './database.js'
 import {timeStampConversor} from './settingQueries.js'
 
 export const follow = async function (ctx) {

@@ -1,17 +1,13 @@
 import {client} from './database.js'
 import { stringForPost, checkingEqualTweets } from './settingQueries.js';
 
-export const getTweets = async function (ctx) {
+export const getComments = async function (ctx) {
     try {
-        const result = await client.queryObject('SELECT * FROM public.posts;')
+        const {rows} = await client.queryObject('SELECT * FROM public.comments;')
         if (Object.keys(ctx.params).length === 0) {
-        ctx.response.body = result.rows
-        ctx.response.status = 200
-        }
-        else if (result.rows.length === 0) {
-            ctx.response.status = 404
-            ctx.response.body = {message: "Tweet não encontrado!"}
-        }
+            ctx.response.body = rows
+            ctx.response.status = 200
+            }
         else {
             const {key, value} = ctx.params
             const result = await client.queryObject(`SELECT * FROM public.posts WHERE ${key}='${value}';`)
@@ -21,25 +17,27 @@ export const getTweets = async function (ctx) {
     }
     catch (error) {
         console.log(`Requisição mal sucedida!\n`, error)
-        ctx.response.body = {message: "Não foi possível buscar os usuários"}
+        ctx.response.body = {message: "Não foi possível Procurar os comentários."}
 
     }
 }
 
-export const createPost = async function (ctx) {
+export const createComment = async function (ctx) {
     try {
-        const tweet = await ctx.request.body().value
-        const {post_owner_id, content} = tweet
-        const {rows} = await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${post_owner_id}' AND content='${content}';`)
+        const comment = await ctx.request.body().value
+        const {comment_owner_id, content} = comment
+        const {rows} = await client.queryObject(`SELECT * FROM public.posts, public.comments WHERE comment_owner_id='${comment_owner_id}' or post_owner_id='${comment_owner_id}' AND content='${content}';`)
 
         if (rows.length === 0) {
             const [keys, values] = await stringForPost(tweet)
             await client.queryObject(`INSERT INTO public.posts (${keys}) VALUES (${values});`)
             ctx.response.status = 201
-            ctx.response.body = {message : "Tweetado!"}
+            ctx.response.body = {message : "Comentado!"}
         }
         else {
             rows.forEach(tweet => {
+                // Para cada tweet igual que foi achado, postado pelo mesmo usuário
+                // será verificado se foi postado no mesmo dia.
                 if (checkingEqualTweets(content, tweet.content)) {
                     ctx.response.status = 200
                     ctx.response.body = {message : "Você já twittou isso!"}

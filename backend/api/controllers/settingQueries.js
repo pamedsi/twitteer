@@ -70,4 +70,9 @@ export const timeStampConversor = function () {
     return `${now.getUTCFullYear()}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
+export const checkingEqualTweets = function (tweetToPost, tweetFound) {
+    // Os indexes 8 e 9 das strings de timestamp são os correspondentes ao dia
+    // Então se essa função retornar true, significa que os tweets foram postados no mesmo dia.
+    return tweetToPost[8] + tweetToPost[9] === tweetFound[8] + tweetToPost[9]
+}
 console.log(timeStampConversor())

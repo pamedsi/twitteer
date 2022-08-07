@@ -1,14 +1,14 @@
-import {client} from './database.ts'
+import {client} from './database.js'
 import {stringForPost, stringForPut, checkingProperty} from './settingQueries.js'
 
 export const getUsers = async function (ctx) {
     try {
-        const result = await client.queryObject('SELECT * FROM public.users;')
+        const {rows} = await client.queryObject('SELECT * FROM public.users;')
         if (Object.keys(ctx.params).length === 0) {
-        ctx.response.body = result.rows
+        ctx.response.body = rows
         ctx.response.status = 200
         }
-        else if (result.rows.length === 0) {
+        else if (rows.length === 0) {
             ctx.response.status = 404
             ctx.response.body = {message: "Usuário não encontrado!"}
         }
