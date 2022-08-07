@@ -26,19 +26,19 @@ export const createComment = async function (ctx) {
     try {
         const comment = await ctx.request.body().value
         const {comment_owner_id, content} = comment
-        const {rows} = await client.queryObject(`SELECT * FROM public.posts, public.comments WHERE comment_owner_id='${comment_owner_id}' or post_owner_id='${comment_owner_id}' AND content='${content}';`)
+        const {rows} = await client.queryObject(`SELECT * FROM public.posts, public.comments WHERE comment_owner_id='${comment_owner_id}' or post_owner_id='${comment_owner_id}' AND public.posts.content='${content}' or public.comments.content='${content}';`)
 
         if (rows.length === 0) {
-            const [keys, values] = await stringForPost(tweet)
-            await client.queryObject(`INSERT INTO public.posts (${keys}) VALUES (${values});`)
+            const [keys, values] = await stringForPost(comment)
+            await client.queryObject(`INSERT INTO public.comments (${keys}) VALUES (${values});`)
             ctx.response.status = 201
             ctx.response.body = {message : "Comentado!"}
         }
         else {
-            rows.forEach(tweet => {
-                // Para cada tweet igual que foi achado, postado pelo mesmo usuário
+            rows.forEach(comment => {
+                // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
-                if (checkingEqualTweets(content, tweet.content)) {
+                if (checkingEqualTweets(content, comment.content)) {
                     ctx.response.status = 200
                     ctx.response.body = {message : "Você já twittou isso!"}
                     return
@@ -46,8 +46,6 @@ export const createComment = async function (ctx) {
             })
 
         }
-
-
 
     } catch (error) {
         ctx.response.status = 200

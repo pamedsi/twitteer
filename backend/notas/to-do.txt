@@ -1,2 +1,4 @@
 - Preparar o código pra receber um id inválido.
- - Fazer o controlador de comentários
+- Fazer o controlador de comentários
+- Procurar como contar os comentários de cada tweet
+- Procurar como fazer querys considerando a data (o dia)
