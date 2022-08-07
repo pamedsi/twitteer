@@ -58,8 +58,8 @@ export const checkingProperty = function (queryResults, key, value) {
 export const timeStampConversor = function () {
     // YYYY-MM-DD HH:MM:SS
     const now = new Date()
-    let [month, day] = [now.getUTCMonth() + 1, now.getUTCDay()]
-    let [hour, minute, second] = [now.getUTCHours() - 3, now.getUTCMinutes(), now.getUTCSeconds() ]
+    let [month, day] = [now.getUTCMonth() + 1, now.getUTCDate()]
+    let [hour, minute, second] = [now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds() ]
 
     if (month < 10) month = `0${month}`
     if (day < 10) day = `0${day}`
