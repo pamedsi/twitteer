@@ -1,14 +1,3 @@
-Tabelas pendentes:
-
-- chats
-- users:
-    coluna de seguidores e seguindo
-
-Screens:
-    Feed
-    Tweet
-    Profile
-
 SQL:
     https://sqlzoo.net/wiki/SQL_Tutorial
 
@@ -18,12 +7,6 @@ Deno:
     https://deno.land/x/dotenv@v3.2.0
     https://deno.land/x/oak@v10.6.0
     https://deno.land/x/postgres@v0.16.1
-
-React Native:
-    https://www.youtube.com/watch?v=Fdi6FRCT1uY&t=1s
-
-Figma:
-https://www.figma.com/file/MZsaMjLP4vloejUkbDVpji/Twitter-UI-Kit-(Community)?node-id=45%3A4781
 
 Twitter:
 https://youtu.be/DLftEcoUAgQ

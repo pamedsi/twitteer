@@ -1,0 +1,10 @@
+Screens:
+    Feed
+    Tweet
+    Profile
+
+React Native:
+    https://www.youtube.com/watch?v=Fdi6FRCT1uY&t=1s
+
+Figma:
+https://www.figma.com/file/MZsaMjLP4vloejUkbDVpji/Twitter-UI-Kit-(Community)?node-id=45%3A4781
