@@ -2,3 +2,5 @@
 - Fazer o controlador de comentários
 - Procurar como contar os comentários de cada tweet
 - Procurar como fazer querys considerando a data (o dia)
+- Procurar como criar função do sql que crie um timestamp e preencha a coluna automaticamente
+- Resolver bug do timestampConversor

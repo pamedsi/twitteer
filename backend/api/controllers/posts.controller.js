@@ -46,12 +46,9 @@ export const createPost = async function (ctx) {
                     return
                 }
             })
-
         }
-
-
-
-    } catch (error) {
+    }
+    catch (error) {
         ctx.response.status = 200
         ctx.response.body = {message : "Não foi possível twittar!"}
         console.log("Não foi possível twittar.\n", error)
@@ -60,13 +57,13 @@ export const createPost = async function (ctx) {
 
 export const removePost = async function(ctx) {
     try {
-        await client.queryObject(`DELETE FROM public.posts WHERE post_id='${ctx.params.post_id}'`)
-        ctx.response.body = {message: "Tweet exluído com sucesso!"}
+        await client.queryObject(`DELETE FROM public.comments WHERE post_id='${ctx.params.post_id}';`)
+        ctx.response.body = {message: "Comentário exluído com sucesso!"}
         ctx.response.status = 200
     }
     catch (error) {
-        ctx.response.body = {message: "Não foi possível deletar o tweet"}
+        ctx.response.body = {message: "Não foi possível deletar o comentário"}
         ctx.response.status = 200
-        console.log(`Não foi possível deletar o tweet.\n`, error)
+        console.log(`Não foi possível deletar o comentário.\n`, error)
     }
 }

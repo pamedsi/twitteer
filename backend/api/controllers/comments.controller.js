@@ -26,9 +26,15 @@ export const createComment = async function (ctx) {
     try {
         const comment = await ctx.request.body().value
         const {comment_owner_id, content} = comment
-        const {rows} = await client.queryObject(`SELECT * FROM public.posts, public.comments WHERE comment_owner_id='${comment_owner_id}' or post_owner_id='${comment_owner_id}' AND public.posts.content='${content}' or public.comments.content='${content}';`)
 
-        if (rows.length === 0) {
+        // Queria conseguir fazer uma query só buscando o mesmo tweet tanto na tabela de comentários quanto
+        // na de tweets, mas, quando tentei deu o erro de "ambiguous" por causa das colunas com mesmo nome.
+        // Está na lista pesquisar para resolver isso.
+        
+        const {rows: tweets} = await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${comment_owner_id}' AND content='${content}';`)
+        const {rows: comments} = await client.queryObject(`SELECT * FROM public.comments WHERE comment_owner_id='${comment_owner_id}' AND content='${content}';`)
+
+        if (tweets.length === 0 && comments.length === 0) {
             const [keys, values] = await stringForPost(comment)
             await client.queryObject(`INSERT INTO public.comments (${keys}) VALUES (${values});`)
             ctx.response.status = 201
@@ -54,9 +60,9 @@ export const createComment = async function (ctx) {
     }
 }
 
-export const removePost = async function(ctx) {
+export const removeComment = async function(ctx) {
     try {
-        await client.queryObject(`DELETE FROM public.posts WHERE post_id='${ctx.params.post_id}'`)
+        await client.queryObject(`DELETE FROM public.comments WHERE comment_id='${ctx.params.comment_id}'`)
         ctx.response.body = {message: "Tweet exluído com sucesso!"}
         ctx.response.status = 200
     }

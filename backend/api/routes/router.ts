@@ -2,7 +2,7 @@ import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
 import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller.js';
 import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.js'
 import { createPost, getTweets,removePost } from './../controllers/posts.controller.js';
-import { getComments, createComment } from './../controllers/comments.controller.js';
+import { getComments, createComment, removeComment } from './../controllers/comments.controller.js';
 
 export const router = new Router()
 
@@ -32,3 +32,4 @@ router.delete('/api/tweets/:post_id', removePost)
 router.get('/api/comments', getComments)
 router.get('/api/comments/:key/:value', getComments)
 router.post('/api/comments', createComment)
+router.delete('/api/comments/:comment_id', removeComment)
