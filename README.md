@@ -15,6 +15,7 @@ No frontend:
 - NodeJS:
     React Native
     Expo
+    Axios
 
  Para iniciar o servidor e poder usar a API é necessário executar o arquivo "backend/api/app.ts"
 
