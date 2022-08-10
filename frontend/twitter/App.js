@@ -1,31 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { api } from './src/services/api';
+// import { user } from './../../backend/api/models/user';
 
-export default function App() {
+export default class App extends Component {
 
-  try {
-    useEffect(() => {
-      async function seeUsers() {
-        const users = await api.get('users')
-        console.log(users)
-      }
-      seeUsers()
-    }, [])
-
-  } catch (error) {
-    console.log(error)
+  constructor(props){
+    super(props)
+    this.state = {
+      users: []
+    }
   }
 
+  async componentDidMount(){
+    const {data: users} = await api.get('users')
+    this.setState({
+      users: users[0]
+    })
+    console.log(this.state)
+  }
 
-
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>{String(this.state.users.full_name)}</Text>
+        <Text> abaixo </Text>
+        <StatusBar style="auto" />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

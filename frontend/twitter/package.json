@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "apisauce": "^2.1.5",
     "axios": "^0.27.2",
     "expo": "~45.0.0",
     "expo-splash-screen": "~0.15.1",
