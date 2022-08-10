@@ -1,4 +1,4 @@
-import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
+import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 
 export const stringForPost = async function (object) {
     let [keys, values, fixer] = ['', '', true]
@@ -75,4 +75,7 @@ export const checkingEqualTweets = function (tweetToPost, tweetFound) {
     // Então se essa função retornar true, significa que os tweets foram postados no mesmo dia.
     return tweetToPost[8] + tweetToPost[9] === tweetFound[8] + tweetToPost[9]
 }
+
 console.log(timeStampConversor())
+
+

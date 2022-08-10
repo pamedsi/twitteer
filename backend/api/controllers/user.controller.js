@@ -14,9 +14,10 @@ export const getUsers = async function (ctx) {
         }
         else {
             const {key, value} = ctx.params
-            const result = await client.queryObject(`SELECT * FROM public.users WHERE ${key}='${value}';`)
-            ctx.response.body = result.rows
-            ctx.response.status = 200
+            const {rows} = await client.queryObject(`SELECT * FROM public.users WHERE ${key}='${value}' LIMIT 1;`)
+            // ctx.response.body = rows
+            // ctx.response.status = 200
+            return rows[0]
         }
     }
     catch (error) {
