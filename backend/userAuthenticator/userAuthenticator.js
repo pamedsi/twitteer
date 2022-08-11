@@ -12,10 +12,10 @@ const userExist = async function (email) {
 export async function generateJWT(email, password) {
 
     const user = await userExist(email)
-    if (!user) throw new Error('email or password incorrect')
+    if (!user) return null
     const {password: passwordHash} = user
-    const passwordMatch = compare(password, passwordHash)
-    if (!passwordMatch) throw new Error('email or password incorrect')
+    const passwordMatch = await compare(password, passwordHash)
+    if (!passwordMatch) return null
 
     const jwt = await create(
     {
@@ -23,12 +23,14 @@ export async function generateJWT(email, password) {
         typ: "JWT"
     },
     {
-        userID: user.user_id,
+        user_id: user.user_id,
         name: user.full_name,
     }, jwtKey)
 
     return {
-        user: user,
-        jwt: jwt
+        jwt: jwt,
+        user_id: user.user_id,
+        name: user.full_name
     }
+
 }
