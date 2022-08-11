@@ -1,16 +1,34 @@
-import { getUsers } from './../api/controllers/user.controller.js';
-import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
+import { getUsers } from './../api/controllers/user.controller.js'
+import { compare } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
+import { create } from "https://deno.land/x/djwt@v2.7/mod.ts"
+import { jwtKey }  from './../api/env.ts';
 
 const userExist = async function (email) {
-    const result = await getUsers({params: {key: 'email', value: email}})
-    return Boolean(result)
+    const user = await getUsers({params: {key: 'email', value: email}})
+    if (user) return user
+    return null
 }
 
-userExist('patrickabimael@yahoo.com.br')
-// console.log(await compare("40028922", "$2a$10$LvZbR0xd8s9e4okOmSujTOFo9PzmuXKx0PLrVYT4EFNxvbDt.I2wq"))
+export async function generateJWT(email, password) {
 
-// class AuthenticateUserUseCase {
-//     async execute(email, password) {
+    const user = await userExist(email)
+    if (!user) throw new Error('email or password incorrect')
+    const {password: passwordHash} = user
+    const passwordMatch = compare(password, passwordHash)
+    if (!passwordMatch) throw new Error('email or password incorrect')
 
-//     }
-// }
+    const jwt = await create(
+    {
+        alg: "HS512",
+        typ: "JWT"
+    },
+    {
+        userID: user.user_id,
+        name: user.full_name,
+    }, jwtKey)
+
+    return {
+        user: user,
+        jwt: jwt
+    }
+}

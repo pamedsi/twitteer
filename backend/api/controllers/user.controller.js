@@ -15,15 +15,14 @@ export const getUsers = async function (ctx) {
         else {
             const {key, value} = ctx.params
             const {rows} = await client.queryObject(`SELECT * FROM public.users WHERE ${key}='${value}' LIMIT 1;`)
-            // ctx.response.body = rows
-            // ctx.response.status = 200
+            // if (ctx.response.body) ctx.response.body = rows
+            // if (ctx.response.status) ctx.response.status = 200
             return rows[0]
         }
     }
     catch (error) {
         console.log(`Requisição mal sucedida!\n`, error)
-        ctx.response.body = {message: "Não foi possível buscar os usuários"}
-
+        // if (ctx.response.body) ctx.response.body = {message: "Não foi possível buscar os usuários"}
     }
 }
 

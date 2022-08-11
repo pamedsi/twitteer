@@ -1,4 +1,5 @@
 export interface user {
+    user_id: string
 	full_name: string,
     birth_date: string,
     city?: string,

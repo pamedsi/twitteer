@@ -77,5 +77,3 @@ export const checkingEqualTweets = function (tweetToPost, tweetFound) {
 }
 
 console.log(timeStampConversor())
-
-
