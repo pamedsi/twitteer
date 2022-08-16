@@ -1,5 +1,5 @@
 import {client} from './database.js'
-import { stringForPost, checkingEqualTweets } from './settingQueries.js';
+import { stringForPost, checkingEqualTweets } from './helperFunctions.js';
 
 export const getTweets = async function (ctx) {
     try {

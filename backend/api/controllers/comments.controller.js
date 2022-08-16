@@ -1,5 +1,5 @@
 import {client} from './database.js'
-import { stringForPost, checkingEqualTweets } from './settingQueries.js';
+import { stringForPost, checkingEqualTweets } from './helperFunctions.js';
 
 export const getComments = async function (ctx) {
     try {
@@ -30,7 +30,7 @@ export const createComment = async function (ctx) {
         // Queria conseguir fazer uma query só buscando o mesmo tweet tanto na tabela de comentários quanto
         // na de tweets, mas, quando tentei deu o erro de "ambiguous" por causa das colunas com mesmo nome.
         // Está na lista pesquisar para resolver isso.
-        
+
         const {rows: tweets} = await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${comment_owner_id}' AND content='${content}';`)
         const {rows: comments} = await client.queryObject(`SELECT * FROM public.comments WHERE comment_owner_id='${comment_owner_id}' AND content='${content}';`)
 
