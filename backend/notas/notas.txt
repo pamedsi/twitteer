@@ -10,3 +10,6 @@ Deno:
 
 Twitter:
 https://youtu.be/DLftEcoUAgQ
+
+Regex:
+    https://www.bcb.gov.br/content/estabilidadefinanceira/pix/API-DICT.html#tag/Key

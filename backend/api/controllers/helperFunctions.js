@@ -1,5 +1,9 @@
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 
+export const phoneValid = function (phone) {
+    return Boolean(phone.match(/^\+[1-9][0-9]\d{1,14}$/))
+}
+
 export const stringForPost = async function (object) {
     let [keys, values, fixer] = ['', '', true]
 

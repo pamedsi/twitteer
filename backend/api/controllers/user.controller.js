@@ -1,5 +1,27 @@
 import {client} from './database.js'
-import {stringForPost, stringForPut, checkingProperty} from './settingQueries.js'
+import {stringForPost, stringForPut, checkingProperty, phoneValid} from './helperFunctions.js'
+import { valid } from "https://deno.land/x/validation@v0.4.0/email.ts"
+
+export const userExist = async function (login) {
+    try {
+        let result
+        if (valid(login)) {
+            result = await client.queryObject(`SELECT * FROM public.users WHERE email='${login}' LIMIT 1;`)
+         }
+         else if (phoneValid(login)) {
+            result = await client.queryObject(`SELECT * FROM public.users WHERE phone='${login}' LIMIT 1;`)
+         }
+         else {
+            result = await client.queryObject(`SELECT * FROM public.users WHERE username='${login}' LIMIT 1;`)
+         }
+
+        if(result.rows[0]) return result.rows[0]
+        return null
+
+    } catch (error) {
+        console.log("Não foi possível buscar o usuário.\n", error)
+    }
+}
 
 export const getUsers = async function (ctx) {
     try {
@@ -15,14 +37,14 @@ export const getUsers = async function (ctx) {
         else {
             const {key, value} = ctx.params
             const {rows} = await client.queryObject(`SELECT * FROM public.users WHERE ${key}='${value}' LIMIT 1;`)
-            // if (ctx.response.body) ctx.response.body = rows
-            // if (ctx.response.status) ctx.response.status = 200
+            if (ctx.response.body) ctx.response.body = rows
+            if (ctx.response.status) ctx.response.status = 200
             return rows[0]
         }
     }
     catch (error) {
         console.log(`Requisição mal sucedida!\n`, error)
-        // if (ctx.response.body) ctx.response.body = {message: "Não foi possível buscar os usuários"}
+        if (ctx.response.body) ctx.response.body = {message: "Não foi possível buscar os usuários"}
     }
 }
 

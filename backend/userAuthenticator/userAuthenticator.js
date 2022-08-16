@@ -1,17 +1,11 @@
-import { getUsers } from './../api/controllers/user.controller.js'
 import { compare } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 import { create } from "https://deno.land/x/djwt@v2.7/mod.ts"
 import { jwtKey }  from './../api/env.ts';
+import { userExist } from './../api/controllers/user.controller.js';
 
-const userExist = async function (email) {
-    const user = await getUsers({params: {key: 'email', value: email}})
-    if (user) return user
-    return null
-}
+export async function generateJWT(login, password) {
 
-export async function generateJWT(email, password) {
-
-    const user = await userExist(email)
+    const user = await userExist(login)
     if (!user) return null
     const {password: passwordHash} = user
     const passwordMatch = await compare(password, passwordHash)
@@ -34,3 +28,5 @@ export async function generateJWT(email, password) {
     }
 
 }
+
+console.log(await generateJWT('justasaia', 'ehajovem'))

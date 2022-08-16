@@ -6,7 +6,7 @@ Até então está sendo usado:
 No backend:
 
 - Deno:
-    Com as libs: bcrypt, oak, DJWT
+    Com as libs: bcrypt, oak, DJWT, validation
     Linguagens: Typescript, Javascript
 - Postgresql
 
