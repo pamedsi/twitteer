@@ -3,7 +3,7 @@ import { getUsers, createUser, updateUser, removeUser} from '../controllers/user
 import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.js'
 import { createPost, getTweets,removePost } from './../controllers/posts.controller.js';
 import { getComments, createComment, removeComment } from './../controllers/comments.controller.js';
-import { login } from './../../userAuthenticator/JWTGenerator.js';
+import { login } from './../../userAuthenticator/login.js';
 import { JWTValidator } from './../../userAuthenticator/userJWTValidator.js';
 
 export const router = new Router()
@@ -18,7 +18,9 @@ router.delete('/api/users/:user_id', removeUser)
 
 // Para login
 
-router.post('/login', JWTValidator, login)
+// router.post('/login', JWTValidator, login)
+router.post('/login', login)
+router.get('/auth', JWTValidator)
 
 // Para seguir e deixar de seguir:
 
