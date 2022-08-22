@@ -12,16 +12,16 @@ export const checkingProperty = function (queryResults, key, value) {
     return finder
 }
 
-const validProperty =  function (property) {
-    const properties = ['full_name', 'birth_date', 'city', 'phone', 'email', 'username', 'social_name', 'bio', 'url_on_bio', 'profile_pic', 'cover_pic']
-    return properties.some(key => key === property)
-}
-
 export const phoneValid = function (phone) {
     return Boolean(phone.match(/^\+[1-9][0-9]\d{1,14}$/))
 }
 
 export const stringForCreateUser = async function (object) {
+
+    const validProperty =  function (property) {
+        const properties = ['full_name', 'birth_date', 'city', 'phone', 'email', 'username', 'social_name', 'bio', 'url_on_bio', 'profile_pic', 'cover_pic']
+        return properties.some(key => key === property)
+    }
 
     let [keys, values, first] = ['', '', true]
 

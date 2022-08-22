@@ -1,5 +1,5 @@
 import {client} from '../utils/database.js'
-import { stringForCreateComment, equalTweets } from './helperFunctions.js';
+import { stringForCreateComment, sameDateTweet } from './helperFunctions.js';
 import { nowInTimestamp } from '../utils/helper.js'
 
 export const getComments = async function (ctx) {
@@ -45,7 +45,7 @@ export const createComment = async function (ctx) {
             comments.forEach(comment => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
-                if (equalTweets(nowInTimestamp(), comment.comment_datetime)) {
+                if (sameDateTweet(nowInTimestamp(), comment.comment_datetime)) {
                     ctx.response.status = 200
                     ctx.response.body = {message : "Você já twittou isso!"}
                     return
@@ -55,7 +55,7 @@ export const createComment = async function (ctx) {
             tweets.forEach(tweet => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
-                if (equalTweets(nowInTimestamp(), tweet.post_datetime)) {
+                if (sameDateTweet(nowInTimestamp(), tweet.post_datetime)) {
                     ctx.response.status = 200
                     ctx.response.body = {message : "Você já twittou isso!"}
                     return

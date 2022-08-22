@@ -1,7 +1,7 @@
 export const stringForCreateComment = function (object) {
 
     const validProperty =  function (property) {
-        const properties = ['comment_owner_id', 'commented_post_id', 'content']
+        const properties = ['commented_post_id', 'content']
         return properties.some(key => key === property)
     }
 

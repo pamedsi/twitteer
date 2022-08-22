@@ -38,7 +38,7 @@ export const nowInTimestamp = function () {
     return `${now.getUTCFullYear()}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
-export const equalTweets = function (tweetToPostTimestamp, tweetFoundTimestamp) {
+export const sameDateTweet = function (tweetToPostTimestamp, tweetFoundTimestamp) {
     // Aqui eu separo as datas do tweet no formato timestamp.
     // Deixando um array com 3 strings: [ "YYYY", "MM", "DD" ]
     tweetToPostTimestamp = tweetToPostTimestamp.split(' ')[0].split('-')

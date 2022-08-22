@@ -1,5 +1,6 @@
-import {client} from '../database.js'
+import {client} from '../utils/database.js'
 import {stringForPost, stringForUpdateUser, checkingProperty} from './helperFunctions.js'
+import {nowInTimestamp} from '../utils/helper.js'
 
 export const getUsers = async function (ctx) {
     try {
@@ -38,7 +39,7 @@ export const createUser = async function (ctx) {
 
         if(result.rows.length === 0) {
             const [keys, values] = await stringForPost(user)
-            await client.queryObject(`INSERT INTO public.users (${keys}) VALUES (${values});`)
+            await client.queryObject(`INSERT INTO public.users (${keys}, timestamp) VALUES (${values}, ${nowInTimestamp()});`)
             ctx.response.status = 201
             ctx.response.body = {message : "Usuário cadastrado!"}
         }

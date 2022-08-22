@@ -1,5 +1,5 @@
-import {client} from './database.js'
-import {equalTweets, nowInTimestamp} from './helperFunctions.js';
+import {client} from '../utils/database.js'
+import {sameDateTweet, nowInTimestamp} from '../utils/helper.js';
 
 export const getTweets = async function (ctx) {
     try {
@@ -20,7 +20,7 @@ export const createPost = async function (ctx) {
         const {user_id: post_owner_id} = ctx.state.user
         const {rows} = await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${post_owner_id}' AND content='${content}';`)
 
-        if (rows.some(tweet => equalTweets(nowInTimestamp(), tweet.post_datetime))) {
+        if (rows.some(tweet => sameDateTweet(nowInTimestamp(), tweet.post_datetime))) {
             ctx.response.status = 200
             ctx.response.body = {message : "Você já twittou isso!"}
         }
