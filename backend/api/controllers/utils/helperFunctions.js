@@ -1,13 +1,13 @@
 import { valid } from "https://deno.land/x/validation@v0.4.0/email.ts"
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
+import { client } from './database.js';
 
 // Úteis
 
-export const nowInTimestamp = function () {
+export const timestampConversor = function (moment = new Date()) {
     // YYYY-MM-DD HH:MM:SS
-    const now = new Date()
-    let [month, day] = [now.getUTCMonth() + 1, now.getUTCDate()]
-    let [hour, minute, second] = [now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds() ]
+    let [month, day] = [moment.getUTCMonth() + 1, moment.getUTCDate()]
+    let [hour, minute, second] = [moment.getUTCHours(), moment.getUTCMinutes(), moment.getUTCSeconds() ]
 
     if (month < 10) month = `0${month}`
     if (day < 10) day = `0${day}`
@@ -15,14 +15,15 @@ export const nowInTimestamp = function () {
     if (hour < 10) hour = `0${hour}`
     if (minute < 10) minute = `0${minute}`
     if (second < 10) second = `0${second}`
-    return `${now.getUTCFullYear()}-${month}-${day} ${hour}:${minute}:${second}`
+    return `${moment.getUTCFullYear()}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
 export const sameDateTweet = function (tweetToPostTimestamp, tweetFoundTimestamp) {
     // Aqui eu separo as datas do tweet no formato timestamp.
     // Deixando um array com 3 strings: [ "YYYY", "MM", "DD" ]
     tweetToPostTimestamp = tweetToPostTimestamp.split(' ')[0].split('-')
-    tweetFoundTimestamp = tweetFoundTimestamp.split(' ')[0].split('-')
+    tweetFoundTimestamp = timestampConversor(tweetFoundTimestamp).split(' ')[0].split('-')
+
     let sameTime = 0
 
     tweetToPostTimestamp.forEach((time, index) => {
