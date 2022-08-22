@@ -1,5 +1,5 @@
-import {client} from '../utils/database.js'
-import {sameDateTweet, nowInTimestamp} from '../utils/helper.js';
+import {client} from './utils/database.js'
+import {sameDateTweet, nowInTimestamp} from './utils/helperFunctions.js';
 
 export const getTweets = async function (ctx) {
     try {

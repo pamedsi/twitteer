@@ -1,5 +1,5 @@
-import {client} from '../utils/database.js'
-import {nowInTimestamp} from '../utils/helper.js'
+import {client} from './utils/database.js'
+import {nowInTimestamp} from './utils/helperFunctions.js'
 
 export const follow = async function (ctx) {
 

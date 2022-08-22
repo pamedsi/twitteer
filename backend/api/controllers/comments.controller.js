@@ -1,6 +1,5 @@
-import {client} from '../utils/database.js'
-import { stringForCreateComment, sameDateTweet } from './helperFunctions.js';
-import { nowInTimestamp } from '../utils/helper.js'
+import {client} from './utils/database.js'
+import { nowInTimestamp, sameDateTweet } from './utils/helperFunctions.js'
 
 export const getComments = async function (ctx) {
     try {
@@ -26,7 +25,8 @@ export const getComments = async function (ctx) {
 export const createComment = async function (ctx) {
     try {
         const comment = await ctx.request.body().value
-        const {comment_owner_id, content} = comment
+        const {commented_post_id, content, } = comment
+        const {user_id: comment_owner_id} = ctx.state.user
 
         // Queria conseguir fazer uma query só buscando o mesmo tweet tanto na tabela de comentários quanto
         // na de tweets, mas, quando tentei deu o erro de "ambiguous" por causa das colunas com mesmo nome.
@@ -36,8 +36,7 @@ export const createComment = async function (ctx) {
         const {rows: comments} = await client.queryObject(`SELECT * FROM public.comments WHERE comment_owner_id='${comment_owner_id}' AND content='${content}';`)
 
         if (tweets.length === 0 && comments.length === 0) {
-            const [keys, values] = stringForCreateComment(comment)
-            await client.queryObject(`INSERT INTO public.comments (${keys}) VALUES (${values});`)
+            await client.queryObject(`INSERT INTO public.comments (comment_owner_id, commented_post_id, content) VALUES ('${comment_owner_id}', '${commented_post_id}', '${content}');`)
             ctx.response.status = 201
             ctx.response.body = {message : "Comentado!"}
         }

@@ -1,6 +1,5 @@
-import {client} from '../utils/database.js'
-import {stringForPost, stringForUpdateUser, checkingProperty} from './helperFunctions.js'
-import {nowInTimestamp} from '../utils/helper.js'
+import {client} from './utils/database.js'
+import {stringForPost, stringForUpdateUser, checkingProperty, nowInTimestamp} from './utils/helperFunctions.js'
 
 export const getUsers = async function (ctx) {
     try {
