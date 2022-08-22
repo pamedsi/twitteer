@@ -3,5 +3,5 @@ export interface commentModel {
     comment_owner_id: string,
     commented_post_id: string,
     content: string,
-    post_datetime: string,
+    comment_datetime: Date,
 }

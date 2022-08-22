@@ -1,7 +1,6 @@
 import {client} from './utils/database.ts'
 import { sameDateTweet } from './utils/helperFunctions.ts'
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
-import { commentModel } from './../models/comment.ts';
 
 export const getComments = async function (ctx: Context) {
     try {
@@ -36,7 +35,7 @@ export const createComment = async function (ctx: Context) {
             ctx.response.body = {message : "Comentado!"}
         }
         else {
-            comments.forEach(comment => {
+            comments.map((comment: any) => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
                 if (sameDateTweet(new Date(), comment.comment_datetime)) {
@@ -46,11 +45,10 @@ export const createComment = async function (ctx: Context) {
                 }
             })
 
-            tweets.forEach(tweet:  => {
+            tweets.forEach((tweet: any) => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
-                const {post_datetime} = tweet
-                if (sameDateTweet(new Date().toISOString(), post_datetime)) {
+                if (sameDateTweet(new Date(), tweet.post_datetime)) {
                     ctx.response.status = 200
                     ctx.response.body = {message : "Você já twittou isso!"}
                     return
