@@ -5,17 +5,15 @@ import { createPost, getTweets,removePost } from './../controllers/posts.control
 import { getComments, createComment, removeComment } from './../controllers/comments.controller.js';
 import { login } from './../../userAuthenticator/login.js';
 import { JWTValidator } from './../../userAuthenticator/JWTValidator.js';
-import { authenticate } from './../../userAuthenticator/authenticator.js';
 
 export const router = new Router()
 
 // Para usuários:
 
 router.get('/api/users', getUsers)
-router.get('/api/users/:key/:value', getUsers)
 router.post('/api/users', createUser)
-router.put('/api/users/:user_id', updateUser)
-router.delete('/api/users/:user_id', removeUser)
+router.put('/api/users/:user_id', JWTValidator, updateUser)
+router.delete('/api/users/:user_id', JWTValidator, removeUser)
 
 // Para login
 
@@ -23,20 +21,18 @@ router.post('/login', login)
 
 // Para seguir e deixar de seguir:
 
-router.get('/api/followers', JWTValidator , seeFollowers)
-router.post('/api/followers', follow)
-router.delete('/api/followers', unfollow)
+router.get('/api/followers', seeFollowers)
+router.post('/api/followers',JWTValidator, follow)
+router.delete('/api/followers', JWTValidator, unfollow)
 
 // Para tweets:
 
-router.get('/api/tweets', JWTValidator, getTweets)
-router.get('/api/tweets/:key/:value', getTweets)
+router.get('/api/tweets', getTweets)
 router.post('/api/tweets', JWTValidator ,createPost)
-router.delete('/api/tweets/:post_id', removePost)
+router.delete('/api/tweets/:post_id', JWTValidator, removePost)
 
 // Para comentários
 
 router.get('/api/comments', getComments)
-router.get('/api/comments/:key/:value', getComments)
-router.post('/api/comments', createComment)
-router.delete('/api/comments/:comment_id', removeComment)
+router.post('/api/comments', JWTValidator, createComment)
+router.delete('/api/comments/:comment_id', JWTValidator, removeComment)

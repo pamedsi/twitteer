@@ -59,7 +59,7 @@ export const checkingProperty = function (queryResults, key, value) {
     return finder
 }
 
-export const timeStampConversor = function () {
+export const nowInTimestamp = function () {
     // YYYY-MM-DD HH:MM:SS
     const now = new Date()
     let [month, day] = [now.getUTCMonth() + 1, now.getUTCDate()]
@@ -74,10 +74,29 @@ export const timeStampConversor = function () {
     return `${now.getUTCFullYear()}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
-export const checkingEqualTweets = function (tweetToPost, tweetFound) {
+export const equalTweets = function (tweetToPostTimestamp, tweetFoundTimestamp) {
+
+    // Aqui eu separo as datas do tweet no formato timestamp.
+    // Deixando um array com 3 strings: [ "YYYY", "MM", "DD" ]
+    tweetToPostTimestamp = tweetToPostTimestamp.split(' ')[0].split('-')
+    tweetFoundTimestamp = tweetFoundTimestamp.split(' ')[0].split('-')
+
+    if (tweetToPostTimestamp[2] !== tweetFoundTimestamp[2]) return false
+
+
+    // if (tweetToPost[0]) {}
+    // else if () {}
+    // else {}
     // Os indexes 8 e 9 das strings de timestamp são os correspondentes ao dia
     // Então se essa função retornar true, significa que os tweets foram postados no mesmo dia.
-    return tweetToPost[8] + tweetToPost[9] === tweetFound[8] + tweetToPost[9]
+    return tweetToPost[8] + tweetToPost[9] === tweetFound[8] + tweetFound[9]
 }
 
-console.log(timeStampConversor())
+// console.log(timeStampConversor())
+// checkingEqualTweets('2022-08-22 01:07:21', '2022-08-22 01:07:21')
+
+const lista = ['oi', 'blz', 'tchau']
+// lista.splice(2,1)
+// console.log(lista)
+let retorninho = lista.some(element => element === 'oi');
+console.log(retorninho)

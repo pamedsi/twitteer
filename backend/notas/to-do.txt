@@ -1,8 +1,5 @@
-- Preparar o código pra receber um id inválido.
-- Fazer o controlador de comentários
 - Procurar como contar os comentários de cada tweet
-- Procurar como fazer querys considerando a data (o dia)
-- Procurar como criar função do sql que crie um timestamp e preencha a coluna automaticamente
-- Resolver bug do timestampConversor
-- Pesquisar sobre o Context do oak, para tipar o ctx das funções de query.
-- Não passar tudo para o banco de dados sem verificação :)
+- Pesquisar sobre o Context do oak, para tipar o ctx das funções de query. (typescript branch)
+- Checar propriedades antes de efetuar a query
+- Checar regex de telefone e email antes de cadastrar (fazer post)
+- Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql
