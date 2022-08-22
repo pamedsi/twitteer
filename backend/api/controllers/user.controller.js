@@ -1,5 +1,5 @@
 import {client} from './utils/database.js'
-import {stringForPost, stringForUpdateUser, checkingProperty, nowInTimestamp} from './utils/helperFunctions.js'
+import {stringForCreateUser, stringForUpdateUser, checkingProperty, nowInTimestamp} from './utils/helperFunctions.js'
 
 export const getUsers = async function (ctx) {
     try {
@@ -34,11 +34,11 @@ export const createUser = async function (ctx) {
         if (!user.phone) phone = null
         else phone = user.phone
 
-        const result = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username} LIMIT 1';`)
+        const result = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username}' LIMIT 1;`)
 
         if(result.rows.length === 0) {
-            const [keys, values] = await stringForPost(user)
-            await client.queryObject(`INSERT INTO public.users (${keys}, timestamp) VALUES (${values}, ${nowInTimestamp()});`)
+            const [keys, values] = await stringForCreateUser(user)
+            await client.queryObject(`INSERT INTO public.users (${keys}, user_since) VALUES (${values}, '${nowInTimestamp()}');`)
             ctx.response.status = 201
             ctx.response.body = {message : "Usuário cadastrado!"}
         }
@@ -48,8 +48,8 @@ export const createUser = async function (ctx) {
         else if (checkingProperty(result.rows, 'email', email)) {
             ctx.response.body = {message: "Não foi possível cadastrar o usuário, e-mail já cadastrado."}
         }
-        // else if (checkingProperty(result.rows, 'username', username))
-        else {
+        // else if (checkingProperty(result.rows, 'username', username)) {
+            else {
             ctx.response.body = {message: "Não foi possível cadastrar o usuário, nome de usuário já cadastrado."}
         }
     }
