@@ -5,3 +5,4 @@
 - Procurar como criar função do sql que crie um timestamp e preencha a coluna automaticamente
 - Resolver bug do timestampConversor
 - Pesquisar sobre o Context do oak, para tipar o ctx das funções de query.
+- Não passar tudo para o banco de dados sem verificação :)

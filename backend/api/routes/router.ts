@@ -20,19 +20,18 @@ router.delete('/api/users/:user_id', removeUser)
 // Para login
 
 router.post('/login', login)
-router.get('/auth', JWTValidator, authenticate)
 
 // Para seguir e deixar de seguir:
 
-router.get('/api/followers', seeFollowers)
+router.get('/api/followers', JWTValidator , seeFollowers)
 router.post('/api/followers', follow)
 router.delete('/api/followers', unfollow)
 
 // Para tweets:
 
-router.get('/api/tweets', getTweets)
+router.get('/api/tweets', JWTValidator, getTweets)
 router.get('/api/tweets/:key/:value', getTweets)
-router.post('/api/tweets', createPost)
+router.post('/api/tweets', JWTValidator ,createPost)
 router.delete('/api/tweets/:post_id', removePost)
 
 // Para comentários

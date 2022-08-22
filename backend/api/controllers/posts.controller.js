@@ -1,8 +1,9 @@
 import {client} from './database.js'
-import { stringForPost, checkingEqualTweets } from './helperFunctions.js';
+import { stringForPost, checkingEqualTweets, timeStampConversor} from './helperFunctions.js';
 
 export const getTweets = async function (ctx) {
     try {
+        console.log(ctx.state.user.user_id)
         const result = await client.queryObject('SELECT * FROM public.posts;')
         if (Object.keys(ctx.params).length === 0) {
         ctx.response.body = result.rows
@@ -28,13 +29,13 @@ export const getTweets = async function (ctx) {
 
 export const createPost = async function (ctx) {
     try {
-        const tweet = await ctx.request.body().value
-        const {post_owner_id, content} = tweet
+        const {content} = await ctx.request.body().value
+        const {user_id: post_owner_id} = ctx.state.user
         const {rows} = await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${post_owner_id}' AND content='${content}';`)
 
         if (rows.length === 0) {
-            const [keys, values] = await stringForPost(tweet)
-            await client.queryObject(`INSERT INTO public.posts (${keys}) VALUES (${values});`)
+            const [keys, values] = await stringForPost({content})
+            await client.queryObject(`INSERT INTO public.posts (${keys}, post_datetime, post_owner_id) VALUES (${values}, '${timeStampConversor()}', '${post_owner_id}');`)
             ctx.response.status = 201
             ctx.response.body = {message : "Tweetado!"}
         }
