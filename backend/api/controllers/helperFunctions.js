@@ -75,28 +75,17 @@ export const nowInTimestamp = function () {
 }
 
 export const equalTweets = function (tweetToPostTimestamp, tweetFoundTimestamp) {
-
     // Aqui eu separo as datas do tweet no formato timestamp.
     // Deixando um array com 3 strings: [ "YYYY", "MM", "DD" ]
     tweetToPostTimestamp = tweetToPostTimestamp.split(' ')[0].split('-')
     tweetFoundTimestamp = tweetFoundTimestamp.split(' ')[0].split('-')
+    let sameTime = 0
 
-    if (tweetToPostTimestamp[2] !== tweetFoundTimestamp[2]) return false
+    tweetToPostTimestamp.forEach((time, index) => {
+        if (time === tweetFoundTimestamp[index]) sameTime++
+    })
 
-
-    // if (tweetToPost[0]) {}
-    // else if () {}
-    // else {}
-    // Os indexes 8 e 9 das strings de timestamp são os correspondentes ao dia
-    // Então se essa função retornar true, significa que os tweets foram postados no mesmo dia.
-    return tweetToPost[8] + tweetToPost[9] === tweetFound[8] + tweetFound[9]
+    return sameTime === 3
 }
 
-// console.log(timeStampConversor())
-// checkingEqualTweets('2022-08-22 01:07:21', '2022-08-22 01:07:21')
-
-const lista = ['oi', 'blz', 'tchau']
-// lista.splice(2,1)
-// console.log(lista)
-let retorninho = lista.some(element => element === 'oi');
-console.log(retorninho)
+console.log(nowInTimestamp())

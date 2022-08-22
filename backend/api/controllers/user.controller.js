@@ -56,7 +56,7 @@ export const createUser = async function (ctx) {
         if (!user.phone) phone = null
         else phone = user.phone
 
-        const result = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username} LIMIT 0,1';`)
+        const result = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username} LIMIT 1';`)
 
         if(result.rows.length === 0) {
             const [keys, values] = await stringForPost(user)
