@@ -8,7 +8,7 @@ CREATE TABLE public.users (
     username varchar not null,
     "password" varchar not null,
     social_name varchar,
-    profile_creation_date date,
+    profile_creation_date timestamp,
     bio varchar,
     url_on_bio varchar,
     profile_pic varchar,

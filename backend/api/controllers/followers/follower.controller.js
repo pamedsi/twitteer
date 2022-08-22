@@ -1,5 +1,5 @@
 import {client} from './database.js'
-import {timeStampConversor} from './helperFunctions.js'
+import {nowInTimestamp} from './helperFunctions.js'
 
 export const follow = async function (ctx) {
 
@@ -8,7 +8,7 @@ export const follow = async function (ctx) {
         const {rows} = await client.queryObject(`SELECT * FROM public.followers WHERE followed_id='${followed_id}' AND following_id='${following_id}' LIMIT 1;`)
 
         if (rows.length === 0) {
-            await client.queryObject(`INSERT INTO public.followers (followed_id, following_id, created_at) VALUES ('${followed_id}'::uuid,'${following_id}'::uuid, '${timeStampConversor()}');`)
+            await client.queryObject(`INSERT INTO public.followers (followed_id, following_id, created_at) VALUES ('${followed_id}'::uuid,'${following_id}'::uuid, '${nowInTimestamp()}');`)
             ctx.response.status = 201
             ctx.response.body = {message : "Operação de seguir realizada com sucesso!"}
         }

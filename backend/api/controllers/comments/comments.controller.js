@@ -1,5 +1,6 @@
-import {client} from './database.js'
-import { stringForPost, checkingEqualTweets } from './helperFunctions.js';
+import {client} from '../database.js'
+import { stringForCreateComment, equalTweets } from './helperFunctions.js';
+import { nowInTimestamp } from '../helperFunctions.js';
 
 export const getComments = async function (ctx) {
     try {
@@ -35,7 +36,7 @@ export const createComment = async function (ctx) {
         const {rows: comments} = await client.queryObject(`SELECT * FROM public.comments WHERE comment_owner_id='${comment_owner_id}' AND content='${content}';`)
 
         if (tweets.length === 0 && comments.length === 0) {
-            const [keys, values] = await stringForPost(comment)
+            const [keys, values] = stringForCreateComment(comment)
             await client.queryObject(`INSERT INTO public.comments (${keys}) VALUES (${values});`)
             ctx.response.status = 201
             ctx.response.body = {message : "Comentado!"}
@@ -44,7 +45,7 @@ export const createComment = async function (ctx) {
             rows.forEach(comment => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
-                if (checkingEqualTweets(content, comment.content)) {
+                if (equalTweets(nowInTimestamp(), comment.comment_datetime)) {
                     ctx.response.status = 200
                     ctx.response.body = {message : "Você já twittou isso!"}
                     return

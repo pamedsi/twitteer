@@ -1,5 +1,5 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
-import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller.js';
+import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller/user.controller.js';
 import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.js'
 import { createPost, getTweets,removePost } from './../controllers/posts.controller.js';
 import { getComments, createComment, removeComment } from './../controllers/comments.controller.js';

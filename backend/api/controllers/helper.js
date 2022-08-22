@@ -1,31 +1,5 @@
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 
-export const phoneValid = function (phone) {
-    return Boolean(phone.match(/^\+[1-9][0-9]\d{1,14}$/))
-}
-
-export const stringForPost = async function (object) {
-    let [keys, values, fixer] = ['', '', true]
-
-    for (const key in object) {
-        if (key === "password") {
-            keys += `, "${key}"`
-            values += `, '${await hash(object[key])}'`
-        }
-        else if (fixer) {
-            keys += `${key}`
-            values += `'${object[key]}'`
-        }
-        else {
-            keys += `, ${key}`
-            values += `, '${object[key]}'`
-        }
-        fixer = false
-    }
-
-    return [keys, values]
-}
-
 export const stringForPut = async function (object) {
     let [changes, fixer] = ['', true]
 
@@ -48,16 +22,6 @@ export const stringForPut = async function (object) {
     return changes
 }
 
-export const checkingProperty = function (queryResults, key, value) {
-    let finder = false
-    queryResults.forEach(user => {
-        if (user[key] === value) {
-            finder = true
-            return
-        }
-    })
-    return finder
-}
 
 export const nowInTimestamp = function () {
     // YYYY-MM-DD HH:MM:SS
@@ -87,5 +51,3 @@ export const equalTweets = function (tweetToPostTimestamp, tweetFoundTimestamp) 
 
     return sameTime === 3
 }
-
-console.log(nowInTimestamp())

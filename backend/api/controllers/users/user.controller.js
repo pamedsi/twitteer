@@ -1,27 +1,5 @@
-import {client} from './database.js'
-import {stringForPost, stringForPut, checkingProperty, phoneValid} from './helperFunctions.js'
-import { valid } from "https://deno.land/x/validation@v0.4.0/email.ts"
-
-export const userExist = async function (login) {
-    try {
-        let result
-        if (valid(login)) {
-            result = await client.queryObject(`SELECT * FROM public.users WHERE email='${login}' LIMIT 1;`)
-         }
-         else if (phoneValid(login)) {
-            result = await client.queryObject(`SELECT * FROM public.users WHERE phone='${login}' LIMIT 1;`)
-         }
-         else {
-            result = await client.queryObject(`SELECT * FROM public.users WHERE username='${login}' LIMIT 1;`)
-         }
-
-        if(result.rows[0]) return result.rows[0]
-        return null
-
-    } catch (error) {
-        console.log("Não foi possível buscar o usuário.\n", error)
-    }
-}
+import {client} from '../database.js'
+import {stringForPost, stringForUpdateUser, checkingProperty} from './helperFunctions.js'
 
 export const getUsers = async function (ctx) {
     try {
@@ -70,7 +48,8 @@ export const createUser = async function (ctx) {
         else if (checkingProperty(result.rows, 'email', email)) {
             ctx.response.body = {message: "Não foi possível cadastrar o usuário, e-mail já cadastrado."}
         }
-        else if (checkingProperty(result.rows, 'username', username)) {
+        // else if (checkingProperty(result.rows, 'username', username))
+        else {
             ctx.response.body = {message: "Não foi possível cadastrar o usuário, nome de usuário já cadastrado."}
         }
     }
@@ -83,7 +62,7 @@ export const createUser = async function (ctx) {
 export const updateUser = async function(ctx) {
     try {
         const user = await ctx.request.body().value
-        const changes = await stringForPut(user)
+        const changes = await stringForUpdateUser(user)
         await client.queryObject(`UPDATE public.users SET ${changes} WHERE user_id='${ctx.params.user_id}'`)
         ctx.response.body = {message : "Atualização feita com sucesso!"}
         ctx.response.status = 201
