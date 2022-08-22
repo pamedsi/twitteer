@@ -1,5 +1,3 @@
 - Procurar como contar os comentários de cada tweet
 - Pesquisar sobre o Context do oak, para tipar o ctx das funções de query. (typescript branch)
-- Checar propriedades antes de efetuar a query (user controller)
-- Checar regex de telefone e email antes de cadastrar (fazer post)
 - Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql

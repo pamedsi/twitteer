@@ -48,8 +48,7 @@ export const createUser = async function (ctx) {
         else if (checkingProperty(result.rows, 'email', email)) {
             ctx.response.body = {message: "Não foi possível cadastrar o usuário, e-mail já cadastrado."}
         }
-        // else if (checkingProperty(result.rows, 'username', username)) {
-            else {
+        else {
             ctx.response.body = {message: "Não foi possível cadastrar o usuário, nome de usuário já cadastrado."}
         }
     }
