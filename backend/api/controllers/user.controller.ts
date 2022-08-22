@@ -1,5 +1,5 @@
-import {client} from './utils/database.js'
-import {stringForCreateUser, stringForUpdateUser, checkingProperty} from './utils/helperFunctions.js'
+import {client} from './utils/database.ts'
+import {stringForCreateUser, stringForUpdateUser, checkingProperty} from './utils/helperFunctions.ts'
 
 export const getUsers = async function (ctx) {
     try {

@@ -1,5 +1,5 @@
-import {client} from './utils/database.js'
-import {sameDateTweet} from './utils/helperFunctions.js';
+import {client} from './utils/database.ts'
+import {sameDateTweet} from './utils/helperFunctions.ts';
 
 export const getTweets = async function (ctx) {
     try {

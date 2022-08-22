@@ -1,4 +1,4 @@
-import {client} from './utils/database.js'
+import {client} from './utils/database.ts'
 
 export const follow = async function (ctx) {
     try {

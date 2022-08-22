@@ -1,19 +1,14 @@
-import {client} from './utils/database.js'
-import { sameDateTweet } from './utils/helperFunctions.js'
+import {client} from './utils/database.ts'
+import { sameDateTweet } from './utils/helperFunctions.ts'
+import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
+import { commentModel } from './../models/comment.ts';
 
-export const getComments = async function (ctx) {
+export const getComments = async function (ctx: Context) {
     try {
         const {rows} = await client.queryObject('SELECT * FROM public.comments;')
-        if (Object.keys(ctx.params).length === 0) {
-            ctx.response.body = rows
-            ctx.response.status = 200
-            }
-        else {
-            const {key, value} = ctx.params
-            const result = await client.queryObject(`SELECT * FROM public.posts WHERE ${key}='${value}';`)
-            ctx.response.body = result.rows
-            ctx.response.status = 200
-        }
+        ctx.response.body = rows
+        ctx.response.status = 200
+
     }
     catch (error) {
         console.log(`Requisição mal sucedida!\n`, error)
@@ -22,7 +17,7 @@ export const getComments = async function (ctx) {
     }
 }
 
-export const createComment = async function (ctx) {
+export const createComment = async function (ctx: Context) {
     try {
         const comment = await ctx.request.body().value
         const {commented_post_id, content, } = comment
@@ -51,10 +46,11 @@ export const createComment = async function (ctx) {
                 }
             })
 
-            tweets.forEach(tweet => {
+            tweets.forEach(tweet:  => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
-                if (sameDateTweet(new Date().toISOString(), tweet.post_datetime)) {
+                const {post_datetime} = tweet
+                if (sameDateTweet(new Date().toISOString(), post_datetime)) {
                     ctx.response.status = 200
                     ctx.response.body = {message : "Você já twittou isso!"}
                     return
@@ -69,9 +65,10 @@ export const createComment = async function (ctx) {
     }
 }
 
-export const removeComment = async function(ctx) {
+export const removeComment = async function(ctx: Context) {
     try {
-        await client.queryObject(`DELETE FROM public.comments WHERE comment_id='${ctx.params.comment_id}'`)
+        const {comment_id} = await ctx.request.body().value
+        await client.queryObject(`DELETE FROM public.comments WHERE comment_id='${comment_id}'`)
         ctx.response.body = {message: "Tweet exluído com sucesso!"}
         ctx.response.status = 200
     }

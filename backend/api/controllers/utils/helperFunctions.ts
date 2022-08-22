@@ -1,19 +1,19 @@
 import { valid } from "https://deno.land/x/validation@v0.4.0/email.ts"
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
-import { client } from './database.js';
+import { client } from './database.ts';
+import {userModel} from '../../models/user.ts'
 
 // Úteis
 
-export const sameDateTweet = function (tweetToPostTime, tweetFoundTime) {
+export const sameDateTweet = function (tweetToPostTime: Date , tweetFoundTime: Date ) {
     // Aqui eu separo as datas do tweet no formato timestamp.
     // Deixando um array com 3 strings: [ "YYYY", "MM", "DD" ]
-    tweetToPostTime = tweetToPostTime.toISOString().split('T')[0].split('-')
-    tweetFoundTime = tweetFoundTime.toISOString().split('T')[0].split('-')
+    const [now, postTime] = [tweetToPostTime.toISOString().split('T')[0].split('-'), tweetFoundTime.toISOString().split('T')[0].split('-')]
 
     let sameTime = 0
 
-    tweetToPostTime.forEach((time, index) => {
-        if (time === tweetFoundTime[index]) sameTime++
+    now.forEach((time, index) => {
+        if (time === postTime[index]) sameTime++
     })
 
     return sameTime === 3
@@ -21,7 +21,7 @@ export const sameDateTweet = function (tweetToPostTime, tweetFoundTime) {
 
 // Para o controlador de usuários
 
-export const checkingProperty = function (queryResults, key, value) {
+export const checkingProperty = function (queryResults: userModel[], key: 'phone' | 'email' , value: string) {
     let finder = false
     queryResults.forEach(user => {
         if (user[key] === value) {
@@ -32,16 +32,16 @@ export const checkingProperty = function (queryResults, key, value) {
     return finder
 }
 
-export const phoneValid = function (phone) {
+export const phoneValid = function (phone: string) {
     return Boolean(phone.match(/^\+[1-9][0-9]\d{1,14}$/))
 }
 
-const validProperty =  function (property) {
+const validProperty =  function (property: string) {
     const properties = ['full_name', 'birth_date', 'city', 'phone', 'email', 'username', 'social_name', 'bio', 'url_on_bio', 'profile_pic', 'cover_pic']
     return properties.some(key => key === property)
 }
 
-export const stringForCreateUser = async function (object) {
+export const stringForCreateUser = async function (object: any) {
 
     let [keys, values, first] = ['', '', true]
 
@@ -71,7 +71,7 @@ export const stringForCreateUser = async function (object) {
     return [keys, values]
 }
 
-export const stringForUpdateUser = async function (object) {
+export const stringForUpdateUser = async function (object: any) {
     let [changes, first] = ['', true]
 
     for (const key in object) {
@@ -87,13 +87,13 @@ export const stringForUpdateUser = async function (object) {
         else if (validProperty(key)){
             changes += `,${key}='${object[key]}'`
         }
-        fixer = false
+        first = false
     }
 
     return changes
 }
 
-export const userExist = async function (login) {
+export const userExist = async function (login: string) {
     try {
         let result
         if (valid(login)) {

@@ -1,3 +1,4 @@
 - Procurar como contar os comentários de cada tweet
 - Pesquisar sobre o Context do oak, para tipar o ctx das funções de query. (typescript branch)
 - Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql
+- StringForCreateUser: Procurar como resolver o bug do for in, que não deixa indexar com string um objeto tipado
