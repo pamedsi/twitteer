@@ -4,7 +4,4 @@ export interface comment {
     commented_post_id: string,
     content: string,
     post_datetime: string,
-    likes: number,
-    retweets: number,
-    comments: number
 }
