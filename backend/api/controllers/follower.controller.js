@@ -2,9 +2,9 @@ import {client} from './utils/database.js'
 import {nowInTimestamp} from './utils/helperFunctions.js'
 
 export const follow = async function (ctx) {
-
     try {
-        const {followed_id, following_id} = await ctx.request.body().value
+        const {user_id: following_id} = ctx.state.user
+        const {followed_id} = await ctx.request.body().value
         const {rows} = await client.queryObject(`SELECT * FROM public.followers WHERE followed_id='${followed_id}' AND following_id='${following_id}' LIMIT 1;`)
 
         if (rows.length === 0) {
@@ -26,7 +26,8 @@ export const follow = async function (ctx) {
 
 export const unfollow = async function (ctx) {
     try {
-    const {followed_id, following_id} = await ctx.request.body().value
+    const {user_id: following_id} = ctx.state.user
+    const {followed_id} = await ctx.request.body().value
     const {rows} = await client.queryObject(`SELECT * FROM public.followers WHERE followed_id='${followed_id}' AND following_id='${following_id}' LIMIT 1;`)
 
     // Se o usuário que for dar unfollow não seguir o que será "desseguido".
