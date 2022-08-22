@@ -1,5 +1,5 @@
 import {client} from './utils/database.js'
-import {sameDateTweet, timestampConversor} from './utils/helperFunctions.js';
+import {sameDateTweet} from './utils/helperFunctions.js';
 
 export const getTweets = async function (ctx) {
     try {
@@ -20,13 +20,13 @@ export const createPost = async function (ctx) {
         const {user_id: post_owner_id} = ctx.state.user
         const {rows} = await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${post_owner_id}' AND content='${content}';`)
 
-        if (rows.some(tweet => sameDateTweet(timestampConversor(), tweet.post_datetime))) {
+        if (rows.some(tweet => sameDateTweet(new Date(), tweet.post_datetime))) {
             ctx.response.status = 200
             ctx.response.body = {message : "Você já twittou isso!"}
         }
 
         else {
-            await client.queryObject(`INSERT INTO public.posts (content, post_datetime, post_owner_id) VALUES ('${content}', '${timestampConversor()}', '${post_owner_id}');`)
+            await client.queryObject(`INSERT INTO public.posts (content, post_datetime, post_owner_id) VALUES ('${content}', '${new Date().toISOString()}', '${post_owner_id}');`)
             ctx.response.status = 201
             ctx.response.body = {message : "Tweetado!"}
         }

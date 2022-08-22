@@ -4,30 +4,16 @@ import { client } from './database.js';
 
 // Úteis
 
-export const timestampConversor = function (moment = new Date()) {
-    // YYYY-MM-DD HH:MM:SS
-    let [month, day] = [moment.getUTCMonth() + 1, moment.getUTCDate()]
-    let [hour, minute, second] = [moment.getUTCHours(), moment.getUTCMinutes(), moment.getUTCSeconds() ]
-
-    if (month < 10) month = `0${month}`
-    if (day < 10) day = `0${day}`
-
-    if (hour < 10) hour = `0${hour}`
-    if (minute < 10) minute = `0${minute}`
-    if (second < 10) second = `0${second}`
-    return `${moment.getUTCFullYear()}-${month}-${day} ${hour}:${minute}:${second}`
-}
-
-export const sameDateTweet = function (tweetToPostTimestamp, tweetFoundTimestamp) {
+export const sameDateTweet = function (tweetToPostTime, tweetFoundTime) {
     // Aqui eu separo as datas do tweet no formato timestamp.
     // Deixando um array com 3 strings: [ "YYYY", "MM", "DD" ]
-    tweetToPostTimestamp = tweetToPostTimestamp.split(' ')[0].split('-')
-    tweetFoundTimestamp = timestampConversor(tweetFoundTimestamp).split(' ')[0].split('-')
+    tweetToPostTime = tweetToPostTime.toISOString().split('T')[0].split('-')
+    tweetFoundTime = tweetFoundTime.toISOString().split('T')[0].split('-')
 
     let sameTime = 0
 
-    tweetToPostTimestamp.forEach((time, index) => {
-        if (time === tweetFoundTimestamp[index]) sameTime++
+    tweetToPostTime.forEach((time, index) => {
+        if (time === tweetFoundTime[index]) sameTime++
     })
 
     return sameTime === 3

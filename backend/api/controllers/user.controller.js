@@ -1,5 +1,5 @@
 import {client} from './utils/database.js'
-import {stringForCreateUser, stringForUpdateUser, checkingProperty, timestampConversor} from './utils/helperFunctions.js'
+import {stringForCreateUser, stringForUpdateUser, checkingProperty} from './utils/helperFunctions.js'
 
 export const getUsers = async function (ctx) {
     try {
@@ -38,7 +38,7 @@ export const createUser = async function (ctx) {
 
         if(result.rows.length === 0) {
             const [keys, values] = await stringForCreateUser(user)
-            await client.queryObject(`INSERT INTO public.users (${keys}, user_since) VALUES (${values}, '${timestampConversor()}');`)
+            await client.queryObject(`INSERT INTO public.users (${keys}, user_since) VALUES (${values}, '${new Date().toISOString()}');`)
             ctx.response.status = 201
             ctx.response.body = {message : "Usuário cadastrado!"}
         }

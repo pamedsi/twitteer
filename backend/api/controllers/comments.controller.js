@@ -1,5 +1,5 @@
 import {client} from './utils/database.js'
-import { timestampConversor, sameDateTweet } from './utils/helperFunctions.js'
+import { sameDateTweet } from './utils/helperFunctions.js'
 
 export const getComments = async function (ctx) {
     try {
@@ -36,7 +36,7 @@ export const createComment = async function (ctx) {
         const {rows: comments} = await client.queryObject(`SELECT * FROM public.comments WHERE comment_owner_id='${comment_owner_id}' AND content='${content}';`)
 
         if (tweets.length === 0 && comments.length === 0) {
-            await client.queryObject(`INSERT INTO public.comments (comment_owner_id, commented_post_id, content) VALUES ('${comment_owner_id}', '${commented_post_id}', '${content}');`)
+            await client.queryObject(`INSERT INTO public.comments (comment_owner_id, commented_post_id, content, comment_datetime) VALUES ('${comment_owner_id}', '${commented_post_id}', '${content}', '${new Date().toISOString()}');`)
             ctx.response.status = 201
             ctx.response.body = {message : "Comentado!"}
         }
@@ -44,7 +44,7 @@ export const createComment = async function (ctx) {
             comments.forEach(comment => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
-                if (sameDateTweet(timestampConversor(), comment.comment_datetime)) {
+                if (sameDateTweet(new Date(), comment.comment_datetime)) {
                     ctx.response.status = 200
                     ctx.response.body = {message : "Você já twittou isso!"}
                     return
@@ -54,7 +54,7 @@ export const createComment = async function (ctx) {
             tweets.forEach(tweet => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
-                if (sameDateTweet(timestampConversor(), tweet.post_datetime)) {
+                if (sameDateTweet(new Date().toISOString(), tweet.post_datetime)) {
                     ctx.response.status = 200
                     ctx.response.body = {message : "Você já twittou isso!"}
                     return
