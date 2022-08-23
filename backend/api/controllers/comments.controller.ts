@@ -1,6 +1,9 @@
 import {client} from './utils/database.ts'
 import { sameDateTweet } from './utils/helperFunctions.ts'
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
+import { commentModel } from './../models/comment.ts';
+import {userModel} from '../models/user.ts'
+import { postModel } from './../models/post.ts';
 
 export const getComments = async function (ctx: Context) {
     try {
@@ -18,16 +21,18 @@ export const getComments = async function (ctx: Context) {
 
 export const createComment = async function (ctx: Context) {
     try {
-        const comment = await ctx.request.body().value
+        const comment: commentModel = await ctx.request.body().value
         const {commented_post_id, content, } = comment
-        const {user_id: comment_owner_id} = ctx.state.user
+        const {user_id: comment_owner_id}: userModel = ctx.state.user
 
         // Queria conseguir fazer uma query só buscando o mesmo tweet tanto na tabela de comentários quanto
         // na de tweets, mas, quando tentei deu o erro de "ambiguous" por causa das colunas com mesmo nome.
         // Está na lista pesquisar para resolver isso.
 
-        const {rows: tweets} = await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${comment_owner_id}' AND content='${content}';`)
-        const {rows: comments} = await client.queryObject(`SELECT * FROM public.comments WHERE comment_owner_id='${comment_owner_id}' AND content='${content}';`)
+        const tweets = (await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${comment_owner_id}' AND content='${content}';`)).rows as postModel[]
+        const comments = (await client.queryObject(`SELECT * FROM public.comments WHERE comment_owner_id='${comment_owner_id}' AND content='${content}';`)).rows as commentModel[]
+        console.log(tweets)
+        console.log(comments)
 
         if (tweets.length === 0 && comments.length === 0) {
             await client.queryObject(`INSERT INTO public.comments (comment_owner_id, commented_post_id, content, comment_datetime) VALUES ('${comment_owner_id}', '${commented_post_id}', '${content}', '${new Date().toISOString()}');`)
@@ -35,7 +40,7 @@ export const createComment = async function (ctx: Context) {
             ctx.response.body = {message : "Comentado!"}
         }
         else {
-            comments.forEach((comment: any) => {
+            comments.forEach((comment) => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
                 if (sameDateTweet(new Date(), comment.comment_datetime)) {
@@ -45,7 +50,7 @@ export const createComment = async function (ctx: Context) {
                 }
             })
 
-            tweets.forEach((tweet: any) => {
+            tweets.forEach((tweet) => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
                 if (sameDateTweet(new Date(), tweet.post_datetime)) {

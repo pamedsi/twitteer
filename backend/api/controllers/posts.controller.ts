@@ -3,6 +3,7 @@ import {sameDateTweet} from './utils/helperFunctions.ts';
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
 import { postModel } from './../models/post.ts';
 import { ctxModel } from './../models/context.ts';
+import {userModel} from '../models/user.ts'
 
 
 export const getTweets = async function (ctx: Context) {
@@ -20,11 +21,11 @@ export const getTweets = async function (ctx: Context) {
 
 export const createPost = async function (ctx: Context) {
     try {
-        const {content} = await ctx.request.body().value
-        const {user_id: post_owner_id} = ctx.state.user
-        const {rows} = await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${post_owner_id}' AND content='${content}';`)
+        const {content}: postModel = await ctx.request.body().value
+        const {user_id: post_owner_id}: userModel = ctx.state.user
+        const rows = (await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${post_owner_id}' AND content='${content}';`)).rows as postModel[]
 
-        if (rows.some((tweet: any) => sameDateTweet(new Date(), tweet.post_datetime))) {
+        if (rows.some((tweet) => sameDateTweet(new Date(), tweet.post_datetime))) {
             ctx.response.status = 200
             ctx.response.body = {message : "Você já twittou isso!"}
         }

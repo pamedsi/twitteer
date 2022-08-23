@@ -29,7 +29,7 @@ export const unfollow = async function (ctx: Context) {
     try {
     const {user_id: following_id} = ctx.state.user
     const {followed_id} = await ctx.request.body().value
-    const {rows}: any = await client.queryObject(`SELECT * FROM public.followers WHERE followed_id='${followed_id}' AND following_id='${following_id}' LIMIT 1;`)
+    const rows = (await client.queryObject(`SELECT * FROM public.followers WHERE followed_id='${followed_id}' AND following_id='${following_id}' LIMIT 1;`)).rows as followerModel[]
 
     // Se o usuário que for dar unfollow não seguir o que será "desseguido".
     if (rows.length === 0) {
