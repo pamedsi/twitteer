@@ -41,7 +41,7 @@ const validProperty =  function (property: string) {
     return properties.some(key => key === property)
 }
 
-export const stringForCreateUser = async function (user: any) {
+export const stringForCreateUser = async function <user> (user: any) {
 
     let [keys, values, first] = ['', '', true]
 
@@ -105,7 +105,7 @@ export const userExist = async function (login: string) {
          else {
             result = await client.queryObject(`SELECT * FROM public.users WHERE username='${login}' LIMIT 1;`)
          }
-         
+
         if(result.rows[0]) return result.rows[0]
         return null
 
