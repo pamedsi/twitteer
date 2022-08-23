@@ -1,6 +1,8 @@
 import {client} from './utils/database.ts'
+import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
+import { followerModel } from './../models/follower.ts';
 
-export const follow = async function (ctx) {
+export const follow = async function (ctx: Context) {
     try {
         const {user_id: following_id} = ctx.state.user
         const {followed_id} = await ctx.request.body().value
@@ -23,11 +25,11 @@ export const follow = async function (ctx) {
     }
 }
 
-export const unfollow = async function (ctx) {
+export const unfollow = async function (ctx: Context) {
     try {
     const {user_id: following_id} = ctx.state.user
     const {followed_id} = await ctx.request.body().value
-    const {rows} = await client.queryObject(`SELECT * FROM public.followers WHERE followed_id='${followed_id}' AND following_id='${following_id}' LIMIT 1;`)
+    const {rows}: any = await client.queryObject(`SELECT * FROM public.followers WHERE followed_id='${followed_id}' AND following_id='${following_id}' LIMIT 1;`)
 
     // Se o usuário que for dar unfollow não seguir o que será "desseguido".
     if (rows.length === 0) {
@@ -45,7 +47,7 @@ export const unfollow = async function (ctx) {
     }
 }
 
-export const seeFollowers = async function (ctx) {
+export const seeFollowers = async function (ctx: Context) {
     try {
         const result = await client.queryObject('SELECT * FROM public.followers;')
         ctx.response.body = result.rows

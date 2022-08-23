@@ -35,7 +35,7 @@ export const createComment = async function (ctx: Context) {
             ctx.response.body = {message : "Comentado!"}
         }
         else {
-            comments.map((comment: any) => {
+            comments.forEach((comment: any) => {
                 // Para cada comentário igual que foi achado, postado pelo mesmo usuário
                 // será verificado se foi postado no mesmo dia.
                 if (sameDateTweet(new Date(), comment.comment_datetime)) {

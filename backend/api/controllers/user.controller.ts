@@ -1,7 +1,9 @@
 import {client} from './utils/database.ts'
 import {stringForCreateUser, stringForUpdateUser, checkingProperty} from './utils/helperFunctions.ts'
+import { Context } from 'https://deno.land/x/oak@v10.6.0/mod.ts';
+import { ctxModel } from './../models/context.ts';
 
-export const getUsers = async function (ctx) {
+export const getUsers = async function (ctx: ctxModel) {
     try {
         const {rows} = await client.queryObject('SELECT * FROM public.users;')
         if (Object.keys(ctx.params).length === 0) {
@@ -26,7 +28,7 @@ export const getUsers = async function (ctx) {
     }
 }
 
-export const createUser = async function (ctx) {
+export const createUser = async function (ctx: Context) {
     try {
         const user = await ctx.request.body().value
         const {email, username} = user
@@ -34,7 +36,7 @@ export const createUser = async function (ctx) {
         if (!user.phone) phone = null
         else phone = user.phone
 
-        const result = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username}' LIMIT 1;`)
+        const result: any = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username}' LIMIT 1;`)
 
         if(result.rows.length === 0) {
             const [keys, values] = await stringForCreateUser(user)
@@ -58,7 +60,7 @@ export const createUser = async function (ctx) {
     }
 }
 
-export const updateUser = async function(ctx) {
+export const updateUser = async function(ctx: ctxModel) {
     try {
         const user = await ctx.request.body().value
         const changes = await stringForUpdateUser(user)
@@ -72,7 +74,7 @@ export const updateUser = async function(ctx) {
     }
 }
 
-export const removeUser = async function(ctx) {
+export const removeUser = async function(ctx: ctxModel) {
     try {
         await client.queryObject(`DELETE FROM public.users WHERE user_id='${ctx.params.user_id}'`)
         ctx.response.status = 200

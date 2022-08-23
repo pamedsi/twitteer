@@ -1,10 +1,10 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
-import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller.js';
-import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.js'
-import { createPost, getTweets,removePost } from './../controllers/posts.controller.js';
-import { getComments, createComment, removeComment } from './../controllers/comments.controller.js';
-import { login } from './../../userAuthenticator/login.js';
-import { JWTValidator } from './../../userAuthenticator/JWTValidator.js';
+import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller.ts';
+import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.ts'
+import { createPost, getTweets,removePost } from './../controllers/posts.controller.ts';
+import { getComments, createComment, removeComment } from './../controllers/comments.controller.ts';
+import { login } from './../../userAuthenticator/login.ts';
+import { JWTValidator } from './../../userAuthenticator/JWTValidator.ts';
 
 export const router = new Router()
 

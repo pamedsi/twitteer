@@ -41,29 +41,29 @@ const validProperty =  function (property: string) {
     return properties.some(key => key === property)
 }
 
-export const stringForCreateUser = async function (object: any) {
+export const stringForCreateUser = async function (user: any) {
 
     let [keys, values, first] = ['', '', true]
 
-    for (const key in object) {
+    for (const key in user) {
         if (key === "password" && first) {
             keys += `"${key}"`
-            values += `'${await hash(object[key])}'`
+            values += `'${await hash(user[key])}'`
         }
 
         else if (first && validProperty(key)) {
             keys += `${key}`
-            values += `'${object[key]}'`
+            values += `'${user[key]}'`
         }
 
         else if (key === "password") {
             keys += `, "${key}"`
-            values += `, '${await hash(object[key])}'`
+            values += `, '${await hash(user[key])}'`
         }
 
         else if (validProperty(key)){
             keys += `, ${key}`
-            values += `, '${object[key]}'`
+            values += `, '${user[key]}'`
         }
         first = false
     }
@@ -71,21 +71,21 @@ export const stringForCreateUser = async function (object: any) {
     return [keys, values]
 }
 
-export const stringForUpdateUser = async function (object: any) {
+export const stringForUpdateUser = async function (user: any) {
     let [changes, first] = ['', true]
 
-    for (const key in object) {
+    for (const key in user) {
         if (key === 'password' && first) {
-            changes += `"${key}"='${await hash(object[key])}'`
+            changes += `"${key}"='${await hash(user[key])}'`
         }
         else if (key === 'password') {
-            changes += `,"${key}"='${await hash(object[key])}'`
+            changes += `,"${key}"='${await hash(user[key])}'`
         }
         else if (first && validProperty(key)) {
-            changes += `${key}='${object[key]}'`
+            changes += `${key}='${user[key]}'`
         }
         else if (validProperty(key)){
-            changes += `,${key}='${object[key]}'`
+            changes += `,${key}='${user[key]}'`
         }
         first = false
     }
@@ -105,7 +105,7 @@ export const userExist = async function (login: string) {
          else {
             result = await client.queryObject(`SELECT * FROM public.users WHERE username='${login}' LIMIT 1;`)
          }
-
+         
         if(result.rows[0]) return result.rows[0]
         return null
 

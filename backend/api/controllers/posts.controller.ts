@@ -1,7 +1,11 @@
 import {client} from './utils/database.ts'
 import {sameDateTweet} from './utils/helperFunctions.ts';
+import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
+import { postModel } from './../models/post.ts';
+import { ctxModel } from './../models/context.ts';
 
-export const getTweets = async function (ctx) {
+
+export const getTweets = async function (ctx: Context) {
     try {
         const result = await client.queryObject('SELECT * FROM public.posts;')
         ctx.response.body = result.rows
@@ -14,13 +18,13 @@ export const getTweets = async function (ctx) {
     }
 }
 
-export const createPost = async function (ctx) {
+export const createPost = async function (ctx: Context) {
     try {
         const {content} = await ctx.request.body().value
         const {user_id: post_owner_id} = ctx.state.user
         const {rows} = await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${post_owner_id}' AND content='${content}';`)
 
-        if (rows.some(tweet => sameDateTweet(new Date(), tweet.post_datetime))) {
+        if (rows.some((tweet: any) => sameDateTweet(new Date(), tweet.post_datetime))) {
             ctx.response.status = 200
             ctx.response.body = {message : "Você já twittou isso!"}
         }
@@ -39,7 +43,7 @@ export const createPost = async function (ctx) {
     }
 }
 
-export const removePost = async function(ctx) {
+export const removePost = async function(ctx: ctxModel) {
     try {
         await client.queryObject(`DELETE FROM public.comments WHERE post_id='${ctx.params.post_id}';`)
         ctx.response.body = {message: "Comentário exluído com sucesso!"}
