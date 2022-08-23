@@ -4,6 +4,7 @@ import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
 import { commentModel } from './../models/comment.ts';
 import {userModel} from '../models/user.ts'
 import { postModel } from './../models/post.ts';
+import { ctxModel } from './../models/context.ts';
 
 export const getComments = async function (ctx: Context) {
     try {
@@ -68,15 +69,15 @@ export const createComment = async function (ctx: Context) {
     }
 }
 
-export const removeComment = async function(ctx: Context) {
+export const removeComment = async function(ctx: ctxModel) {
     try {
-        const {comment_id} = await ctx.request.body().value
+        const {comment_id} = ctx.params
         await client.queryObject(`DELETE FROM public.comments WHERE comment_id='${comment_id}'`)
-        ctx.response.body = {message: "Tweet exluído com sucesso!"}
+        ctx.response.body = {message: "Comentário exluído com sucesso!"}
         ctx.response.status = 200
     }
     catch (error) {
-        ctx.response.body = {message: "Não foi possível deletar o tweet"}
+        ctx.response.body = {message: "Não foi possível deletar o comentário"}
         ctx.response.status = 200
         console.log(`Não foi possível deletar o tweet.\n`, error)
     }

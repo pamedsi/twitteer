@@ -5,8 +5,9 @@ import { ctxModel } from './../api/models/context.ts'
 import {userModel} from './../api/models/user.ts'
 
 export const login = async function (ctx: ctxModel) {
-    const {login, password} = await ctx.request.body().value
-    const user: any = await userExist(login)
+    const {login, password} = (await ctx.request.body().value)
+    const user  = (await userExist(login)) as userModel
+
     if (!user) {
         ctx.response.status = 422
         ctx.response.body = { message:  'Usuário ou senha incorretos!'}
