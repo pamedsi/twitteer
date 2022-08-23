@@ -21,7 +21,7 @@ export const sameDateTweet = function (tweetToPostTime: Date , tweetFoundTime: D
 
 // Para o controlador de usuários
 
-export const checkingProperty = function (queryResults: userModel[], key: 'phone' | 'email' , value: string) {
+export const checkingProperty = function (queryResults: userModel[], key: 'phone' | 'email' , value: string | null) {
     let finder = false
     queryResults.forEach(user => {
         if (user[key] === value) {
@@ -41,7 +41,7 @@ const validProperty =  function (property: string) {
     return properties.some(key => key === property)
 }
 
-export const stringForCreateUser = async function <user> (user: any) {
+export const stringForCreateUser = async function (user: userModel) {
 
     let [keys, values, first] = ['', '', true]
 
@@ -53,7 +53,7 @@ export const stringForCreateUser = async function <user> (user: any) {
 
         else if (first && validProperty(key)) {
             keys += `${key}`
-            values += `'${user[key]}'`
+            values += `'${user[key as keyof userModel]}'`
         }
 
         else if (key === "password") {
@@ -63,7 +63,7 @@ export const stringForCreateUser = async function <user> (user: any) {
 
         else if (validProperty(key)){
             keys += `, ${key}`
-            values += `, '${user[key]}'`
+            values += `, '${user[key as keyof userModel]}'`
         }
         first = false
     }
@@ -71,7 +71,7 @@ export const stringForCreateUser = async function <user> (user: any) {
     return [keys, values]
 }
 
-export const stringForUpdateUser = async function (user: any) {
+export const stringForUpdateUser = async function (user: userModel) {
     let [changes, first] = ['', true]
 
     for (const key in user) {
@@ -82,10 +82,10 @@ export const stringForUpdateUser = async function (user: any) {
             changes += `,"${key}"='${await hash(user[key])}'`
         }
         else if (first && validProperty(key)) {
-            changes += `${key}='${user[key]}'`
+            changes += `${key}='${user[key as keyof userModel]}'`
         }
         else if (validProperty(key)){
-            changes += `,${key}='${user[key]}'`
+            changes += `,${key}='${user[key as keyof userModel]}'`
         }
         first = false
     }
@@ -93,7 +93,7 @@ export const stringForUpdateUser = async function (user: any) {
     return changes
 }
 
-export const userExist = async function (login: string) {
+export const userExist = async function (login: 'username' | 'email' | 'phone') {
     try {
         let result
         if (valid(login)) {

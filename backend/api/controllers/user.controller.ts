@@ -33,19 +33,19 @@ export const createUser = async function (ctx: Context) {
     try {
         const user: userModel = await ctx.request.body().value
         const {email, username} = user
-        let phone
-        if (!user.phone) phone = 'null'
+        let phone: string | null
+        if (!user.phone) phone = null
         else phone = user.phone
 
         const result: any = await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username}' LIMIT 1;`)
 
         if(result.rows.length === 0) {
-            const [keys, values] = await stringForCreateUser <userModel> (user)
+            const [keys, values] = await stringForCreateUser(user)
             await client.queryObject(`INSERT INTO public.users (${keys}, user_since) VALUES (${values}, '${new Date().toISOString()}');`)
             ctx.response.status = 201
             ctx.response.body = {message : "Usuário cadastrado!"}
         }
-        else if(checkingProperty(result.rows, 'phone', phone) && phone !== 'null') {
+        else if(checkingProperty(result.rows, 'phone', phone) && phone !== null) {
             ctx.response.body = {message: "Não foi possível cadastrar o usuário, número de telefone já cadastrado."}
         }
         else if (checkingProperty(result.rows, 'email', email)) {

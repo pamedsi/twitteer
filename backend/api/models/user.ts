@@ -1,5 +1,5 @@
 export interface userProperty {
-    key: ''
+    key: 'full_name'| 'birth_date'| 'city'| 'phone'| 'email'| 'username'| 'social_name'| 'bio'| 'url_on_bio'| 'profile_pic'| 'cover_pic'
 }
 
 export interface userModel {
