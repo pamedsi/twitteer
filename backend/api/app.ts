@@ -1,12 +1,11 @@
-import {Application} from "https://deno.land/x/oak@v10.6.0/mod.ts"
-import {config} from "https://deno.land/x/dotenv@v3.2.0/mod.ts"
-import { router } from './routes/router.ts'
+import {Application} from "https://deno.land/x/oak@v10.6.0/mod.ts";
+import { router } from './routes/router.ts';
+import { env } from './env.ts';
 
-const HOST = config().HOST ?? '127.0.0.1'
-const PORT = config().PORT ?? '8080'
-
+const {HOST, PORT} = env
 const app = new Application()
 
 app.use(router.routes())
-console.log(`Servidor iniciado: ${HOST}:${PORT}`)
-await app.listen(`${HOST}:${PORT}`)
+console.log(`Servidor iniciado: ${'127.0.0.1'}:${8080}`)
+
+HOST && PORT ? await app.listen(`${HOST}:${PORT}`) : await app.listen(`127.0.0.1:8080`)
