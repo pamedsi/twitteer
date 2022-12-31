@@ -1,7 +1,7 @@
 import { valid } from "https://deno.land/x/validation@v0.4.0/email.ts"
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 import { client } from './database.ts';
-import {userModel} from '../../models/user.ts'
+import { User } from "../../models/user.ts";
 
 // Úteis
 
@@ -21,27 +21,16 @@ export const sameDateTweet = function (tweetToPostTime: Date , tweetFoundTime: D
 
 // Para o controlador de usuários
 
-export const checkingProperty = function (queryResults: userModel[], key: 'phone' | 'email' , value: string | null) {
-    let finder = false
-    queryResults.forEach(user => {
-        if (user[key] === value) {
-            finder = true
-            return
-        }
-    })
-    return finder
-}
-
 export const phoneValid = function (phone: string) {
     return Boolean(phone.match(/^\+[1-9][0-9]\d{1,14}$/))
 }
 
 const validProperty =  function (property: string) {
-    const properties = ['full_name', 'birth_date', 'city', 'phone', 'email', 'username', 'social_name', 'bio', 'url_on_bio', 'profile_pic', 'cover_pic']
+    const properties = ['user_id', 'full_name', 'birth_date', 'city', 'phone', 'email', 'username', 'social_name', 'created_at','bio', 'url_on_bio', 'profile_pic', 'cover_pic', ]
     return properties.some(key => key === property)
 }
 
-export const stringForCreateUser = async function (user: userModel) {
+export const stringForCreateUser = async function (user: User) {
 
     let [keys, values, first] = ['', '', true]
 
@@ -53,8 +42,11 @@ export const stringForCreateUser = async function (user: userModel) {
 
         else if (first && validProperty(key)) {
             keys += `${key}`
-            values += `'${user[key as keyof userModel]}'`
+            values += `'${user[key as keyof User]}'`
         }
+
+        else if (!user[key as keyof User] && validProperty(key)) continue
+        // Caso a propriedade seja undefined, não irá para a string da query
 
         else if (key === "password") {
             keys += `, "${key}"`
@@ -63,7 +55,7 @@ export const stringForCreateUser = async function (user: userModel) {
 
         else if (validProperty(key)){
             keys += `, ${key}`
-            values += `, '${user[key as keyof userModel]}'`
+            values += `, '${user[key as keyof User]}'`
         }
         first = false
     }
@@ -71,7 +63,7 @@ export const stringForCreateUser = async function (user: userModel) {
     return [keys, values]
 }
 
-export const stringForUpdateUser = async function (user: userModel) {
+export const stringForUpdateUser = async function (user: User) {
     let [changes, first] = ['', true]
 
     for (const key in user) {
@@ -82,10 +74,10 @@ export const stringForUpdateUser = async function (user: userModel) {
             changes += `,"${key}"='${await hash(user[key])}'`
         }
         else if (first && validProperty(key)) {
-            changes += `${key}='${user[key as keyof userModel]}'`
+            changes += `${key}='${user[key as keyof User]}'`
         }
         else if (validProperty(key)){
-            changes += `,${key}='${user[key as keyof userModel]}'`
+            changes += `,${key}='${user[key as keyof User]}'`
         }
         first = false
     }
@@ -112,4 +104,26 @@ export const userExist = async function (login: 'username' | 'email' | 'phone') 
     } catch (error) {
         console.log("Não foi possível buscar o usuário.\n", error)
     }
+}
+
+export const loginRegistered = async function (user: User)  {
+    let phone: string | null
+    if (!user.phone) phone = null
+    else phone = user.phone
+  
+    const {email, username} = user
+    const result = (await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username}' LIMIT 1;`)).rows as User[]
+  
+    if (result.length !== 0) {
+      if(result[0].phone == phone && phone !== null) return 'phone'
+      else if (result[0].email === email) return 'email'
+      else return 'username'
+    }
+    
+    return false
+}
+
+export const insertNewUser = async function (user: User) {
+    const [keys, values] = await stringForCreateUser(user)
+    await client.queryObject(`INSERT INTO public.users (${keys}) VALUES (${values});`)
 }
