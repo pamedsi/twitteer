@@ -1,8 +1,8 @@
 import {client} from './utils/database.ts'
-import {stringForCreateUser, stringForUpdateUser, checkingProperty} from './utils/helperFunctions.ts'
+import {insertNewUser, stringForUpdateUser, loginRegistered} from './utils/helperFunctions.ts'
 import { Context } from 'https://deno.land/x/oak@v10.6.0/mod.ts';
 import { ctxModel } from './../models/context.ts';
-import { userModel } from "../models/user.ts";
+import { User } from "../models/user.ts";
 
 export const getUsers = async function (ctx: ctxModel) {
     try {
@@ -30,29 +30,18 @@ export const getUsers = async function (ctx: ctxModel) {
 }
 
 export const createUser = async function (ctx: Context) {
+    
     try {
-        const user: userModel = await ctx.request.body().value
-        const {email, username} = user
-        let phone: string | null
-        if (!user.phone) phone = null
-        else phone = user.phone
-
-        const result = (await client.queryObject(`SELECT * FROM public.users WHERE email='${email}' OR phone='${phone}' OR username='${username}' LIMIT 1;`)).rows as userModel[]
-
-        if(result.length === 0) {
-            const [keys, values] = await stringForCreateUser(user)
-            await client.queryObject(`INSERT INTO public.users (${keys}, user_since) VALUES (${values}, '${new Date().toISOString()}');`)
+        const incomingUser: User = await ctx.request.body().value
+        const userInfo = await loginRegistered(incomingUser)
+        if (userInfo) ctx.response.body = {message: `Não foi possível cadastrar o usuário, ${userInfo} já cadastrado.`}
+        else {
+            const newUser = new User()
+            Object.assign(newUser, incomingUser)
+            await insertNewUser(newUser)
             ctx.response.status = 201
             ctx.response.body = {message : "Usuário cadastrado!"}
-        }
-        else if(checkingProperty(result, 'phone', phone) && phone !== null) {
-            ctx.response.body = {message: "Não foi possível cadastrar o usuário, número de telefone já cadastrado."}
-        }
-        else if (checkingProperty(result, 'email', email)) {
-            ctx.response.body = {message: "Não foi possível cadastrar o usuário, e-mail já cadastrado."}
-        }
-        else {
-            ctx.response.body = {message: "Não foi possível cadastrar o usuário, nome de usuário já cadastrado."}
+
         }
     }
     catch (error) {
