@@ -1,7 +1,7 @@
 import { valid } from "https://deno.land/x/validation@v0.4.0/email.ts"
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 import { client } from './database.ts';
-import { User } from "../../models/user.ts";
+import { User, userDTO } from "../../models/user.ts";
 
 // Úteis
 
@@ -106,7 +106,7 @@ export const userExist = async function (login: 'username' | 'email' | 'phone') 
     }
 }
 
-export const loginRegistered = async function (user: User)  {
+export const loginRegistered = async function (user: userDTO)  {
     let phone: string | null
     if (!user.phone) phone = null
     else phone = user.phone
