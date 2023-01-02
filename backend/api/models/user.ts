@@ -3,7 +3,7 @@ export interface userProperty {
 }
 
 export class User {
-    user_id?: string;
+    user_id: string;
 	full_name: string;
     birth_date: string;
     city?: string;
@@ -12,14 +12,31 @@ export class User {
     username: string;
     password: string;
     social_name?: string;
-    created_at?: string
+    created_at: string
     bio?: string;
     url_on_bio?: string;
     profile_pic?: string;
     cover_pic?: string;
 
     constructor() {
-        if (!this.user_id) this.user_id = crypto.randomUUID()
-        if (!this.created_at) this.created_at = new Date().toISOString()
+        // if (!this.user_id) this.user_id = crypto.randomUUID()
+        // if (!this.created_at) this.created_at = new Date().toISOString()
+        this.user_id = crypto.randomUUID()
+        this.created_at = new Date().toISOString()
     }
+}
+
+export interface userDTO {
+	full_name: string;
+    birth_date: string;
+    city?: string;
+    phone?: string;
+    email: string;
+    username: string;
+    password: string;
+    social_name?: string;
+    bio?: string;
+    url_on_bio?: string;
+    profile_pic?: string;
+    cover_pic?: string;
 }
