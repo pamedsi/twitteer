@@ -19,13 +19,12 @@ export interface IUserRequest {
 export class CreateUserService {
   constructor (){}
 
-  async execute(user: IUserRequest){
-    const userInfo = await loginRegistered(user)
+  async execute(IncomingUser: IUserRequest){
+    const userInfo = await loginRegistered(IncomingUser)
 
     if (userInfo) throw new Error(`Não foi possível cadastrar o usuário, ${userInfo} já cadastrado.`);
 
-    const newUser = new User()
-    Object.assign(newUser, user)
+    const newUser = new User(IncomingUser)
     await insertNewUser(newUser)
   }
 
