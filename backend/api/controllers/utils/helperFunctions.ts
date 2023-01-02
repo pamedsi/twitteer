@@ -1,7 +1,8 @@
 import { valid } from "https://deno.land/x/validation@v0.4.0/email.ts"
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 import { client } from './database.ts';
-import { User, userDTO } from "../../models/user.ts";
+import { User } from "../../models/user.ts";
+import {IUserRequest} from "../../services/createUserService.ts"
 
 // Úteis
 
@@ -106,7 +107,7 @@ export const userExist = async function (login: 'username' | 'email' | 'phone') 
     }
 }
 
-export const loginRegistered = async function (user: userDTO)  {
+export const loginRegistered = async function (user: IUserRequest)  {
     let phone: string | null
     if (!user.phone) phone = null
     else phone = user.phone
@@ -123,7 +124,25 @@ export const loginRegistered = async function (user: userDTO)  {
     return false
 }
 
+// export const loginRegistered = function (user: IUserRequest, users: User[])  {
+//     let phone: string | null
+//     if (!user.phone) phone = null
+//     else phone = user.phone
+  
+//     const {email} = user
+  
+//     if (users.length !== 0) {
+//       if(users[0].phone == phone && phone !== null) return 'phone'
+//       else if (users[0].email === email) return 'email'
+//       else return 'username'
+//     }
+    
+//     return false
+// }
+
 export const insertNewUser = async function (user: User) {
     const [keys, values] = await stringForCreateUser(user)
-    await client.queryObject(`INSERT INTO public.users (${keys}) VALUES (${values});`)
+    const query = `INSERT INTO public.users (${keys}) VALUES (${values});`
+    await client.queryObject(query)
+    console.log(`\nInserção no banco de dados feita.\nQuery:\n${query}`)
 }

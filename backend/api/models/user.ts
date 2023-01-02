@@ -26,17 +26,3 @@ export class User {
     }
 }
 
-export interface userDTO {
-	full_name: string;
-    birth_date: string;
-    city?: string;
-    phone?: string;
-    email: string;
-    username: string;
-    password: string;
-    social_name?: string;
-    bio?: string;
-    url_on_bio?: string;
-    profile_pic?: string;
-    cover_pic?: string;
-}
