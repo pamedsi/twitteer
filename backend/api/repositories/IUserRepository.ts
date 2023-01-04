@@ -1,4 +1,4 @@
-export interface IUserRepository {
+interface IUserRepository {
   user_id: string;
 	full_name: string;
   birth_date: string;
