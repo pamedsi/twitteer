@@ -2,11 +2,11 @@ import { generateJWT } from "./JWTGenerator.ts";
 import { userExist } from '../api/controllers/utils/helperFunctions.ts'
 import { compare } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 import { ctxModel } from './../api/models/context.ts'
-import {userModel} from './../api/models/user.ts'
+import {User} from './../api/models/user.ts'
 
 export const login = async function (ctx: ctxModel) {
     const {login, password} = (await ctx.request.body().value)
-    const user  = (await userExist(login)) as userModel
+    const user  = (await userExist(login)) as User
 
     if (!user) {
         ctx.response.status = 422
