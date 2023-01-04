@@ -17,8 +17,6 @@ export interface IUserRequest {
 }
 
 export class CreateUserService {
-  constructor (){}
-
   async execute(IncomingUser: IUserRequest){
     const userInfo = await loginRegistered(IncomingUser)
 

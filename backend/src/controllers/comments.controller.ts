@@ -1,10 +1,8 @@
 import {client} from '../database/database.ts'
-import { sameDateTweet } from '../utils/helperFunctions.ts'
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
-import { commentModel } from './../models/comment.ts';
 import {User} from '../models/user.ts'
-import { postModel } from './../models/post.ts';
 import { ctxModel } from './../models/context.ts';
+import { CreateCommentService, ICommentRequest } from '../services/createCommentService.ts';
 
 export const getComments = async function (ctx: Context) {
     try {
@@ -22,49 +20,16 @@ export const getComments = async function (ctx: Context) {
 
 export const createComment = async function (ctx: Context) {
     try {
-        const comment: commentModel = await ctx.request.body().value
-        const {commented_post_id, content, } = comment
+        const comment: ICommentRequest = await ctx.request.body().value
         const {user_id: comment_owner_id}: User = ctx.state.user
-
-        // Queria conseguir fazer uma query só buscando o mesmo tweet tanto na tabela de comentários quanto
-        // na de tweets, mas, quando tentei deu o erro de "ambiguous" por causa das colunas com mesmo nome.
-        // Está na lista pesquisar para resolver isso.
-
-        const tweets = (await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${comment_owner_id}' AND content='${content}';`)).rows as postModel[]
-        const comments = (await client.queryObject(`SELECT * FROM public.comments WHERE comment_owner_id='${comment_owner_id}' AND content='${content}';`)).rows as commentModel[]
-        console.log(tweets)
-        console.log(comments)
-
-        if (tweets.length === 0 && comments.length === 0) {
-            await client.queryObject(`INSERT INTO public.comments (comment_owner_id, commented_post_id, content, comment_datetime) VALUES ('${comment_owner_id}', '${commented_post_id}', '${content}', '${new Date().toISOString()}');`)
-            ctx.response.status = 201
-            ctx.response.body = {message : "Comentado!"}
-        }
-        else {
-            comments.forEach((comment) => {
-                // Para cada comentário igual que foi achado, postado pelo mesmo usuário
-                // será verificado se foi postado no mesmo dia.
-                if (sameDateTweet(new Date(), comment.comment_datetime)) {
-                    ctx.response.status = 200
-                    ctx.response.body = {message : "Você já twittou isso!"}
-                    return
-                }
-            })
-
-            tweets.forEach((tweet) => {
-                // Para cada comentário igual que foi achado, postado pelo mesmo usuário
-                // será verificado se foi postado no mesmo dia.
-                if (sameDateTweet(new Date(), tweet.post_datetime)) {
-                    ctx.response.status = 200
-                    ctx.response.body = {message : "Você já twittou isso!"}
-                    return
-                }
-            })
-        }
+        const newCommentService = new CreateCommentService(comment_owner_id)
+        await newCommentService.execute(comment)
+        ctx.response.status = 201
+        ctx.response.body = {message : "Twittado!"}
 
     } catch (error) {
         ctx.response.status = 200
-        ctx.response.body = {message : "Não foi possível twittar!"}
+        ctx.response.body = {message : `Não foi possível twittar! ${(String(error).split('\n')[0]).replace('Error: ', '')}`}
         console.log("Não foi possível twittar.\n", error)
     }
 }

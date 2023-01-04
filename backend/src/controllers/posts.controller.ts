@@ -23,7 +23,7 @@ export const createPost = async function (ctx: Context) {
         const newTweetService = new CreatePostService(post_owner_id)
         await newTweetService.execute(content)
         ctx.response.status = 201
-        ctx.response.body = {message : "Tweetado!"}
+        ctx.response.body = {message : "Twittado!"}
     }
     catch (error) {
         ctx.response.status = 200
