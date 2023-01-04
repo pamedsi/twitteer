@@ -1,8 +1,7 @@
 import {client} from './utils/database.ts'
-import {insertNewUser, stringForUpdateUser, loginRegistered} from './utils/helperFunctions.ts'
+import {stringForUpdateUser} from './utils/helperFunctions.ts'
 import { Context } from 'https://deno.land/x/oak@v10.6.0/mod.ts';
 import { ctxModel } from './../models/context.ts';
-import { User } from "../models/user.ts";
 import { CreateUserService, IUserRequest } from '../services/createUserService.ts';
 
 export const getUsers = async function (ctx: ctxModel) {
@@ -31,23 +30,12 @@ export const getUsers = async function (ctx: ctxModel) {
 }
 
 export const createUser = async function (ctx: Context) {
-    
     try {
         const incomingUser: IUserRequest = await ctx.request.body().value
         const createUserService = new CreateUserService()
         await createUserService.execute(incomingUser)
         ctx.response.status = 201
         ctx.response.body = {message : "Usuário cadastrado!"}
-
-        // const userInfo = await loginRegistered(incomingUser)
-        // if (userInfo) ctx.response.body = {message: `Não foi possível cadastrar o usuário, ${userInfo} já cadastrado.`}
-        // else {
-        //     const newUser = new User()
-        //     Object.assign(newUser, incomingUser)
-        //     await insertNewUser(newUser)
-        //     ctx.response.status = 201
-        //     ctx.response.body = {message : "Usuário cadastrado!"}
-        // }
     }
     catch (error) {
         console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
