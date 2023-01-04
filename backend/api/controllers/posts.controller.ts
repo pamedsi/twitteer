@@ -1,9 +1,7 @@
 import {client} from './utils/database.ts'
-import {sameDateTweet} from './utils/helperFunctions.ts';
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
 import { ctxModel } from './../models/context.ts';
 import { CreatePostService, IPostRequest } from '../services/createPostService.ts';
-
 
 export const getTweets = async function (ctx: Context) {
     try {
@@ -29,7 +27,7 @@ export const createPost = async function (ctx: Context) {
     }
     catch (error) {
         ctx.response.status = 200
-        ctx.response.body = {message : "Não foi possível twittar!"}
+        ctx.response.body = {message : `Não foi possível twittar! ${(String(error).split('\n')[0]).replace('Error: ', '')}`}
         console.log("Não foi possível twittar.\n", error)
     }
 }

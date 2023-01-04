@@ -3,21 +3,34 @@ import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 import { client } from './database.ts';
 import { User } from "../../models/user.ts";
 import {IUserRequest} from "../../services/createUserService.ts"
+import { Post, postModel } from "../../models/post.ts";
 
 // Úteis
 
-export const sameDateTweet = function (tweetToPostTime: Date , tweetFoundTime: Date ) {
-    // Aqui eu separo as datas do tweet no formato timestamp.
-    // Deixando um array com 3 strings: [ "YYYY", "MM", "DD" ]
-    const [now, postTime] = [tweetToPostTime.toISOString().split('T')[0].split('-'), tweetFoundTime.toISOString().split('T')[0].split('-')]
+export const sameDateTweet = async function (user_id: string, content: string) {
+    const rows = (await client.queryObject(`SELECT * FROM public.posts WHERE post_owner_id='${user_id}' AND content='${content}';`)).rows as postModel[]
+    if (rows.length === 0) return false
+    return rows.some(tweet => {
+        // Aqui eu separo as datas do tweet no formato timestamp.
+        // Deixando um array com 3 strings: [ "YYYY", "MM", "DD" ]
 
-    let sameTime = 0
+        const [now, postFoundTime] = [new Date().toISOString().split('T')[0].split('-'), tweet.created_at.toISOString().split('T')[0].split('-')]
 
-    now.forEach((time, index) => {
-        if (time === postTime[index]) sameTime++
-    })
+        let sameTime = 0
 
-    return sameTime === 3
+        now.forEach((time, index) => {
+            if (time === postFoundTime[index]) sameTime++
+        })
+
+        return sameTime === 3
+    })    
+}
+
+export const insertNewTweet = async function ({post_id, content, created_at, post_owner_id}: Post) {
+    const query = `INSERT INTO public.posts (post_id, content, created_at, post_owner_id) VALUES ('${post_id}', '${content}', '${created_at}', '${post_owner_id}');`
+    // console.log(query)
+    await client.queryObject(query)
+    console.log(`\nInserção no banco de dados feita.\nQuery:\n${query}`)
 }
 
 // Para o controlador de usuários

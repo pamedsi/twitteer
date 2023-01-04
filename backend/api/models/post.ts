@@ -2,14 +2,14 @@ export interface postModel {
     post_id: string,
     post_owner_id: string,
     content: string,
-    created_at: string,
+    created_at: Date,
 }
 
-export class Post implements postModel {
-    post_id: string;
-    post_owner_id: string;
-    content: string;
-    created_at: string;
+export class Post {
+    post_id: string
+    post_owner_id: string
+    content: string
+    created_at: string
 
     constructor(user_id: string, content: string) {
         this.post_id = crypto.randomUUID()
