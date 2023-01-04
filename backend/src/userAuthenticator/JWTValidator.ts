@@ -1,5 +1,5 @@
 import { validate, decode } from "https://deno.land/x/djwt@v2.7/mod.ts";
-import { ctxModel } from './../api/models/context.ts';
+import { ctxModel } from '../models/context.ts';
 
 export const JWTValidator = async function (ctx: ctxModel, next: any) {
     const {headers} = ctx.request

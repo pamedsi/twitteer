@@ -1,5 +1,5 @@
-import {client} from './utils/database.ts'
-import {stringForUpdateUser} from './utils/helperFunctions.ts'
+import {client} from '../database/database.ts'
+import {stringForUpdateUser} from '../utils/helperFunctions.ts'
 import { Context } from 'https://deno.land/x/oak@v10.6.0/mod.ts';
 import { ctxModel } from './../models/context.ts';
 import { CreateUserService, IUserRequest } from '../services/createUserService.ts';

@@ -1,4 +1,4 @@
-import {client} from './utils/database.ts'
+import {client} from '../database/database.ts'
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
 import { followerModel } from './../models/follower.ts';
 

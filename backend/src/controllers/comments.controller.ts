@@ -1,8 +1,8 @@
-import {client} from './utils/database.ts'
-import { sameDateTweet } from './utils/helperFunctions.ts'
+import {client} from '../database/database.ts'
+import { sameDateTweet } from '../utils/helperFunctions.ts'
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
 import { commentModel } from './../models/comment.ts';
-import {userModel} from '../models/user.ts'
+import {User} from '../models/user.ts'
 import { postModel } from './../models/post.ts';
 import { ctxModel } from './../models/context.ts';
 
@@ -24,7 +24,7 @@ export const createComment = async function (ctx: Context) {
     try {
         const comment: commentModel = await ctx.request.body().value
         const {commented_post_id, content, } = comment
-        const {user_id: comment_owner_id}: userModel = ctx.state.user
+        const {user_id: comment_owner_id}: User = ctx.state.user
 
         // Queria conseguir fazer uma query só buscando o mesmo tweet tanto na tabela de comentários quanto
         // na de tweets, mas, quando tentei deu o erro de "ambiguous" por causa das colunas com mesmo nome.

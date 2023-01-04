@@ -1,4 +1,4 @@
-import { insertNewUser, loginRegistered } from "../controllers/utils/helperFunctions.ts";
+import { insertNewUser, loginRegistered } from "../utils/helperFunctions.ts";
 import { User } from "../models/user.ts";
 
 export interface IUserRequest {

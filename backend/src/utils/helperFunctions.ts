@@ -1,9 +1,9 @@
 import { valid } from "https://deno.land/x/validation@v0.4.0/email.ts"
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
-import { client } from './database.ts';
-import { User } from "../../models/user.ts";
-import {IUserRequest} from "../../services/createUserService.ts"
-import { Post, postModel } from "../../models/post.ts";
+import { client } from '../database/database.ts';
+import { User } from "../models/user.ts";
+import {IUserRequest} from "../services/createUserService.ts"
+import { Post, postModel } from "../models/post.ts";
 
 // Úteis
 
