@@ -1,20 +1,19 @@
 import { generateJWT } from "./JWTGenerator.ts";
-import { userExist } from '../utils/helperFunctions.ts'
 import { compare } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 import { ctxModel } from '../models/context.ts'
-import {User} from '../models/user.ts'
+import { userExists } from "../utils/forUsers.ts";
 
 export const login = async function (ctx: ctxModel) {
     const {login, password} = (await ctx.request.body().value)
-    const user  = (await userExist(login)) as User
+    const search  = (await userExists(login))
 
-    if (!user) {
+    if (!search) {
         ctx.response.status = 422
         ctx.response.body = { message:  'Usuário ou senha incorretos!'}
         return
     }
 
-    const {password: passwordHash} = user
+    const {password: passwordHash} = search.userFound
     const passwordMatch = await compare(password, passwordHash)
     if (!passwordMatch) {
         ctx.response.status = 422
@@ -22,8 +21,7 @@ export const login = async function (ctx: ctxModel) {
         return
     }
 
-    const {user_id, full_name} = user
-
+    const {user_id, full_name} = search.userFound
     try {
         const jwt = await generateJWT(user_id, full_name)
         ctx.response.status = 200
