@@ -27,6 +27,9 @@ SELECT * FROM 'nome_da_tabela' WHERE 'nome_da_coluna' like '%j%' -- pega os que 
 SELECT 'nome_da_coluna', 'outro_nome_de_coluna' FROM 'nome_da_tabela' WHERE 'nome_da_outra_coluna' like '%j%' -- pega os que tem j em algum lugar no valor
 -- Vai mostrar tipo, só os cpfs e emails de quem tem j no nome
 
+-- Pesquisar tweets feitos no mesmo dia
+SELECT * FROM public.posts WHERE date_part('day',created_at) = date_part('day', now()) and post_owner_id = 'some-v4-uuid' and "content" = 'tweet-text' LIMIT 1;
+
 -- Auto-generated SQL script #202206261509
 INSERT INTO public.users (full_name,birth_date,email,username,"password")
 	VALUES ('Patrick Abimael Melo da Silva','1999-03-26','patrickabimael@yahoo.com.br','pamedsi','4002');
