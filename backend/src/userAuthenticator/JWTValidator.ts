@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { validate, decode } from "https://deno.land/x/djwt@v2.7/mod.ts";
 import { ctxModel } from '../models/context.ts';
 
