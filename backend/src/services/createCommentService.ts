@@ -1,5 +1,5 @@
 import { Comment } from "../models/comment.ts";
-import { insertNewComment, sameDateTweet } from "../utils/helperFunctions.ts";
+import {sameDateTweet, insertNewComment} from '../utils/forTweets.ts'
 
 
 export interface ICommentRequest {

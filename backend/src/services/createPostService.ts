@@ -1,4 +1,4 @@
-import { insertNewTweet, sameDateTweet } from "../utils/helperFunctions.ts";
+import {sameDateTweet, insertNewTweet} from '../utils/forTweets.ts'
 import { Post } from "../models/post.ts";
 
 export interface IPostRequest {
