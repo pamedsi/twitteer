@@ -1,4 +1,6 @@
 - Procurar como contar os comentários de cada tweet
-- Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql
+- Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql ✅
 - Proibir quem tem menos de 13 anos criar uma conta
 - Refatorar o controlador de usuários para atualizar usuário
+- Resolver o problema de deletar um usuário que twittou ou comentou
+- Criar função de logout
