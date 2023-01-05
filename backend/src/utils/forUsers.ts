@@ -1,17 +1,6 @@
-// Para o controlador de usuários
-
 import { client } from "../database/database.ts";
 import { User } from "../models/user.ts";
 import { IUserRequest } from "../services/createUserService.ts";
-
-export const phoneValid = function (phone: string) {
-  return Boolean(phone.match(/^\+[1-9][0-9]\d{1,14}$/))
-}
-
-// const validProperty =  function (property: string) {
-//   const properties = ['user_id', 'full_name', 'birth_date', 'city', 'phone', 'email', 'username', 'social_name', 'created_at','bio', 'url_on_bio', 'profile_pic', 'cover_pic', ]
-//   return properties.some(key => key === property)
-// }
 
 export const stringForCreateUser = function (user: User) {
 
@@ -91,12 +80,12 @@ export const stringForCreateUser = function (user: User) {
 //   }
 // }
 
-interface querySearch {
-  dataFound: 'phone' | 'email' | 'username'
-  userFound: User
-}
-
 export const userExists = async function (user: IUserRequest)  {
+  interface querySearch {
+    dataFound: 'phone' | 'email' | 'username'
+    userFound: User
+  }
+
   let phone: string | null
   if (!user.phone) phone = null
   else phone = user.phone
