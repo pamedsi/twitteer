@@ -1,5 +1,4 @@
 import {client} from '../database/database.ts'
-import {stringForUpdateUser} from '../utils/helperFunctions.ts'
 import { Context } from 'https://deno.land/x/oak@v10.6.0/mod.ts';
 import { ctxModel } from './../models/context.ts';
 import { CreateUserService, IUserRequest } from '../services/createUserService.ts';
@@ -43,19 +42,19 @@ export const createUser = async function (ctx: Context) {
     }
 }
 
-export const updateUser = async function(ctx: ctxModel) {
-    try {
-        const user = await ctx.request.body().value
-        const changes = await stringForUpdateUser(user)
-        await client.queryObject(`UPDATE public.users SET ${changes} WHERE user_id='${ctx.params.user_id}'`)
-        ctx.response.body = {message : "Atualização feita com sucesso!"}
-        ctx.response.status = 201
-    } catch (error) {
-        console.log(`\nNão foi possível atualizar o usuário!\n`, error)
-        ctx.response.body = {message: "Não foi possível atualizar o usuário"}
-        ctx.response.status = 404
-    }
-}
+// export const updateUser = async function(ctx: ctxModel) {
+//     try {
+//         const user = await ctx.request.body().value
+//         const changes = await stringForUpdateUser(user)
+//         await client.queryObject(`UPDATE public.users SET ${changes} WHERE user_id='${ctx.params.user_id}'`)
+//         ctx.response.body = {message : "Atualização feita com sucesso!"}
+//         ctx.response.status = 201
+//     } catch (error) {
+//         console.log(`\nNão foi possível atualizar o usuário!\n`, error)
+//         ctx.response.body = {message: "Não foi possível atualizar o usuário"}
+//         ctx.response.status = 404
+//     }
+// }
 
 export const removeUser = async function(ctx: ctxModel) {
     try {

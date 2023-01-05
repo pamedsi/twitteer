@@ -1,5 +1,5 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
-import { getUsers, createUser, updateUser, removeUser} from '../controllers/user.controller.ts';
+import { getUsers, createUser, removeUser} from '../controllers/user.controller.ts';
 import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.ts'
 import { createPost, getTweets,removePost } from './../controllers/posts.controller.ts';
 import { getComments, createComment, removeComment } from './../controllers/comments.controller.ts';
@@ -13,7 +13,7 @@ export const router = new Router()
 router.get('/api/users', getUsers) // interna
 router.get('/api/users/:key/:value', getUsers) // interna
 router.post('/api/users', createUser)
-router.put('/api/users/:user_id', JWTValidator, updateUser)
+// router.put('/api/users/:user_id', JWTValidator, updateUser)
 router.delete('/api/users/:user_id', JWTValidator, removeUser)
 
 // Para login
