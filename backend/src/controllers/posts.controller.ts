@@ -1,5 +1,6 @@
-import {client} from '../database/database.ts'
+import { decode } from "https://deno.land/x/djwt@v2.7/mod.ts";
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
+import {client} from '../database/database.ts'
 import { ctxModel } from './../models/context.ts';
 import { CreatePostService, IPostRequest } from '../services/createPostService.ts';
 
@@ -19,7 +20,8 @@ export const getTweets = async function (ctx: Context) {
 export const createPost = async function (ctx: Context) {
     try {
         const {content}: IPostRequest = await ctx.request.body().value
-        const {user_id: post_owner_id} = ctx.state.user
+        const jwt = await ctx.cookies.get('jwt')
+        const post_owner_id = decode(jwt)[1].user_id
         const newTweetService = new CreatePostService(post_owner_id)
         await newTweetService.execute(content)
         ctx.response.status = 201
@@ -27,7 +29,8 @@ export const createPost = async function (ctx: Context) {
     }
     catch (error) {
         ctx.response.status = 200
-        ctx.response.body = {message : `Não foi possível twittar! ${(String(error).split('\n')[0]).replace('Error: ', '')}`}
+        // ctx.response.body = {message : `Não foi possível twittar! ${(String(error).split('\n')[0]).replace('Error: ', '')}`}
+        ctx.response.body = {message: "Não foi possível twittar."}
         console.log("\nNão foi possível twittar.\n", error)
     }
 }
