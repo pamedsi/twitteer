@@ -27,8 +27,10 @@ SELECT * FROM 'nome_da_tabela' WHERE 'nome_da_coluna' like '%j%' -- pega os que 
 SELECT 'nome_da_coluna', 'outro_nome_de_coluna' FROM 'nome_da_tabela' WHERE 'nome_da_outra_coluna' like '%j%' -- pega os que tem j em algum lugar no valor
 -- Vai mostrar tipo, só os cpfs e emails de quem tem j no nome
 
--- Pesquisar tweets feitos no mesmo dia
+-- Pesquisar tweets feitos no mesmo dia (está errado porque só compara o dia, e não checa o mês e o ano)
 SELECT * FROM public.posts WHERE date_part('day',created_at) = date_part('day', now()) and post_owner_id = 'some-v4-uuid' and "content" = 'tweet-text' LIMIT 1;
+-- Agora sim:
+SELECT * FROM public.posts where cast (created_at as DATE) = current_date;
 
 -- Auto-generated SQL script #202206261509
 INSERT INTO public.users (full_name,birth_date,email,username,"password")
