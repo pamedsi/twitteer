@@ -1,14 +1,17 @@
 🔴
 
   - Procurar como contar os comentários de cada tweet
+  - Remover os espaços no começo e no final da string dos tweets
+  - Resolver o problema de deletar um usuário que twittou ou comentou
   - Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql ✅
   - Proibir quem tem menos de 13 anos criar uma conta
     Resolver o bug de quem muda a idade pra menos de 13 anos
-    Resolver o bug de atualizar informação igual a que já está no banco de dados
-  - Refatorar o controlador de usuários para atualizar usuário
-  - Resolver o problema de deletar um usuário que twittou ou comentou
-  - Criar função de logout
-  - Remover os espaços no começo e no final da string dos tweets
+    -- Acho que vou criar uma propriedade chamada "active" que vai salvar um booleano do usuário
+    -- Se o usuário mudar a data pra menor de 13 anos, ele vai ser inativado
+    Resolver o bug de atualizar informação igual a que já está no banco de dados ✅
+  - Refatorar o controlador de usuários para atualizar usuário ✅
+  - Criar função de logout ✅
+
 
 🔵
 
