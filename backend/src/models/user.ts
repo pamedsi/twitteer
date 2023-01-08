@@ -1,4 +1,4 @@
-import { IUserRequest } from "../services/createUserService.ts";
+import { IUserRequest } from "../services/users/createUserService.ts";
 
 export interface userProperty {
     key: 'user_id' | 'full_name'| 'birth_date'| 'city'| 'phone'| 'email'| 'username'| 'social_name'| 'created_at' |'bio'| 'url_on_bio'| 'profile_pic'| 'cover_pic'
