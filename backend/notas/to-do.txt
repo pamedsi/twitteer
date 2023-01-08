@@ -1,6 +1,17 @@
-- Procurar como contar os comentários de cada tweet
-- Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql ✅
-- Proibir quem tem menos de 13 anos criar uma conta
-- Refatorar o controlador de usuários para atualizar usuário
-- Resolver o problema de deletar um usuário que twittou ou comentou
-- Criar função de logout
+🔴
+
+  - Procurar como contar os comentários de cada tweet
+  - Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql ✅
+  - Proibir quem tem menos de 13 anos criar uma conta
+    Resolver o bug de quem muda a idade pra menos de 13 anos
+    Resolver o bug de atualizar informação igual a que já está no banco de dados
+  - Refatorar o controlador de usuários para atualizar usuário
+  - Resolver o problema de deletar um usuário que twittou ou comentou
+  - Criar função de logout
+  - Remover os espaços no começo e no final da string dos tweets
+
+🔵
+
+  - Corrigir o bug de tipagem na indexação dos objetos. (função de verificar se a atualização de dados envia dados já cadastrados do usuário) Função: dataAlreadyRegistered
+  - Corrigir o bug dos argumentos na validação de email e número de telefone, na função userExist.
+  - Corrigir o erro da tipagem do argumento do decode, na função createPost
