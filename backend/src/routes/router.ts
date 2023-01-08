@@ -1,10 +1,12 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
-import { getUsers, createUser, removeUser} from '../controllers/user.controller.ts';
+import { getUsers, createUser, removeUser, updateUser} from '../controllers/user.controller.ts';
 import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.ts'
 import { createPost, getTweets,removePost } from './../controllers/posts.controller.ts';
 import { getComments, createComment, removeComment } from './../controllers/comments.controller.ts';
 import { login } from './../userAuthenticator/login.ts';
 import { JWTValidator } from './../userAuthenticator/JWTValidator.ts';
+import { homePage, isLogged } from "../utils/helperFunctions.ts";
+import { logout } from "../userAuthenticator/logout.ts";
 
 export const router = new Router()
 
@@ -13,12 +15,14 @@ export const router = new Router()
 router.get('/api/users', getUsers) // interna
 router.get('/api/users/:key/:value', getUsers) // interna
 router.post('/api/users', createUser)
-// router.put('/api/users/:user_id', JWTValidator, updateUser)
+router.put('/api/users/:user_id', JWTValidator, updateUser)
 router.delete('/api/users/:user_id', JWTValidator, removeUser)
 
 // Para login
 
 router.post('/login', login)
+router.get('/logout', logout)
+router.get('/', isLogged, homePage)
 
 // Para seguir e deixar de seguir:
 
