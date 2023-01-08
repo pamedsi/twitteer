@@ -16,11 +16,11 @@ export const insertNewComment  = async function({comment_id, comment_owner_id, c
 }
 
 export const sameDateTweet = async function (user_id: string, content: string){
-    const queryForTweets = `SELECT * FROM public.posts WHERE date_part('day',created_at) = date_part('day', now()) and post_owner_id = '${user_id}' and "content" = '${content}' LIMIT 1;`
-    const queryForComments = `SELECT * FROM public.comments WHERE date_part('day',created_at) = date_part('day', now()) and comment_owner_id = '${user_id}' and "content" = '${content}' LIMIT 1;`
+    const queryForTweets = `SELECT * FROM public.posts where cast (created_at as DATE) = current_date and post_owner_id = '${user_id}' and "content" = '${content}' LIMIT 1;`
+    const queryForComments = `SELECT * FROM public.comments where cast (created_at as DATE) = current_date and comment_owner_id = '${user_id}' and "content" = '${content}' LIMIT 1;`
 
     const {rows: tweets} = (await client.queryObject <postModel> (queryForTweets))
     const {rows: comments} = (await client.queryObject <commentModel> (queryForComments))
     
-    return tweets.length !== 0 || comments.length !== 0
+    return tweets.length || comments.length
 }
