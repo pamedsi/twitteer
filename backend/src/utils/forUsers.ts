@@ -162,3 +162,18 @@ export const errorMessageForSameData = function (object: User) {
 
   return keys
 }
+
+export const validateDate = function (birthDate: string | Date) {
+  interface validity {
+    valid: boolean,
+    error?: string
+  }
+  
+  const [date, month, year] = String(birthDate).split('/')
+  birthDate = new Date(`${year}-${month}-${date}`)
+  if (String(birthDate) === 'Invalid Date') return {valid: false, error: 'Data inválida!'} as validity
+    // Vi a conversão de milissegundos para anos no site: https://www.kylesconverter.com/time/years-to-milliseconds
+  const age = (Number(new Date()) - Number(birthDate)) / 31556952000
+  if (age < 13) return {valid: false, error: 'Idade insuficiente!'}
+  return {valid: true}
+}

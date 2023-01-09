@@ -1,6 +1,6 @@
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
 import { User } from "../../models/user.ts";
-import { availableData, insertNewUser, userExists } from "../../utils/forUsers.ts";
+import { availableData, insertNewUser, validateDate } from "../../utils/forUsers.ts";
 
 export interface IUserRequest {
 	full_name: string;
@@ -23,8 +23,10 @@ export class CreateUserService {
     const {email, username} = incomingUser;
     if (!email) throw new Error("Email necessário!");
     if (!username) throw new Error("Nome de usuário necessário!")
-    if (!available) throw new Error(`Não foi possível cadastrar o usuário, ${data} já cadastrado.`);
-
+    if (!available) throw new Error(`${data} já cadastrado!`);
+    const {valid, error} = validateDate(incomingUser.birth_date)
+    if(!valid) throw new Error(error);
+    
     const newUser = new User(incomingUser)
     newUser.password = await hash(newUser.password)
     console.log('\n', newUser)
