@@ -21,7 +21,7 @@ export class User {
     cover_pic?: string;
 
     constructor({full_name, birth_date, email, username, password}: IUserRequest) {
-        this.full_name = full_name; this.birth_date = birth_date; this.email = email; this.username = username; this.password = password;
+        this.full_name = full_name.trim(); this.birth_date = birth_date.trim(); this.email = email.trim(); this.username = username.trim(); this.password = password;
         this.user_id = crypto.randomUUID()
         this.created_at = new Date().toISOString()
     }

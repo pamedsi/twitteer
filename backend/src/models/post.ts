@@ -14,7 +14,7 @@ export class Post {
     constructor(user_id: string, content: string) {
         this.post_id = crypto.randomUUID()
         this.post_owner_id = user_id
-        this.content = content
+        this.content = content.trim()
         this.created_at = new Date().toISOString()
     }
 }
