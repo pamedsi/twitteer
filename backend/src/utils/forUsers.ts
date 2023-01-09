@@ -2,7 +2,7 @@ import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
 import isEmail from 'https://deno.land/x/deno_validator/lib/isEmail.ts';
 import { isMobilePhone } from "https://deno.land/x/deno_validator@v0.0.5/mod.ts";
 import { client } from "../database/database.ts";
-import { ILoginRequest } from "../models/loginRequest.ts";
+import { querySearch } from "../models/queryResult.ts";
 import { User } from "../models/user.ts";
 import { IUserRequest } from "../services/users/createUserService.ts";
 import { sizeof } from "./helperFunctions.ts";
@@ -74,12 +74,8 @@ export const stringForUpdateUser = async function (user: IUserRequest) {
 }
 
 export const userExists = async function (login: string)  {
-  interface querySearch {
-    dataFound: 'phone' | 'email' | 'username'
-    userFound: User
-  }
 
-  let kindOfLogin = ''
+  let kindOfLogin: string
 
   if (isEmail(login)) kindOfLogin = 'email'
   else if (isMobilePhone(login)) kindOfLogin = 'phone'
@@ -89,6 +85,26 @@ export const userExists = async function (login: string)  {
   if (result.length) return {dataFound: kindOfLogin, userFound: result[0]} as querySearch
 
   return false
+}
+
+export const availableData = async function (user: IUserRequest){
+  interface availability {
+    available: boolean,
+    data?: 'email' | 'username' | 'phone'
+  }
+  
+  const {email, username, phone} = user;
+  const logins = [email, username, phone]
+  let exists: false | querySearch
+
+  for (let index = 0; index < logins.length; index++) {
+    const login = logins[index];
+    exists = await userExists(String(login))
+    if (!exists) continue
+    return {available: false, data: exists.dataFound} as availability
+  }
+
+  return {available: true} as availability
 }
 
 export const insertNewUser = async function (user: User) {
