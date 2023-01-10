@@ -1,5 +1,5 @@
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
-import isEmail from 'https://deno.land/x/deno_validator/lib/isEmail.ts';
+import isEmail from "https://deno.land/x/deno_validator@v0.0.5/lib/isEmail.ts";
 import { isMobilePhone } from "https://deno.land/x/deno_validator@v0.0.5/mod.ts";
 import { client } from "../database/database.ts";
 import { querySearch } from "../models/queryResult.ts";
@@ -43,31 +43,31 @@ export const stringForCreateUser = function (user: User) {
   return [keys, values]
 }
 
+const validProperty = function (key: string) {
+  // Essas são as propriedades do usuário que podem ser alteradas por ele.
+  const properties = ['full_name', 'birth_date', 'city', 'phone', 'email', 'username', 'social_name','bio', 'url_on_bio', 'profile_pic', 'cover_pic']
+
+  return properties.some(property => property === key)
+}
+
 export const stringForUpdateUser = async function (user: IUserRequest) {
-
-  const validProperty = function (key: string) {
-    // Essas são as propriedades do usuário que podem ser alteradas por ele.
-    const properties = ['full_name', 'birth_date', 'city', 'phone', 'email', 'username', 'social_name','bio', 'url_on_bio', 'profile_pic', 'cover_pic']
-
-    return properties.some(property => property === key)
-  }
 
   let [changes, first] = ['', true]
 
   for (const key in user) {
       if (key === 'password' && first) {
-          changes += `"${key}"='${await hash(user[key])}'`
+          changes += `"${key}" = '${await hash(user[key])}'`
       }
       else if (key === 'password') {
-          changes += `,"${key}"='${await hash(user[key])}'`
+          changes += `, "${key}" = '${await hash(user[key])}'`
       }
       else if (first && validProperty(key)) {
-          changes += `${key}='${user[key as keyof IUserRequest]}'`
+          changes += `${key} = '${user[key as keyof IUserRequest]}'`
       }
       else if (validProperty(key)){
-          changes += `,${key}='${user[key as keyof IUserRequest]}'`
+          changes += `, ${key} = '${user[key as keyof IUserRequest]}'`
       }
-      first = false
+      if (changes !== '') first = false
   }
 
   return changes
@@ -116,7 +116,7 @@ export const insertNewUser = async function (user: User) {
 
 export const updateUserQuery = async function (user: IUserRequest, user_id: string) {
   const changes = await stringForUpdateUser(user)
-  const query = `UPDATE public.users SET ${changes} WHERE user_id='${user_id}'`
+  const query = `UPDATE public.users SET ${changes} WHERE user_id = '${user_id}'`
   await client.queryObject(query)
   console.log(`\nAtualização feita.\nQuery:\n${query}`)
 }
@@ -129,19 +129,18 @@ export const dataAlreadyRegistered = async function (user_id: string, updates: I
 
   const query = `SELECT * FROM public.users WHERE user_id = '${user_id}' LIMIT 1;`
   const oldData = (await client.queryObject<User>(query)).rows[0]
-  const [sameData, newData]  = [{} as User, {} as User]
-  
+  const [sameData, newData]  = [{} as IUserRequest, {} as IUserRequest]
+    
     for (const key1 in oldData) {
       if (Object.prototype.hasOwnProperty.call(oldData, key1)) {
         for (const key2 in updates) {
           if (Object.prototype.hasOwnProperty.call(updates, key2)) {
-            if (key1 === key2 && oldData[key1 as keyof User] === updates[key2 as keyof IUserRequest]) sameData[key1] = oldData[key1 as keyof User]
-            else newData[key2] = updates[key2 as keyof IUserRequest]
+            if (key1 === key2 && oldData[key1 as keyof User] === updates[key2 as keyof IUserRequest] && validProperty(key1)) sameData[key1 as keyof IUserRequest] = String(oldData[key1 as keyof User])
+            else if (validProperty(key1) && key1 === key2) newData[key2 as keyof IUserRequest] = String(updates[key2 as keyof IUserRequest])
           }
         }
       }
     }
-  
     return {sameData, newData} as repetiions
 }
 
