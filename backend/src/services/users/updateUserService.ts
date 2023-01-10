@@ -13,7 +13,7 @@ export class UpdateUserService {
 
     else if (lenghtOfNew) {
       await updateUserQuery(newData, user_id)
-      const message = `Algumas atualizações foram feitas, mas os seguites dados já estavam cadastrados: ${errorMessageForSameData(sameData)} então foram descartados.`
+      const message = `Algumas atualizações foram feitas, mas os seguites dados já estavam cadastrados: ${errorMessageForSameData(sameData)}então foram descartados.`
       console.error(message)
       // throw new Error(message)  
     }
