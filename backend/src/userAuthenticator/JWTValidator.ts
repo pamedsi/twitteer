@@ -18,7 +18,7 @@ export const JWTValidator = async function (ctx: ctxModel, next: any) {
         }
 
         if (validate(decode(jwt))) {
-            ctx.state.user = await decode(jwt)[1]
+            // ctx.state.user = await decode(jwt)[1]
             await next()
             return
         }
