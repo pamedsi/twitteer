@@ -15,7 +15,7 @@ export const router = new Router()
 router.get('/api/users', getUsers) // interna
 router.get('/api/users/:key/:value', getUsers) // interna
 router.post('/api/users', createUser)
-router.put('/api/users/:user_id', JWTValidator, updateUser)
+router.put('/api/users/:user_id', updateUser)
 router.delete('/api/users/:user_id', JWTValidator, removeUser)
 
 // Para login
