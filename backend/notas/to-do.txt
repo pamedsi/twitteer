@@ -10,9 +10,10 @@
   - Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql ✅
   - Remover os espaços no começo e no final da string dos tweets✅
   - Proibir quem tem menos de 13 anos criar uma conta✅
+  - Validar email e telefone ✅
 
 🔵 Rabiscos de erro do Deno
 
-  - Corrigir o bug de tipagem na indexação dos objetos. (função de verificar se a atualização de dados envia dados já cadastrados do usuário) Função: dataAlreadyRegistered
   - Corrigir o bug dos argumentos na validação de email e número de telefone, na função userExist.
-  - Corrigir o erro da tipagem do argumento do decode, na função createPost
+  - Corrigir o bug de tipagem na indexação dos objetos. (função de verificar se a atualização de dados envia dados já cadastrados do usuário) Função: dataAlreadyRegistered ✅
+  - Corrigir o erro da tipagem do argumento do decode, na função createPost ✅
