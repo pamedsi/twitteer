@@ -4,6 +4,9 @@
     Resolver o bug de quem muda a idade pra menos de 13 anos
     -- Acho que vou criar uma propriedade chamada "active" que vai salvar um booleano do usuário
     -- Se o usuário mudar a data pra menor de 13 anos, ele vai ser inativado
+  - Validar telefone e email ao atualizar usuário
+  - Verificar se o email, username e phone já está cadastrado ao atualizar o usuário
+
     Resolver o bug de atualizar informação igual a que já está no banco de dados ✅
   - Refatorar o controlador de usuários para atualizar usuário ✅
   - Criar função de logout ✅
