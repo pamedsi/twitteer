@@ -19,7 +19,7 @@ export class Comment {
         this.comment_id = crypto.randomUUID()
         this.comment_owner_id = comment_owner_id
         this.commented_post_id = commented_post_id
-        this.content = content
+        this.content = content.trim()
         this.created_at = new Date().toISOString()
     }
 }
