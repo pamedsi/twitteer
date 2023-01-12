@@ -12,6 +12,8 @@ ALTER TABLE public.perfis RENAME COLUMN url_da_bio TO url_na_bio;
 
 ALTER TABLE public.users ALTER COLUMN email SET NOT NULL;
 
+ALTER TABLE public.users ADD active boolean NOT null default true;
+
 create EXTENSION if not exists "uuid-ossp";
 
 CREATE TABLE "public.questions" (
