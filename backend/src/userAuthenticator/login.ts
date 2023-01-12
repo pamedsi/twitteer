@@ -1,8 +1,8 @@
 import { generateJWT } from "./JWTGenerator.ts";
 import { compare } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts"
 import { ctxModel } from '../models/context.ts'
-import { userExists } from "../utils/forUsers.ts";
 import { ILoginRequest } from "../models/loginRequest.ts";
+import { userExists } from "../utils/helperFunctions.ts";
 
 export const login = async function (ctx: ctxModel) {
     const {login, password}: ILoginRequest = (await ctx.request.body().value)
