@@ -3,6 +3,8 @@ import { Context } from 'https://deno.land/x/oak@v10.6.0/mod.ts';
 import { ctxModel } from './../models/context.ts';
 import { CreateUserService, IUserRequest } from '../services/users/createUserService.ts';
 import { UpdateUserService } from '../services/users/updateUserService.ts';
+import { DeleteUserService } from '../services/users/deleteUserService.ts';
+import { ReactivateUserService } from "../services/users/reactivateUserService.ts";
 
 export const getUsers = async function (ctx: ctxModel) {
     try {
@@ -61,13 +63,32 @@ export const updateUser = async function(ctx: ctxModel) {
 
 export const removeUser = async function(ctx: ctxModel) {
     try {
-        await client.queryObject(`DELETE FROM public.users WHERE user_id='${ctx.params.user_id}'`)
-        ctx.response.status = 200
+        const user_id = String(ctx.params.user_id)
+        const deleteUserService = new DeleteUserService()
+        await deleteUserService.execute(user_id)
+        ctx.response.status = 201
         ctx.response.body = {message: "Usuário exluído com sucesso!"}
     }
     catch (error) {
         ctx.response.body = {message: "Não foi possível deletar o usuário"}
         ctx.response.status = 200
         console.log(`Não foi possível deletar o usuário.\n`, error)
+    }
+}
+
+export const reactivateUser = async function (ctx: ctxModel) {
+    try {
+        const user_id = String(ctx.params.user_id)
+        const reactivateUserService = new ReactivateUserService()
+        const {successful, error} = await reactivateUserService.execute(user_id)
+        if (!successful) throw new Error(error);
+        ctx.response.status = 201
+        ctx.response.body = {message: "Usuário reativado com sucesso!"}
+    }
+
+    catch (error) {
+        ctx.response.body = {message: "Não foi possível reativar o usuário"}
+        ctx.response.status = 200
+        console.log(`Não foi possível reativar o usuário.\n`, error)
     }
 }
