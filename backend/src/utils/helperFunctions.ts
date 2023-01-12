@@ -1,16 +1,13 @@
 // deno-lint-ignore-file
 import { validate, decode } from "https://deno.land/x/djwt@v2.7/mod.ts";
+import isEmail from "https://deno.land/x/deno_validator@v0.0.5/lib/isEmail.ts";
+import { isMobilePhone } from "https://deno.land/x/deno_validator@v0.0.5/mod.ts";
+
 import { ctxModel } from "../models/context.ts"
+import { querySearch } from "../models/queryResult.ts";
+import { client } from "../database/database.ts"
+import { User } from "../models/user.ts";
 
-export const sizeof = function (object: {}) {
-  let length = 0
-
-  for (const key in object) {
-    if (Object.prototype.hasOwnProperty.call(object, key)) length++
-  }
-
-  return length
-}
 
 export const homePage = function (ctx: ctxModel){
   ctx.response.body = {message: "Bem vindo!"}
@@ -26,8 +23,22 @@ export const isLogged = async function (ctx: ctxModel, next: any) {
     if (validate(decode(jwt))) await next()
     else ctx.response.redirect('/login')
   } catch (error) {
-    console.log("Não foi possível efetuar logout.\n", error)
-    ctx.response.body = {message: "Não foi possível efetuar logout."}
+    console.log(error)
+    ctx.response.body = {message: "Ocorreu um erro."}
   }
 
+}
+
+export const userExists = async function (login: string)  {
+
+  let kindOfLogin: string
+
+  if (isEmail(login)) kindOfLogin = 'email'
+  else if (isMobilePhone(login)) kindOfLogin = 'phone'
+  else kindOfLogin = 'username'
+
+  const {rows: result} = (await client.queryObject<User>(`SELECT * FROM public.users WHERE ${kindOfLogin}='${login}' LIMIT 1;`))
+  if (result.length) return {dataFound: kindOfLogin, userFound: result[0]} as querySearch
+
+  return false
 }
