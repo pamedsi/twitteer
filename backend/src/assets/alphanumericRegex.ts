@@ -1,0 +1,1 @@
+export const alphaumericRegex = /[A-Z]|[0-9]/gi
