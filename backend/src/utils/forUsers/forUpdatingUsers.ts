@@ -1,5 +1,5 @@
 import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
-import { validProperty } from "./utils.ts";
+import { validProperty } from "./validators.ts";
 import {IUpdateUserRequest} from "../../services/users/updateUserService.ts"
 import { client } from "../../database/database.ts";
 import { User } from "../../models/user.ts";
