@@ -4,7 +4,7 @@ import { uppercaseRegex, lowercaseRegex, numbersRegex, symbolsRegex } from "../.
 
 export const validProperty = function (key: string) {
   // Essas são as propriedades do usuário que podem ser alteradas por ele.
-  const properties = ['full_name', 'birth_date', 'city', 'phone', 'email', 'username', 'social_name','bio', 'url_on_bio', 'profile_pic', 'cover_pic']
+  const properties = ['display_name', 'birth_date', 'location', 'phone', 'email', 'username', 'social_name','bio', 'url_on_bio', 'profile_pic', 'cover_pic']
 
   return properties.some(property => property === key)
 }
@@ -41,19 +41,19 @@ export const validPassword = function (password: string) {
   return {isValidPassword: true} as validityOfPassword
 }
 
-export const validateDate = function (birthDate: string | Date, when: string | Date = new Date()) {
+export const validDate = function (birthDate: string | Date, when: string | Date = new Date()) {
   interface validity {
-    valid: boolean,
+    isValidDate: boolean,
     error?: string
   }
   
   const [date, month, year] = String(birthDate).split('/')
   birthDate = new Date(`${year}-${month}-${date}`)
-  if (String(birthDate) === 'Invalid Date') return {valid: false, error: 'Data inválida!'} as validity
+  if (String(birthDate) === 'Invalid Date') return {isValidDate: false, error: 'Data inválida!'} as validity
     // Vi a conversão de milissegundos para anos no site: https://www.kylesconverter.com/time/years-to-milliseconds
   const age = (Number(when) - Number(birthDate)) / 31556952000
-  if (age < 13) return {valid: false, error: 'Idade insuficiente!'}
-  return {valid: true}
+  if (age < 13) return {isValidDate: false, error: 'Idade insuficiente!'} as validity
+  return {isValidDate: true}
 }
 
 export const validDisplayName = function (displayName: string) {

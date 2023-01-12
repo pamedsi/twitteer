@@ -35,7 +35,7 @@ SELECT * FROM public.posts WHERE date_part('day',created_at) = date_part('day', 
 SELECT * FROM public.posts where cast (created_at as DATE) = current_date;
 
 -- Auto-generated SQL script #202206261509
-INSERT INTO public.users (full_name,birth_date,email,username,"password")
+INSERT INTO public.users (display_name,birth_date,email,username,"password")
 	VALUES ('Patrick Abimael Melo da Silva','1999-03-26','patrickabimael@yahoo.com.br','pamedsi','4002');
 
 -- Auto-generated SQL script #202206261527
@@ -43,7 +43,7 @@ DELETE FROM public.users
 	WHERE user_id='693e9129-bf0a-4dc6-b1bc-729b5c68b1c1'::uuid::uuid;
 
 UPDATE public.users
-	SET full_name='José Arnaldo',birth_date='2000-03-26',"password"='8922'
+	SET display_name='José Arnaldo',birth_date='2000-03-26',"password"='8922'
 	WHERE user_id='109c9815-73a9-4255-9b96-51658c30500b'::uuid::uuid;
 
 UPDATE 'cadastro', 'gafanhotos' set 'cursopreferido' = '22' where 'id' = '2';

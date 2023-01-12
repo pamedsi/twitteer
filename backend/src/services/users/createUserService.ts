@@ -3,17 +3,18 @@ import isEmail from "https://deno.land/x/deno_validator@v0.0.5/lib/isEmail.ts";
 import { isMobilePhone } from "https://deno.land/x/deno_validator@v0.0.5/mod.ts";
 import { User } from "../../models/user.ts";
 import { insertNewUser } from "../../utils/forUsers/forCreatingUsers.ts";
-import { availableData, validateDate, validPassword, validUsername } from "../../utils/forUsers/utils.ts";
+import { availableData } from "../../utils/forUsers/utils.ts";
+import { validDate, validDisplayName, validPassword, validUsername } from "../../utils/forUsers/validators.ts"
+import {is_uri} from "npm: valid-url"
 
 export interface IUserRequest {
-	full_name: string;
+	display_name: string;
   birth_date: string;
-  city?: string;
+  location?: string;
   phone?: string;
   email: string;
   username: string;
   password: string;
-  social_name?: string;
   bio?: string;
   url_on_bio?: string;
   profile_pic?: string;
@@ -22,9 +23,9 @@ export interface IUserRequest {
 
 export class CreateUserService {
   async execute(incomingUser: IUserRequest){
-    const {email, username, phone, password, birth_date} = incomingUser;
-    // Validando as propriedades que não podem se repetir: "email", "username" e "phone"
+    const {email, username, phone, password, birth_date, display_name, url_on_bio, bio} = incomingUser;
     
+    // Validando as propriedades que não podem se repetir: "email", "username" e "phone"
     if (!isEmail(email)) throw new Error("Email inválido")
     const {isValidUsername, reason} = validUsername(username)
     if(!isValidUsername) throw new Error(reason);
@@ -33,14 +34,25 @@ export class CreateUserService {
     const {available, data} = await availableData(incomingUser)
     if (!available) throw new Error(`${data} já cadastrado!`);
 
-    // Validando data de nascimento:
-    const {valid, error} = validateDate(birth_date)
-    if(!valid) throw new Error(error)
+    // Validando nome de usuário:
+    const {isValidName, problem} = validDisplayName(display_name)
+    if (!isValidName) throw new Error(problem);
 
-    // Por último, a senha:
+    // Validando a senha:
     const {isValidPassword, missing} = validPassword(password)
-    if(!isValidPassword) throw new Error(`Senha inválida! Precisa de ${missing}.`)    
+    if(!isValidPassword) throw new Error(`Senha inválida! Precisa de ${missing}.`)
 
+    // Validando data de nascimento:
+    const {isValidDate, error} = validDate(birth_date)
+    if(!isValidDate) throw new Error(error)
+
+    // Verificando a URL na bio:
+    if (url_on_bio) {
+      if(!is_uri(url_on_bio)) throw new Error("URL da bio inválida!");
+    }
+
+    if(bio && bio.length > 160) throw new Error("Bio muito longa! Utilize no máximo 160 caracteres.");
+    
     const newUser = new User(incomingUser)
     newUser.password = await hash(newUser.password)
     console.log('\n', newUser)

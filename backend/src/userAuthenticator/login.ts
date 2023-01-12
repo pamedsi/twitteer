@@ -22,16 +22,16 @@ export const login = async function (ctx: ctxModel) {
         return
     }
 
-    const {user_id, full_name} = search.userFound
+    const {user_id, display_name} = search.userFound
     // Esse if foi só para tirar o rabisco de erro em "user_id", na linha 28
     if (!user_id) throw new Error("ID de usuário inválido!"); 
     
     try {
-        const jwt = await generateJWT(user_id, full_name)
+        const jwt = await generateJWT(user_id, display_name)
         await ctx.cookies.set('jwt', jwt)
         ctx.response.status = 200
-        ctx.response.body = {message: `Você está on, ${full_name.split(' ')[0]}`}
-        // ctx.response.body = { user_id, full_name, jwt }
+        ctx.response.body = {message: `Você está on, ${display_name.split(' ')[0]}`}
+        // ctx.response.body = { user_id, display_name, jwt }
         }
 
     catch (error) {
