@@ -1,6 +1,6 @@
 import { prohibitedWords } from "../../assets/prohibitedWords.ts";
 import { regexForUsername } from "../../assets/usernameRegex.ts";
-import { lowercase, symbols, numbers, uppercase } from "../../assets/validPassword.ts";
+import { uppercaseRegex, lowercaseRegex, numbersRegex, symbolsRegex } from "../../assets/validPassword.ts";
 import { querySearch } from "../../models/queryResult.ts";
 import { userExists } from "../helperFunctions.ts";
 import {INonRepeatableData} from '../../models/nonRepeatableData.ts'
@@ -12,22 +12,34 @@ export const validProperty = function (key: string) {
   return properties.some(property => property === key)
 }
 
-export const validRegexUsername = function (username: string): boolean {
-  return Boolean(username.match(regexForUsername)) && !username.match(prohibitedWords)
+export const validUsername = function (username: string) {
+  
+  interface validityOfUsername {
+    isValidUsername: boolean
+    reason?: string
+  }
+
+  const invalidCharacters = 'Caracteres inválidos!'
+  const notAllowedWords = 'Não é permitido usar as palavras "Twitter" ou "Admin", tente novamente com outra!'
+
+  if (!username.match(regexForUsername)) return {isValidUsername: false, reason: invalidCharacters} as validityOfUsername
+  if (username.match(prohibitedWords)) return {isValidUsername: false, reason: notAllowedWords} as validityOfUsername
+  return {isValidUsername: true} as validityOfUsername
 }
 
 export const validPassword = function (password: string) {
+  const [moreCharacters, uppercase, lowercase, numbers, symbols] = ['pelo menos 10 caracteres!', 'pelo menos uma letra maiúscula', 'pelo menos uma letra minúscula', 'pelo menos um número', 'pelo menos um símbolo. (!@#$%)']
   interface validityOfPassword {
-    valid: boolean
-    missing?:  'moreCharacters' | 'uppercase' | 'lowercase' | 'numbers' | 'symbols'
+    isValidPassword: boolean
+    missing?: string
   }
   
-  if (password.length < 10) return {valid: false, missing: 'moreCharacters'} as validityOfPassword
-  if (!password.match(uppercase)) return {valid: false, missing: 'uppercase'} as validityOfPassword
-  if (!password.match(lowercase)) return {valid: false, missing: 'lowercase'} as validityOfPassword
-  if (!password.match(numbers)) return {valid: false, missing: 'numbers'} as validityOfPassword
-  if (!password.match(symbols)) return {valid: false, missing: 'symbols'} as validityOfPassword
-  return {valid: true} as validityOfPassword
+  if (password.length < 10) return {isValidPassword: false, missing: moreCharacters} as validityOfPassword
+  if (!password.match(uppercaseRegex)) return {isValidPassword: false, missing: uppercase} as validityOfPassword
+  if (!password.match(lowercaseRegex)) return {isValidPassword: false, missing: lowercase} as validityOfPassword
+  if (!password.match(numbersRegex)) return {isValidPassword: false, missing: numbers} as validityOfPassword
+  if (!password.match(symbolsRegex)) return {isValidPassword: false, missing: symbols} as validityOfPassword
+  return {isValidPassword: true} as validityOfPassword
 }
 
 export const validateDate = function (birthDate: string | Date, when: string | Date = new Date()) {
