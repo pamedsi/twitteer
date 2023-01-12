@@ -1,1 +1,1 @@
-export const prohibitedWords = /^(twitter|admin)$/gi
+export const prohibitedWordsRegex = /^(twitter|admin)$/gi
