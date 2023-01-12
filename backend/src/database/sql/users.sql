@@ -1,5 +1,6 @@
 CREATE TABLE public.users (
 	user_id uuid not null primary key,
+    active boolean not null default true,
     -- user_id uuid not null default uuid_generate_v4() primary key,
     full_name varchar NOT NULL,
     birth_date date NOT NULL ,
