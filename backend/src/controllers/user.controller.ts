@@ -80,8 +80,7 @@ export const reactivateUser = async function (ctx: ctxModel) {
     try {
         const user_id = String(ctx.params.user_id)
         const reactivateUserService = new ReactivateUserService()
-        const {successful, error} = await reactivateUserService.execute(user_id)
-        if (!successful) throw new Error(error);
+        await reactivateUserService.execute(user_id)
         ctx.response.status = 201
         ctx.response.body = {message: "Usuário reativado com sucesso!"}
     }
@@ -89,6 +88,6 @@ export const reactivateUser = async function (ctx: ctxModel) {
     catch (error) {
         ctx.response.body = {message: "Não foi possível reativar o usuário"}
         ctx.response.status = 200
-        console.log(`Não foi possível reativar o usuário.\n`, error)
+        console.log(`\nNão foi possível reativar o usuário.\n`, error)
     }
 }
