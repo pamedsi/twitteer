@@ -22,7 +22,7 @@ router.delete('/api/users/:user_id', removeUser)
 // Para login
 
 router.post('/login', login)
-router.get('/logout', logout)
+router.post('/logout', logout)
 router.get('/', isLogged, homePage)
 
 // Para seguir e deixar de seguir:
