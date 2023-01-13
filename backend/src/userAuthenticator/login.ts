@@ -21,10 +21,7 @@ export const login = async function (ctx: ctxModel) {
         ctx.response.body = { message:  'Usuário ou senha incorretos!'}
         return
     }
-
     const {user_id, display_name} = search.userFound
-    // Esse if foi só para tirar o rabisco de erro em "user_id", na linha 28
-    if (!user_id) throw new Error("ID de usuário inválido!"); 
     
     try {
         const jwt = await generateJWT(user_id, display_name)
