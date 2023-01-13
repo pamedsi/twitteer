@@ -17,6 +17,12 @@ alter table public.comments add deleted boolean not null default false;
 alter table public.tweets add deleted boolean not null default false;
 ALTER TABLE public.posts RENAME TO tweets;
 
+ALTER TABLE public.tweets ADD FOREIGN KEY (tweet_owner_id) REFERENCES public.users(user_id);
+ALTER TABLE public.comments ADD FOREIGN KEY (comment_owner_id) REFERENCES public.users(user_id);
+ALTER TABLE public.comments ADD FOREIGN KEY (commented_tweet_id) REFERENCES public.tweets(tweet_id);
+ALTER TABLE public.followers ADD FOREIGN KEY (followed_id) REFERENCES public.users(user_id);
+ALTER TABLE public.followers ADD FOREIGN KEY (following_id) REFERENCES public.users(user_id);
+
 create EXTENSION if not exists "uuid-ossp";
 
 CREATE TABLE "public.questions" (
@@ -50,3 +56,4 @@ UPDATE public.users
 	WHERE user_id='109c9815-73a9-4255-9b96-51658c30500b'::uuid::uuid;
 
 UPDATE 'cadastro', 'gafanhotos' set 'cursopreferido' = '22' where 'id' = '2';
+
