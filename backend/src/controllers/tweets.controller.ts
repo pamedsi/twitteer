@@ -33,7 +33,6 @@ export const createTweet = async function (ctx: Context) {
     }
     catch (error) {
         ctx.response.status = 200
-        // ctx.response.body = {message : `Não foi possível twittar! ${(String(error).split('\n')[0]).replace('Error: ', '')}`}
         ctx.response.body = {message: "Não foi possível twittar."}
         console.log("\nNão foi possível twittar.\n", error)
     }
