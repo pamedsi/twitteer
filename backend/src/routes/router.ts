@@ -1,7 +1,7 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
 import { getUsers, createUser, removeUser, updateUser, reactivateUser} from '../controllers/user.controller.ts';
 import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.ts'
-import { createPost, getTweets,removePost } from './../controllers/posts.controller.ts';
+import { createTweet, getTweets,removeTweet } from './../controllers/tweets.controller.ts';
 import { getComments, createComment, removeComment } from './../controllers/comments.controller.ts';
 import { login } from './../userAuthenticator/login.ts';
 import { JWTValidator } from './../userAuthenticator/JWTValidator.ts';
@@ -28,17 +28,17 @@ router.get('/', isLogged, homePage)
 // Para seguir e deixar de seguir:
 
 router.get('/api/followers', seeFollowers) // interna
-router.post('/api/followers',JWTValidator, follow)
-router.delete('/api/followers', JWTValidator, unfollow)
+router.post('/api/followers/:followed_id',JWTValidator, follow)
+router.delete('/api/followers/:folloed_id', JWTValidator, unfollow)
 
 // Para tweets:
 
-router.get('/api/tweets', getTweets) // interna
-router.post('/api/tweets', JWTValidator ,createPost)
-router.delete('/api/tweets/:post_id', JWTValidator, removePost)
+router.get('/api/tweet', getTweets) // interna
+router.post('/api/tweet', JWTValidator ,createTweet)
+router.delete('/api/tweet/:tweet_id', removeTweet)
 
 // Para comentários
 
 router.get('/api/comments', getComments) // interna
 router.post('/api/comments', JWTValidator, createComment)
-router.delete('/api/comments/:comment_id', JWTValidator, removeComment)
+router.delete('/api/comments/:comment_id', removeComment)
