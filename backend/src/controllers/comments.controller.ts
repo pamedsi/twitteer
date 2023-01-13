@@ -36,8 +36,7 @@ export const createComment = async function (ctx: Context) {
     } catch (error) {
         ctx.response.status = 200
         ctx.response.body = {message : "Não foi possível comentar!"}
-        console.log("Não foi possível comentar.\n", error)
-        // ctx.response.body = {message : `Não foi possível twittar! ${(String(error).split('\n')[0]).replace('Error: ', '')}`}        
+        console.log("\nNão foi possível comentar.\n", error) 
     }
 }
 
