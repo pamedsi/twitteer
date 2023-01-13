@@ -29,7 +29,7 @@ router.get('/', isLogged, homePage)
 
 router.get('/api/followers', seeFollowers) // interna
 router.post('/api/followers/:followed_id',JWTValidator, follow)
-router.delete('/api/followers/:folloed_id', JWTValidator, unfollow)
+router.delete('/api/followers/:unfollowed_id', JWTValidator, unfollow)
 
 // Para tweets:
 
