@@ -6,6 +6,7 @@ export interface ctxModel extends Context {
         tweet_id?: string
         comment_id?: string
         followed_id?: string
+        unfollowed_id?: string
         key?: string
         value?: string
     }
