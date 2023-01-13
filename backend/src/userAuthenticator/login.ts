@@ -14,6 +14,12 @@ export const login = async function (ctx: ctxModel) {
         return
     }
 
+    if (!search.userFound.active) {
+        ctx.response.status = 422
+        ctx.response.body = { message:  'Conta desativada!'}
+        return
+    }
+
     const {password: passwordHash} = search.userFound
     const passwordMatch = await compare(password, passwordHash)
     if (!passwordMatch) {
@@ -28,7 +34,7 @@ export const login = async function (ctx: ctxModel) {
         await ctx.cookies.set('jwt', jwt)
         ctx.response.status = 200
         ctx.response.body = {message: `Você está on, ${display_name.split(' ')[0]}`}
-        // ctx.response.body = { user_id, display_name, jwt }
+        
         }
 
     catch (error) {
