@@ -13,3 +13,7 @@ https://youtu.be/DLftEcoUAgQ
 
 Regex:
     https://www.bcb.gov.br/content/estabilidadefinanceira/pix/API-DICT.html#tag/Key
+
+Dúvidas:
+
+    - As requisições que usam id passados como parâmetros nas rotas, precisam validar JWT? (precisa estar logado para realizar?)
