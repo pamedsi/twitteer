@@ -13,7 +13,19 @@ No frontend:
 
 - React Native com expo.
 
- Para iniciar o servidor e poder usar a API é necessário executar o arquivo "backend/src/app.ts"
+Primeiramente, é necessário instalar o Deno, neste link é possível encontrar como instalar para cada sistema operacional:
+- https://deno.land/manual@v1.29.4/getting_started/installation
+Verifique qual a versão mais recente, no momento é a 1.29.4
+
+Instale também o Postgresql, de preferência a versão mais recente. Encontre a versão para o seu sistema operacional no link:
+- https://www.postgresql.org/download/
+
+Para iniciar o servidor e poder usar a API é necessário executar o arquivo "backend/src/app.ts" com o seguinte comando:
+ 
+```
+$ deno run backend/src/app.ts
+```
+Aparecerão alguns pedidos de autorização, para permitir, digite "Y" e aperte Enter.
 
 # Implementações feitas até então no backend:
 
@@ -32,5 +44,6 @@ No frontend:
 - Criar documentação com swagger.
 - Utilizar padronização de commits da Husky.
 - Receber imagens por post para guardar no banco de dados, para perfil e de capa.
+- Utilizar docker.
 
 OBS: No twitter, a senha é exigida apenas que tenha, no mínimo, 10 caracteres. E é recomendado que a senha que misture caractereses especiais, números e letras maiúsculas e minúsculas. Nesta aplicação eu tornei essas recomendações obrigatórias, junto com o mínimo de caracteres.
