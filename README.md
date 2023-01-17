@@ -6,12 +6,12 @@ Até então está sendo usado:
 
 No backend:
 
-- Deno, com algumas bibliotecas do npm e do próprio deno
-- Postgresql
+- Deno, com algumas bibliotecas do npm e do próprio deno, utilizando typescript.
+- Postgresql.
 
 No frontend:
 
-- React Native com expo
+- React Native com expo.
 
  Para iniciar o servidor e poder usar a API é necessário executar o arquivo "backend/src/app.ts"
 
