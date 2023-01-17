@@ -10,3 +10,5 @@ React Native:
 
 Figma:
 https://www.figma.com/file/MZsaMjLP4vloejUkbDVpji/Twitter-UI-Kit-(Community)?node-id=45%3A4781
+
+If you try view a suspended or deactivated profile by navigating to their profile, you’ll see a message indicating suspension or deactivation.

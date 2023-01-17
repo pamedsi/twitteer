@@ -1,4 +1,54 @@
-- Procurar como contar os comentários de cada tweet
-- Pesquisar sobre o Context do oak, para tipar o ctx das funções de query. (typescript branch)
-- Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql
-- StringForCreateUser: Procurar como resolver o bug do for in, que não deixa indexar com string um objeto tipado
+🔴 Implementações mais urgentes:
+
+  - Mudar os status de requisição 400 pra erros de requisição do front
+  - Checar se as requisições post estão com status 201
+  - Personalizar mensagens de erro no body e não apenas no terminal
+  - Usar erro 500 pra casos que o erro foi interno
+  - Listar tweets de acordo com quem está logado
+  - Criar documentação com swagger
+
+  - Criar propriedade "location" de tweet e comentário✅
+  - Refatorar o login para não permitir logar com usuários desativados ✅
+  - Implementar controlador de unfollow ✅
+  - Criar propriedade de "deleted" pra os tweets e comentários apagados ✅
+  - Validar display_name, bio e url_on_bio ✅
+    https://help.twitter.com/pt/managing-your-account/how-to-customize-your-profile
+  - Mudar o nome da propriedade "display_name" para "display_name"✅
+  - Proibir display_name de ser "Twitter" ou "Admin"✅
+  - Atualizar o service de criar usuário para validar username e password ✅
+  - Validar nome de usuário com regex (@username): ✅
+      - Cannot be longer than 15 characters.✅
+      - "Twitter" or "Admin" cannot be claimed ✅
+      - Can only contain alphanumeric characters and underscore (letters A-Z, numbers 0-9) ✅
+      -  https://help.twitter.com/en/managing-your-account/twitter-username-rules#:~:text=Your%20username%20cannot%20be%20longer,of%20underscores%2C%20as%20noted%20above.
+        https://help.twitter.com/en/managing-your-account/change-twitter-handle#:~:text=Your%20username%20%E2%80%93%E2%80%93%20also%20known%20as,for%20you%20by%20your%20username.
+  - Validar senha com regex✅
+    - At least 10 characters long ✅
+    - Use a mix of uppercase, lowercase, numbers, and symbols ✅
+      https://help.twitter.com/en/safety-and-security/account-security-tips
+  - Resolver o bug de quem muda a idade pra menos de 13 anos ✅
+    -- Criar uma propriedade chamada "active" que vai salvar um booleano do usuário ✅
+    -- Se o usuário mudar a data pra menor de 13 anos, ele vai ser inativado ✅
+  - Validar telefone e email ao atualizar usuário ✅
+  - Verificar se o email, username e phone já está cadastrado ao atualizar o usuário ✅testar
+    Resolver o bug de atualizar informação igual a que já está no banco de dados ✅
+  - Refatorar o controlador de usuários para atualizar usuário ✅
+  - Criar função de logout ✅
+  - Como listar os tweets iguais do usuário feitos no mesmo dia, pelo sql ✅
+  - Remover os espaços no começo e no final da string dos tweets✅
+  - Proibir quem tem menos de 13 anos criar uma conta✅
+  - Validar email e telefone ✅
+  - Resolver o problema de deletar um usuário que twittou ou comentou ✅
+
+🔵 Rabiscos de erro do Deno
+
+  - Corrigir o bug dos argumentos na validação de email e número de telefone, na função userExist.
+    São pedidos 3 argumentos, mas só passo 1 nas funções "isEmail" e "isMobilePhone"
+  - Corrigir o bug de tipagem na indexação dos objetos. (função de verificar se a atualização de dados envia dados já cadastrados do usuário) Função: dataAlreadyRegistered ✅
+  - Corrigir o erro da tipagem do argumento do decode, na função createPost ✅
+
+🟢 Implementações menos urgentes:
+
+  - Pesquisar como guardar informação da localização geográfica do usuário.(campo "location")
+  - Adicionar a propriedade de localização (location) no tweet.
+  - Pesquisar como guardar a foto da capa e de perfil no banco de dados. (campos: "profile_pic" e "cover_pic")

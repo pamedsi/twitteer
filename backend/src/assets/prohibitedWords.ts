@@ -1,0 +1,1 @@
+export const prohibitedWordsRegex = /^(twitter|admin)$/gi
