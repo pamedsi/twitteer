@@ -6,6 +6,10 @@
   - Usar erro 500 pra casos que o erro foi interno
   - Listar tweets de acordo com quem está logado
   - Criar documentação com swagger
+  - Padronizar commits:
+    https://dev.to/vitordevsp/padronizacao-de-commit-com-commitlint-husky-e-commitizen-3g1n
+  - Fazer merge request com branch main
+  - Permitir deletar a conta por requisição apenas quem tá logado, e quem tá tentando deletar a própria conta.
 
   - Criar propriedade "location" de tweet e comentário✅
   - Refatorar o login para não permitir logar com usuários desativados ✅
