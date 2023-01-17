@@ -18,7 +18,7 @@ export class User {
     bio?: string
     url_on_bio?: string
     profile_pic?: string
-    cover_pic?: string 
+    cover_pic?: string
 
     constructor({display_name, birth_date, email, username, password, location, phone, bio, url_on_bio, profile_pic, cover_pic}: IUserRequest) {
         if (location) this.location = location.trim(); if(phone) this.phone = phone.trim();

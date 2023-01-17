@@ -20,13 +20,13 @@ export const getTweets = async function (ctx: Context) {
 
 export const createTweet = async function (ctx: Context) {
     try {
-        const {content}: ITweetRequest = await ctx.request.body().value
+        const incomingUserTweet: ITweetRequest = await ctx.request.body().value
         const jwt = await ctx.cookies.get('jwt')
         if (!jwt) throw new Error("JWT Inválido!");
 
         const {user_id: tweet_owner_id} = decode(jwt)[1] as Payload
         const newTweetService = new CreateTweetService()
-        await newTweetService.execute(String(tweet_owner_id), content)
+        await newTweetService.execute(String(tweet_owner_id), incomingUserTweet)
 
         ctx.response.status = 201
         ctx.response.body = {message : "Twittado!"}

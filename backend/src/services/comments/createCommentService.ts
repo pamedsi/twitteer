@@ -5,6 +5,7 @@ import { sameDateTweet, insertNewComment } from '../../utils/forTweets.ts'
 export interface ICommentRequest {
   commented_tweet_id: string,
   content: string,
+  location?: string
 }
 
 export class CreateCommentService {
