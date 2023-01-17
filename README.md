@@ -32,3 +32,5 @@ No frontend:
 - Criar documentação com swagger.
 - Utilizar padronização de commits da Husky.
 - Receber imagens por post para guardar no banco de dados, para perfil e de capa.
+
+OBS: No twitter, a senha é exigida apenas que tenha, no mínimo, 10 caracteres. E é recomendado que a senha que misture caractereses especiais, números e letras maiúsculas e minúsculas. Nesta aplicação eu tornei essas recomendações obrigatórias, junto com o mínimo de caracteres.
