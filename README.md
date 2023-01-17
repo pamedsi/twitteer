@@ -15,6 +15,7 @@ No frontend:
 
 Primeiramente, é necessário instalar o Deno, neste link é possível encontrar como instalar para cada sistema operacional:
 - https://deno.land/manual@v1.29.4/getting_started/installation
+
 Verifique qual a versão mais recente, no momento é a 1.29.4
 
 Instale também o Postgresql, de preferência a versão mais recente. Encontre a versão para o seu sistema operacional no link:
