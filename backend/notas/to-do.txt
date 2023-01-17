@@ -1,5 +1,13 @@
 🔴 Implementações mais urgentes:
 
+  - Mudar os status de requisição 400 pra erros de requisição do front
+  - Checar se as requisições post estão com status 201
+  - Personalizar mensagens de erro no body e não apenas no terminal
+  - Usar erro 500 pra casos que o erro foi interno
+  - Listar tweets de acordo com quem está logado
+  - Criar documentação com swagger
+
+  - Criar propriedade "location" de tweet e comentário✅
   - Refatorar o login para não permitir logar com usuários desativados ✅
   - Implementar controlador de unfollow ✅
   - Criar propriedade de "deleted" pra os tweets e comentários apagados ✅
@@ -42,4 +50,5 @@
 🟢 Implementações menos urgentes:
 
   - Pesquisar como guardar informação da localização geográfica do usuário.(campo "location")
+  - Adicionar a propriedade de localização (location) no tweet.
   - Pesquisar como guardar a foto da capa e de perfil no banco de dados. (campos: "profile_pic" e "cover_pic")

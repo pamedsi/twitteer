@@ -18,3 +18,4 @@ Dúvidas:
 
     - As requisições que usam id passados como parâmetros nas rotas, precisam validar JWT? (precisa estar logado para realizar?)
     - As mensagens de erro algumas aparecem no log, outras aparecem no body, mas como é que deve ser?
+    - Como implementar useCase e repositories nesse projeto.
