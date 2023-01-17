@@ -1,4 +1,4 @@
-# twitteer
+# Twitteer
 Este projeto é uma réplica do Twitter com apenas algumas funcionalidades básicas, a fim de testar meus conhecimentos e habilidades.
 Ainda está em andamento por isso, muitas funcionalidades ainda estão indisponíveis.
 
