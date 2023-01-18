@@ -20,6 +20,18 @@ Primeiramente, é necessário instalar o Deno, neste link é possível encontrar
 Instale também o Postgresql, de preferência a versão mais recente. Encontre a versão para o seu sistema operacional no link:
 - https://www.postgresql.org/download/
 
+As informações referente à conexão com o banco de dados estão no arquivo "backend/src/database/database.ts".
+O seguinte objeto é passado como argumento da nova instância de "Client" criada no arquivo acima.
+{
+      user: "postgres",
+      database: "postgres",
+      hostname: "localhost",
+      port: 5432,
+      password: '4002',
+}
+
+A porta padrão do Postgres é 5432, mas caso sua porta seja outra ou seu perfil Postgres esteja com alguma informação diferente, é necessário modificá-las no código.
+
 Para criar as tabelas no banco de dados, é necessário executar todos os scripts SQL que estão em "backend/src/database/sql".
 
 Para iniciar o servidor e poder usar a API é necessário executar o arquivo "backend/src/app.ts" com o seguinte comando:
@@ -28,6 +40,8 @@ Para iniciar o servidor e poder usar a API é necessário executar o arquivo "ba
 $ deno run backend/src/app.ts
 ```
 Aparecerão alguns pedidos de autorização, para permitir, digite "Y" e aperte Enter.
+
+Em seguida o servidor iniciará na porta 8080.
 
 # Implementações feitas até então no backend:
 
