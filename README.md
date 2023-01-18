@@ -23,6 +23,7 @@ Instale também o Postgresql, de preferência a versão mais recente. Encontre a
 As informações referente à conexão com o banco de dados estão no arquivo "backend/src/database/database.ts".
 O seguinte objeto é passado como argumento da nova instância de "Client" criada no arquivo acima.
 {
+
       user: "postgres",
       database: "postgres",
       hostname: "localhost",
