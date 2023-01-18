@@ -20,6 +20,8 @@ Primeiramente, é necessário instalar o Deno, neste link é possível encontrar
 Instale também o Postgresql, de preferência a versão mais recente. Encontre a versão para o seu sistema operacional no link:
 - https://www.postgresql.org/download/
 
+Para criar as tabelas no banco de dados, é necessário executar todos os scripts SQL que estão em "backend/src/database/sql".
+
 Para iniciar o servidor e poder usar a API é necessário executar o arquivo "backend/src/app.ts" com o seguinte comando:
  
 ```
