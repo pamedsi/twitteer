@@ -22,14 +22,13 @@ Instale também o Postgresql, de preferência a versão mais recente. Encontre a
 
 As informações referente à conexão com o banco de dados estão no arquivo "backend/src/database/database.ts".
 O seguinte objeto é passado como argumento da nova instância de "Client" criada no arquivo acima.
-{
 
       user: "postgres",
       database: "postgres",
       hostname: "localhost",
       port: 5432,
       password: '4002'
-}
+
 
 A porta padrão do Postgres é 5432, mas caso sua porta seja outra ou seu perfil Postgres esteja com alguma informação diferente, é necessário modificá-las no código.
 
