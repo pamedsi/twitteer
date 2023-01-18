@@ -41,6 +41,12 @@ $ deno run backend/src/app.ts
 ```
 Aparecerão alguns pedidos de autorização, para permitir, digite "Y" e aperte Enter.
 
+Caso queira autorizar todos os pedidos de permissões de uma vez (não recomendado) insira a flag --allow-all:
+
+```
+$ deno run --allow-all backend/src/app.ts
+```
+
 Em seguida o servidor iniciará na porta 8080.
 
 # Implementações feitas até então no backend:
