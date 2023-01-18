@@ -27,7 +27,7 @@ O seguinte objeto é passado como argumento da nova instância de "Client" criad
       database: "postgres",
       hostname: "localhost",
       port: 5432,
-      password: '4002',
+      password: '4002'
 }
 
 A porta padrão do Postgres é 5432, mas caso sua porta seja outra ou seu perfil Postgres esteja com alguma informação diferente, é necessário modificá-las no código.
