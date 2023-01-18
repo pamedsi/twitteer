@@ -30,7 +30,7 @@ O seguinte objeto é passado como argumento da nova instância de "Client" criad
       password: '4002'
 
 
-A porta padrão do Postgres é 5432, mas caso sua porta seja outra ou seu perfil Postgres esteja com alguma informação diferente, é necessário modificá-las no código.
+A porta padrão do Postgres é 5432, mas caso sua porta seja outra ou seu perfil Postgres esteja com alguma informação diferente, é necessário modificá-la no código.
 
 Para criar as tabelas no banco de dados, é necessário executar todos os scripts SQL que estão em "backend/src/database/sql".
 
