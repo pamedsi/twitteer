@@ -1,1 +1,0 @@
-create EXTENSION if not exists "uuid-ossp";
