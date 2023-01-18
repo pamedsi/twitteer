@@ -1,6 +1,7 @@
 # Twitteer
 Este projeto é uma réplica do Twitter com apenas algumas funcionalidades básicas, a fim de testar meus conhecimentos e habilidades.
 Ainda está em andamento por isso, muitas funcionalidades ainda estão indisponíveis.
+Ainda não tem frontend, a pasta possui apenas um projeto React Native inicializado, mas não tem componentes criados, apenas o padrão que já vem quando se inicia um projeto react.
 
 Até então está sendo usado:
 
