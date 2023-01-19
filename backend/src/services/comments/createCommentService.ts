@@ -1,5 +1,6 @@
-import validate from "npm: uuid-validate";
-import { Comment } from "../../models/comment.ts";
+import validate from "npm: uuid-validate"
+
+import { Comment } from "../../models/comment.ts"
 import { sameDateTweet, insertNewComment } from '../../utils/forTweets.ts'
 
 export interface ICommentRequest {

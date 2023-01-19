@@ -1,6 +1,6 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
-import { getUsers, createUser, removeUser, updateUser, reactivateUser} from '../controllers/user.controller.ts';
-import { follow, unfollow, seeFollowers } from '../controllers/follower.controller.ts'
+import { createUser, removeUser, updateUser, reactivateUser} from '../controllers/user.controller.ts';
+import { follow, unfollow, seeFollowers, seeFollowing } from '../controllers/follower.controller.ts'
 import { createTweet, getTweets,removeTweet } from './../controllers/tweets.controller.ts';
 import { getComments, createComment, removeComment } from './../controllers/comments.controller.ts';
 import { login } from './../userAuthenticator/login.ts';
@@ -12,8 +12,6 @@ export const router = new Router()
 
 // Para usuários:
 
-router.get('/api/users', getUsers) // interna
-router.get('/api/users/:key/:value', getUsers) // interna
 router.post('/api/users', createUser)
 router.put('/api/users/:user_id', updateUser)
 router.post('/api/users/:user_id', reactivateUser)
@@ -27,7 +25,8 @@ router.get('/', isLogged, homePage)
 
 // Para seguir e deixar de seguir:
 
-router.get('/api/followers', seeFollowers) // interna
+router.get('/api/followers', JWTValidator ,seeFollowers)
+router.get('/api/following', JWTValidator ,seeFollowing)
 router.post('/api/followers/:followed_id',JWTValidator, follow)
 router.delete('/api/followers/:unfollowed_id', JWTValidator, unfollow)
 
