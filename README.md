@@ -57,14 +57,11 @@ Em seguida o servidor iniciará na porta 8080.
 - Twitta, mas não permite tweets idênticos feitos pelo mesmo usuário no mesmo dia, nem maiores que 280 caracteres.
 - Desativa contas que tenham atualizado a data de nascimento de forma que o usuário tenha, em algum momento, utilizado o twitter sem ter a idade mínima exigida (13 anos).
 - Segue e deixa de seguir
+- Lista tweets com base em quem está logado, para que apareçam apenas os tweets feitos pelas pessoas quais aquele usuário segue, e os próprios tweets.
 
 # Implementações pendentes:
 
-- Listar tweets com base em quem está logado, para que apareçam apenas os tweets feitos pelas pessoas quais aquele usuário segue.
-- Corrigir os status das requisições.
-- Personalizar mensagens de erro no body das requisições.
 - Criar documentação com swagger.
-- Utilizar padronização de commits da Husky.
 - Receber imagens por post para guardar no banco de dados, para perfil e de capa.
 - Utilizar docker.
 
