@@ -24,8 +24,8 @@ export class UpdateUserService {
   async execute(user_id: string, updatesRequest: IUpdateUserRequest){
     const {sameData, newData, created_at} = await dataAlreadyRegistered(user_id, updatesRequest)
     const [lengthOfSame, lenghtOfNew] = [Object.keys(sameData).length, Object.keys(newData).length]
-    if (!lenghtOfNew && !lengthOfSame) throw new Error("Sem dados para atualizar")
-    if (!lenghtOfNew) throw new Error("Dados já cadastrados!")
+    if (!lenghtOfNew && !lengthOfSame) throw new Error("client: Sem dados para atualizar")
+    if (!lenghtOfNew) throw new Error("client: Dados já cadastrados!")
     const {birth_date, email, phone, username, password, display_name, url_on_bio, bio} = updatesRequest
     
     // Validando as informações recebidas:
@@ -39,39 +39,39 @@ export class UpdateUserService {
         await deleteUserService.execute(user_id)
         throw new Error("Sua conta foi suspensa por violar os termos de uso do aplicativo.")
       }
-      if(!isValidDate) throw new Error(error);
+      if(!isValidDate) throw new Error(`client: ${error}`);
     }
 
     // Validando nome de usuário:
     if (display_name) {
       const {isValidName, problem} = validDisplayName(display_name)
-      if (!isValidName) throw new Error(problem);
+      if (!isValidName) throw new Error(`client: ${problem}`);
     }
-    if (email && !isEmail(email)) throw new Error("Email inválido")
+    if (email && !isEmail(email, {})) throw new Error("client: Email inválido")
     if (username) {
       const {isValidUsername, reason} = validUsername(username)
-      if(!isValidUsername) throw new Error(reason);
+      if(!isValidUsername) throw new Error(`client: ${reason}`);
     }
-    if(phone && !isMobilePhone(phone)) throw new Error("Número de celular inválido!")
+    if(phone && !isMobilePhone(phone, '', {})) throw new Error("client: Número de celular inválido!")
     const {available, data} = await availableData(updatesRequest)
-    if (!available) throw new Error(`${data} já cadastrado!`);
+    if (!available) throw new Error(`client: ${data} já cadastrado!`);
 
     // Validando a senha:
     if (password) {
       const {isValidPassword, missing} = validPassword(password)
-      if(!isValidPassword) throw new Error(`Senha inválida! Precisa de ${missing}.`)
+      if(!isValidPassword) throw new Error(`client: Senha inválida! Precisa de ${missing}.`)
     }
     // Validando data de nascimento:
     if(birth_date) {
       const {isValidDate, error} = validDate(birth_date)
-      if(!isValidDate) throw new Error(error)
+      if(!isValidDate) throw new Error(`client: ${error}`)
     }
 
     // Verificando a URL na bio e a bio:
     if (url_on_bio) {
-      if(!is_uri(url_on_bio)) throw new Error("URL da bio inválida!");
+      if(!is_uri(url_on_bio)) throw new Error("client: URL da bio inválida!");
     }
-    if(bio && bio.length > 160) throw new Error("Bio muito longa! Utilize no máximo 160 caracteres.");
+    if(bio && bio.length > 160) throw new Error("client: Bio muito longa! Utilize no máximo 160 caracteres.");
 
     // Atualizando:
 

@@ -40,8 +40,17 @@ export const createUser = async function (ctx: Context) {
         ctx.response.body = {message : "Usuário cadastrado!"}
     }
     catch (error) {
-        console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
-        ctx.response.body = {message: "Não foi possível cadastrar o usuário"}
+        const clientError = String(error).split('\n')[0].split(': ')
+        if (clientError[1] === 'client') {
+            console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
+            ctx.response.body = {message: clientError[2]}
+            ctx.response.status = 400
+        }
+        else {
+            ctx.response.body = {message: "Nao foi possível cadastrar o usuário."}
+            ctx.response.status = 500
+            console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
+        }
     }
 }
 
@@ -55,9 +64,17 @@ export const updateUser = async function(ctx: ctxModel) {
         ctx.response.body = {message : "Atualização feita com sucesso!"}
         ctx.response.status = 201
     } catch (error) {
-        console.log(`\nNão foi possível atualizar o usuário!\n`, error)
-        ctx.response.body = {message: "Não foi possível atualizar o usuário"}
-        ctx.response.status = 404
+        const clientError = String(error).split('\n')[0].split(': ')
+        if (clientError[1] === 'client') {
+            console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
+            ctx.response.body = {message: clientError[2]}
+            ctx.response.status = 400
+        }
+        else {
+            ctx.response.body = {message: "Nao foi possível cadastrar o usuário."}
+            ctx.response.status = 500
+            console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
+        }
     }
 }
 

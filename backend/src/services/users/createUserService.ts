@@ -26,32 +26,35 @@ export class CreateUserService {
     const {email, username, phone, password, birth_date, display_name, url_on_bio, bio} = incomingUser;
     
     // Validando as propriedades que não podem se repetir: "email", "username" e "phone"
-    if (!isEmail(email)) throw new Error("Email inválido")
+    // Deixei como string vazia os outros argumentos do validador de telefone e email
+    // porque ainda não descobri como melhor preenchê-los.
+
+    if (!isEmail(email, {})) throw new Error("client: Email inválido!")
     const {isValidUsername, reason} = validUsername(username)
-    if(!isValidUsername) throw new Error(reason);
-    if(phone && !isMobilePhone(phone)) throw new Error("Número de celular inválido!")
+    if(!isValidUsername) throw new Error(`client: ${reason}`);
+    if(phone && !isMobilePhone(phone, '', '') ) throw new Error("client: Número de celular inválido!")
     // Checando se está disponível para uso
     const {available, data} = await availableData(incomingUser)
-    if (!available) throw new Error(`${data} já cadastrado!`);
+    if (!available) throw new Error(`client: ${data} já cadastrado!`);
 
     // Validando nome de usuário:
     const {isValidName, problem} = validDisplayName(display_name)
-    if (!isValidName) throw new Error(problem);
+    if (!isValidName) throw new Error(`client: ${problem}`);
 
     // Validando a senha:
     const {isValidPassword, missing} = validPassword(password)
-    if(!isValidPassword) throw new Error(`Senha inválida! Precisa de ${missing}.`)
+    if(!isValidPassword) throw new Error(`client: Senha inválida! Precisa de ${missing}.`)
 
     // Validando data de nascimento:
     const {isValidDate, error} = validDate(birth_date)
-    if(!isValidDate) throw new Error(error)
+    if(!isValidDate) throw new Error(`client: ${error}`)
 
     // Verificando a URL na bio:
     if (url_on_bio) {
-      if(!is_uri(url_on_bio)) throw new Error("URL da bio inválida!");
+      if(!is_uri(url_on_bio)) throw new Error("client: URL da bio inválida!");
     }
 
-    if(bio && bio.length > 160) throw new Error("Bio muito longa! Utilize no máximo 160 caracteres.");
+    if(bio && bio.length > 160) throw new Error("client: Bio muito longa! Utilize no máximo 160 caracteres.");
     
     const newUser = new User(incomingUser)
     newUser.password = await hash(newUser.password)
