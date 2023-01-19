@@ -1,4 +1,5 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
+
 import { createUser, removeUser, updateUser, reactivateUser} from '../controllers/user.controller.ts';
 import { follow, unfollow, seeFollowers, seeFollowing } from '../controllers/follower.controller.ts'
 import { createTweet, removeTweet, seeTweets } from './../controllers/tweets.controller.ts';
@@ -7,8 +8,15 @@ import { login } from './../userAuthenticator/login.ts';
 import { JWTValidator } from './../userAuthenticator/JWTValidator.ts';
 import { homePage, isLogged } from "../utils/helperFunctions.ts";
 import { logout } from "../userAuthenticator/logout.ts";
+import { pageNotFound } from "../controllers/page.not.found.ts";
 
 export const router = new Router()
+
+router.get("/(.*)", pageNotFound)
+router.post("/(.*)", pageNotFound)
+router.patch("/(.*)", pageNotFound)
+router.put("/(.*)", pageNotFound)
+router.delete("/(.*)", pageNotFound)
 
 // Para usuários:
 
@@ -21,7 +29,7 @@ router.delete('/api/users/:user_id', removeUser)
 
 router.post('/login', login)
 router.post('/logout', logout)
-router.get('/', isLogged, homePage)
+router.get('/home', isLogged, homePage)
 
 // Para seguir e deixar de seguir:
 
