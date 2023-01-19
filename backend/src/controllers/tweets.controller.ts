@@ -1,19 +1,27 @@
 import { decode, Payload } from "https://deno.land/x/djwt@v2.7/mod.ts";
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
-import {client} from '../database/database.ts'
+
 import { ctxModel } from './../models/context.ts';
 import { CreateTweetService, ITweetRequest } from '../services/tweets/createTweetService.ts';
 import { DeleteTweetService } from '../services/tweets/deleteTweetService.ts'
+import { SeeTweetsService } from "../services/tweets/seeTweetsService.ts";
 
-export const getTweets = async function (ctx: Context) {
+export const seeTweets = async function (ctx: Context) {
     try {
-        const result = await client.queryObject('SELECT * FROM public.tweets;')
-        ctx.response.body = result.rows
+        const jwt = await ctx.cookies.get('jwt')
+        if (!jwt) throw new Error("client: Usuário não logado!")
+        const { user_id: loggedUser } = decode(jwt)[1] as Payload
+        const seeTweetsService = new SeeTweetsService()
+        const tweets = await seeTweetsService.execute(String(loggedUser))
+
+        ctx.response.body = tweets
         ctx.response.status = 200
+
     }
     catch (error) {
         console.log(`Requisição mal sucedida!\n`, error)
         ctx.response.body = {message: "Não foi possível buscar os tweets"}
+        ctx.response.status = 500
 
     }
 }

@@ -1,7 +1,7 @@
 import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
 import { createUser, removeUser, updateUser, reactivateUser} from '../controllers/user.controller.ts';
 import { follow, unfollow, seeFollowers, seeFollowing } from '../controllers/follower.controller.ts'
-import { createTweet, getTweets,removeTweet } from './../controllers/tweets.controller.ts';
+import { createTweet, removeTweet, seeTweets } from './../controllers/tweets.controller.ts';
 import { getComments, createComment, removeComment } from './../controllers/comments.controller.ts';
 import { login } from './../userAuthenticator/login.ts';
 import { JWTValidator } from './../userAuthenticator/JWTValidator.ts';
@@ -32,7 +32,7 @@ router.delete('/api/followers/:unfollowed_id', JWTValidator, unfollow)
 
 // Para tweets:
 
-router.get('/api/tweet', getTweets) // interna
+router.get('/api/tweets', JWTValidator, seeTweets) // interna
 router.post('/api/tweet', JWTValidator ,createTweet)
 router.delete('/api/tweet/:tweet_id', removeTweet)
 
