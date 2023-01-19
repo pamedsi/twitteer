@@ -32,9 +32,17 @@ export const createTweet = async function (ctx: Context) {
         ctx.response.body = {message : "Twittado!"}
     }
     catch (error) {
-        ctx.response.status = 200
-        ctx.response.body = {message: "Não foi possível twittar."}
-        console.log("\nNão foi possível twittar.\n", error)
+        const clientError = String(error).split('\n')[0].split(': ')
+        if (clientError[1] === 'client') {
+            console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
+            ctx.response.body = {message: clientError[2]}
+            ctx.response.status = 400
+        }
+        else {
+            ctx.response.body = {message: "Nao foi possível twitter, erro interno, tente novamente mais tarde!"}
+            ctx.response.status = 500
+            console.log(`\nNao foi possível twittar.\n`, error)
+        }
     }
 }
 
@@ -49,7 +57,7 @@ export const removeTweet = async function(ctx: ctxModel) {
     }
     catch (error) {
         ctx.response.body = {message: "Não foi possível deletar o tweet."}
-        ctx.response.status = 200
-        console.log(`Não foi possível deletar o tweet.\n`, error)
+        ctx.response.status = 500
+        console.log(`Não foi possível deletar o tweet, erro interno, tente novamente mais tarde!\n`, error)
     }
 }

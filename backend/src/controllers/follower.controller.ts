@@ -34,7 +34,8 @@ export const follow = async function (ctx: ctxModel) {
 
     catch (error) {
             console.log("Não foi possível seguir o usuário.\n", error)
-            ctx.response.body = {message : "Não foi possível seguir o usuário."}
+            ctx.response.body = {message : "Não foi possível seguir o usuário, erro interno, tente novamente mais tarde!"}
+            ctx.response.status = 500
     }
 }
 
@@ -56,6 +57,7 @@ export const unfollow = async function (ctx: ctxModel) {
     catch(error) {
         console.log(`\nNão foi possível deixar de seguir.\n`, error)
         ctx.response.body = {message : "Não foi possível deixar de seguir."}
+        ctx.response.status = 500
     }
 }
 

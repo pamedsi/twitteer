@@ -34,9 +34,17 @@ export const createComment = async function (ctx: Context) {
         ctx.response.body = {message : "Comentado!"}
 
     } catch (error) {
-        ctx.response.status = 200
-        ctx.response.body = {message : "Não foi possível comentar!"}
-        console.log("\nNão foi possível comentar.\n", error) 
+        const clientError = String(error).split('\n')[0].split(': ')
+        if (clientError[1] === 'client') {
+            console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
+            ctx.response.body = {message: clientError[2]}
+            ctx.response.status = 400
+        }
+        else {
+            ctx.response.body = {message: "Nao foi possível comentar, erro interno, tente novamente mais tarde!"}
+            ctx.response.status = 500
+            console.log(`\nNao foi possível twittar.\n`, error)
+        }
     }
 }
 
@@ -51,7 +59,7 @@ export const removeComment = async function(ctx: ctxModel) {
     }
     catch (error) {
         ctx.response.body = {message: "Não foi possível deletar o comentário"}
-        ctx.response.status = 200
+        ctx.response.status = 500
         console.log(`Não foi possível deletar o comentário.\n`, error)
     }
 }

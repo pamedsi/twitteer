@@ -47,7 +47,7 @@ export const createUser = async function (ctx: Context) {
             ctx.response.status = 400
         }
         else {
-            ctx.response.body = {message: "Nao foi possível cadastrar o usuário."}
+            ctx.response.body = {message: "Nao foi possível cadastrar o usuário, erro interno, tente novamente mais tarde!"}
             ctx.response.status = 500
             console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
         }
@@ -71,7 +71,7 @@ export const updateUser = async function(ctx: ctxModel) {
             ctx.response.status = 400
         }
         else {
-            ctx.response.body = {message: "Nao foi possível cadastrar o usuário."}
+            ctx.response.body = {message: "Nao foi possível atualizar o usuário, erro interno, tente novamente mais tarde!"}
             ctx.response.status = 500
             console.log(`\nNao foi possível cadastrar o usuário.\n`, error)
         }
@@ -87,8 +87,8 @@ export const removeUser = async function(ctx: ctxModel) {
         ctx.response.body = {message: "Usuário exluído com sucesso!"}
     }
     catch (error) {
-        ctx.response.body = {message: "Não foi possível deletar o usuário"}
-        ctx.response.status = 200
+        ctx.response.body = {message: "Não foi possível deletar o usuário erro interno, tente novamente mais tarde."}
+        ctx.response.status = 500
         console.log(`Não foi possível deletar o usuário.\n`, error)
     }
 }
@@ -103,8 +103,8 @@ export const reactivateUser = async function (ctx: ctxModel) {
     }
 
     catch (error) {
-        ctx.response.body = {message: "Não foi possível reativar o usuário"}
-        ctx.response.status = 200
+        ctx.response.body = {message: "Não foi possível reativar o usuário, erro interno, tente novamente mais tarde."}
+        ctx.response.status = 500
         console.log(`\nNão foi possível reativar o usuário.\n`, error)
     }
 }
