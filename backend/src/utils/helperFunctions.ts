@@ -8,7 +8,6 @@ import { querySearch } from "../models/queryResult.ts";
 import { client } from "../database/database.ts"
 import { User } from "../models/user.ts";
 
-
 export const homePage = function (ctx: ctxModel){
   ctx.response.body = {message: "Bem vindo!"}
 }
@@ -40,8 +39,8 @@ export const userExists = async function (login: string, user_id?: string)  {
 
   let kindOfLogin: string
 
-  if (isEmail(login)) kindOfLogin = 'email'
-  else if (isMobilePhone(login)) kindOfLogin = 'phone'
+  if (isEmail(login, {})) kindOfLogin = 'email'
+  else if (isMobilePhone(login, '', {})) kindOfLogin = 'phone'
   else kindOfLogin = 'username'
 
   const {rows: result} = (await client.queryObject<User>(`SELECT * FROM public.users WHERE ${kindOfLogin}='${login}' LIMIT 1;`))
