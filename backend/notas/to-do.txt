@@ -1,16 +1,18 @@
 🔴 Implementações mais urgentes:
 
-  - Mudar os status de requisição 400 pra erros de requisição do front
-  - Checar se as requisições post estão com status 201
-  - Personalizar mensagens de erro no body e não apenas no terminal
-  - Usar erro 500 pra casos que o erro foi interno
   - Listar tweets de acordo com quem está logado
   - Criar documentação com swagger
+  - Permitir deletar a conta por requisição apenas quem tá logado, e quem tá tentando deletar a própria conta
+  - Adicionar erro 404 para rotas não encontradas
+  - Usar docker
+  
   - Padronizar commits:
-    https://dev.to/vitordevsp/padronizacao-de-commit-com-commitlint-husky-e-commitizen-3g1n
-  - Fazer merge request com branch main
-  - Permitir deletar a conta por requisição apenas quem tá logado, e quem tá tentando deletar a própria conta.
-
+    https://dev.to/vitordevsp/padronizacao-de-commit-com-commitlint-husky-e-commitizen-3g1n✅
+  - Checar se as requisições post estão com status 201✅
+  - Mudar os status de requisição 400 pra erros de requisição do front✅
+  - Personalizar mensagens de erro no body e não apenas no terminal✅
+  - Usar erro 500 pra casos que o erro foi interno✅
+  - Fazer merge request com branch main✅
   - Criar propriedade "location" de tweet e comentário✅
   - Refatorar o login para não permitir logar com usuários desativados ✅
   - Implementar controlador de unfollow ✅
