@@ -50,16 +50,28 @@ export const createComment = async function (ctx: Context) {
 
 export const removeComment = async function(ctx: ctxModel) {
     try {
+        const jwt = await ctx.cookies.get('jwt')
+        if (!jwt) throw new Error("JWT Inválido!");
+        const {user_id: loggedUserID} = decode(jwt)[1] as Payload
+
         const {comment_id} = ctx.params
         const deleteCommentService = new DeleteCommentService()
-        await deleteCommentService.execute(String(comment_id))
+        await deleteCommentService.execute(String(comment_id), String(loggedUserID))
         
         ctx.response.body = {message: "Comentário exluído com sucesso!"}
         ctx.response.status = 200
     }
     catch (error) {
-        ctx.response.body = {message: "Não foi possível deletar o comentário"}
-        ctx.response.status = 500
-        console.log(`Não foi possível deletar o comentário.\n`, error)
+        const clientError = String(error).split('\n')[0].split(': ')
+        if (clientError[1] === 'client') {
+            console.log(`\nNao foi possível deletar o comentário.\n`, error)
+            ctx.response.body = {message: clientError[2]}
+            ctx.response.status = 400
+        }
+        else {
+            ctx.response.body = {message: "Nao foi possível apagar o comentário, erro interno, tente novamente mais tarde!"}
+            ctx.response.status = 500
+            console.log(`\nNao foi possível apagar o comentário.\n`, error)
+        }
     }
 }

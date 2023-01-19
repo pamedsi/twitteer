@@ -1,4 +1,6 @@
+import { decode, Payload } from "https://deno.land/x/djwt@v2.7/mod.ts";
 import { Context } from 'https://deno.land/x/oak@v10.6.0/mod.ts';
+
 import { ctxModel } from './../models/context.ts';
 import { CreateUserService, IUserRequest } from '../services/users/createUserService.ts';
 import { UpdateUserService } from '../services/users/updateUserService.ts';
@@ -31,10 +33,12 @@ export const createUser = async function (ctx: Context) {
 export const updateUser = async function(ctx: ctxModel) {
     try {
         const userUpdates: IUserRequest = await ctx.request.body().value
-        const {user_id} = ctx.params
-        if (!user_id) throw new Error("ID Inválido!");
+        const jwt = await ctx.cookies.get('jwt')
+        if (!jwt) throw new Error("JWT Inválido!");
+        const {user_id: loggedUserID } = decode(jwt)[1] as Payload
+        
         const updateUserService = new UpdateUserService()
-        await updateUserService.execute(user_id, userUpdates)
+        await updateUserService.execute(String(loggedUserID), userUpdates)
         ctx.response.body = {message : "Atualização feita com sucesso!"}
         ctx.response.status = 201
     } catch (error) {
@@ -54,11 +58,19 @@ export const updateUser = async function(ctx: ctxModel) {
 
 export const removeUser = async function(ctx: ctxModel) {
     try {
-        const user_id = String(ctx.params.user_id)
+        const jwt = await ctx.cookies.get('jwt')
+        if (!jwt) throw new Error("JWT Inválido!");
+        const {user_id: loggedUserID } = decode(jwt)[1] as Payload
+        const IDToBeDeleted = String(ctx.params.user_id)
+
         const deleteUserService = new DeleteUserService()
-        await deleteUserService.execute(user_id)
+        if (loggedUserID === IDToBeDeleted) {
+            await deleteUserService.execute(IDToBeDeleted)
         ctx.response.status = 201
         ctx.response.body = {message: "Usuário exluído com sucesso!"}
+        }
+        else throw new Error("Usuário tentou excluir outra conta!");
+        
     }
     catch (error) {
         ctx.response.body = {message: "Não foi possível deletar o usuário erro interno, tente novamente mais tarde."}
