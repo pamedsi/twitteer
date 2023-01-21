@@ -1,6 +1,7 @@
 import validate from "npm: uuid-validate";
 import { Tweet } from "../../models/tweet.ts";
-import { sameDateTweet,insertNewTweet } from "../../utils/forTweets.ts";
+import { insertNewTweet } from "../../repositories/twets/insertTweet.ts";
+import { sameDateTweet } from "../../utils/forTweets.ts";
 
 export interface ITweetRequest {
   content: string,

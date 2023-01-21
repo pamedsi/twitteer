@@ -1,7 +1,9 @@
 import validate from "npm: uuid-validate"
 
 import { Comment } from "../../models/comment.ts"
-import { sameDateTweet, insertNewComment } from '../../utils/forTweets.ts'
+import { sameDateTweet } from '../../utils/forTweets.ts'
+
+import { insertNewComment } from "../../repositories/twets/InsertComment.ts"
 
 export interface ICommentRequest {
   commented_tweet_id: string,

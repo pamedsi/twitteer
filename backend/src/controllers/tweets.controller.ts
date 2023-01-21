@@ -5,6 +5,7 @@ import { ctxModel } from './../models/context.ts';
 import { CreateTweetService, ITweetRequest } from '../services/tweets/createTweetService.ts';
 import { DeleteTweetService } from '../services/tweets/deleteTweetService.ts'
 import { SeeTweetsService } from "../services/tweets/seeTweetsService.ts";
+import { LikeTweetService } from "../services/tweets/likeTweetService.ts"
 
 export const seeTweets = async function (ctx: Context) {
     try {
@@ -78,6 +79,34 @@ export const removeTweet = async function(ctx: ctxModel) {
             ctx.response.body = {message: "Nao foi possível remover o tweet, erro interno, tente novamente mais tarde!"}
             ctx.response.status = 500
             console.log(`\nNao foi possível apagar tweet.\n`, error)
+        }
+    }
+}
+
+export const likeTweet = async function(ctx: ctxModel) {
+    try {
+        const {tweet_id} = ctx.params
+        const jwt = await ctx.cookies.get('jwt')
+        if (!jwt) throw new Error("JWT Inválido!");
+
+        const {user_id: loggedUser} = decode(jwt)[1] as Payload
+        const likeTweetService = new LikeTweetService()
+        await likeTweetService.execute(String(tweet_id), String(loggedUser))
+
+        ctx.response.body = {message: "Tweet curtido!"}
+        ctx.response.status = 200
+    }
+    catch (error) {
+        const clientError = String(error).split('\n')[0].split(': ')
+        if (clientError[1] === 'client') {
+            console.log(`\nNao foi possível curtir o tweet.\n`, error)
+            ctx.response.body = {message: clientError[2]}
+            ctx.response.status = 400
+        }
+        else {
+            ctx.response.body = {message: "Nao foi possível curtir o tweet, erro interno, tente novamente mais tarde!"}
+            ctx.response.status = 500
+            console.log(`\nNao foi possível curtir tweet.\n`, error)
         }
     }
 }
