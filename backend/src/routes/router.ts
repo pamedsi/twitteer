@@ -12,14 +12,6 @@ import { pageNotFound } from "../controllers/page.not.found.ts";
 
 export const router = new Router()
 
-// Erro 404:
-
-router.get("/(.*)", pageNotFound)
-router.post("/(.*)", pageNotFound)
-router.patch("/(.*)", pageNotFound)
-router.put("/(.*)", pageNotFound)
-router.delete("/(.*)", pageNotFound)
-
 // Para usuários:
 
 router.post('/api/users', createUser)
@@ -42,7 +34,7 @@ router.delete('/api/followers/:unfollowed_id', JWTValidator, unfollow)
 
 // Para tweets:
 
-router.get('/api/tweets', JWTValidator, seeTweets) // interna
+router.get('/api/tweets', JWTValidator, seeTweets)
 router.post('/api/tweet', JWTValidator ,createTweet)
 router.delete('/api/tweet/:tweet_id', JWTValidator, removeTweet)
 
@@ -51,3 +43,11 @@ router.delete('/api/tweet/:tweet_id', JWTValidator, removeTweet)
 router.get('/api/comments', getComments) // interna
 router.post('/api/comments', JWTValidator, createComment)
 router.delete('/api/comments/:comment_id', removeComment)
+
+// Erro 404:
+
+router.get("/(.*)", pageNotFound)
+router.post("/(.*)", pageNotFound)
+router.patch("/(.*)", pageNotFound)
+router.put("/(.*)", pageNotFound)
+router.delete("/(.*)", pageNotFound)
