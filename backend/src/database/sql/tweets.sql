@@ -6,5 +6,6 @@ CREATE TABLE public.tweets (
 	"content" varchar NOT NULL,
 	created_at timestamp NOT NULL,
 	deleted boolean NOT NULL DEFAULT false,
+	replies_to uuid,
 	CONSTRAINT tweets_fk FOREIGN KEY (tweet_owner_id) REFERENCES public.users(user_id)
 );

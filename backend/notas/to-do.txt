@@ -2,6 +2,7 @@
 
   - Criar documentação com swagger
   - Usar docker
+  - Quantificar os campos de varchar no sql
 
   - Permitir deletar a conta por requisição apenas quem tá logado, e quem tá tentando deletar a própria conta, tweet ou comentário✅
   - Adicionar erro 404 para rotas não encontradas✅
