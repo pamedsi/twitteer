@@ -3,7 +3,6 @@ import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
 import { createUser, removeUser, updateUser, reactivateUser} from '../controllers/user.controller.ts';
 import { follow, unfollow, seeFollowers, seeFollowing } from '../controllers/follower.controller.ts'
 import { createTweet, likeTweet, removeTweet, seeTweets } from './../controllers/tweets.controller.ts';
-import { getComments, createComment, removeComment } from './../controllers/comments.controller.ts';
 import { login } from './../userAuthenticator/login.ts';
 import { JWTValidator } from './../userAuthenticator/JWTValidator.ts';
 import { homePage, isLogged } from "../utils/helperFunctions.ts";
@@ -38,12 +37,6 @@ router.get('/api/tweets', JWTValidator, seeTweets)
 router.post('/api/tweet', JWTValidator ,createTweet)
 router.post('/api/like-tweet/:tweet_id', JWTValidator ,likeTweet)
 router.delete('/api/tweet/:tweet_id', JWTValidator, removeTweet)
-
-// Para comentários
-
-router.get('/api/comments', getComments) // interna
-router.post('/api/comments', JWTValidator, createComment)
-router.delete('/api/comments/:comment_id', removeComment)
 
 // Erro 404:
 

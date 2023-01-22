@@ -13,13 +13,10 @@ ALTER TABLE public.perfis RENAME COLUMN url_da_bio TO url_na_bio;
 ALTER TABLE public.users ALTER COLUMN email SET NOT NULL;
 
 ALTER TABLE public.users ADD active boolean NOT null default true;
-alter table public.comments add deleted boolean not null default false;
 alter table public.tweets add deleted boolean not null default false;
 ALTER TABLE public.posts RENAME TO tweets;
 
 ALTER TABLE public.tweets ADD FOREIGN KEY (tweet_owner_id) REFERENCES public.users(user_id);
-ALTER TABLE public.comments ADD FOREIGN KEY (comment_owner_id) REFERENCES public.users(user_id);
-ALTER TABLE public.comments ADD FOREIGN KEY (commented_tweet_id) REFERENCES public.tweets(tweet_id);
 ALTER TABLE public.followers ADD FOREIGN KEY (followed_id) REFERENCES public.users(user_id);
 ALTER TABLE public.followers ADD FOREIGN KEY (following_id) REFERENCES public.users(user_id);
 
