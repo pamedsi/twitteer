@@ -2,10 +2,11 @@ import { decode, Payload } from "https://deno.land/x/djwt@v2.7/mod.ts";
 import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
 
 import { ctxModel } from './../models/context.ts';
-import { CreateTweetService, ITweetRequest } from '../services/tweets/createTweetService.ts';
+import { CreateTweetService } from '../services/tweets/createTweetService.ts';
 import { DeleteTweetService } from '../services/tweets/deleteTweetService.ts'
 import { SeeTweetsService } from "../services/tweets/seeTweetsService.ts";
 import { LikeTweetService } from "../services/tweets/likeTweetService.ts"
+import { ITweetRequest } from "../models/tweet.ts";
 
 export const seeTweets = async function (ctx: Context) {
     try {
