@@ -27,7 +27,7 @@ export const validUsername = function (username: string) {
 }
 
 export const validPassword = function (password: string) {
-  const [moreCharacters, uppercase, lowercase, numbers, symbols] = ['pelo menos 10 caracteres!', 'pelo menos uma letra maiúscula', 'pelo menos uma letra minúscula', 'pelo menos um número', 'pelo menos um símbolo. (!@#$%)']
+  const [moreCharacters, uppercase, lowercase, numbers, symbols] = ['pelo menos 10 caracteres', 'pelo menos uma letra maiúscula', 'pelo menos uma letra minúscula', 'pelo menos um número', 'pelo menos um símbolo (!@#$%)']
   interface validityOfPassword {
     isValidPassword: boolean
     missing?: string

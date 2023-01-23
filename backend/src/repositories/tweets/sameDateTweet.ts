@@ -1,5 +1,5 @@
-import { client } from '../database/database.ts';
-import { tweetModel } from "../models/tweet.ts";
+import { client } from "../../database/database.ts";
+import { tweetModel } from "../../models/tweet.ts";
 
 
 export const sameDateTweet = async function (user_id: string, content: string){

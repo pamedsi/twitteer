@@ -1,6 +1,6 @@
 import { querySearch } from "../../models/queryResult.ts";
-import { userExists } from "../helperFunctions.ts";
-import {INonRepeatableData} from '../../models/nonRepeatableData.ts'
+import { userExists } from "../../repositories/users/userExists.ts";
+import { INonRepeatableData } from '../../models/nonRepeatableData.ts'
 
 export const availableData = async function ({email, username, phone}: INonRepeatableData){
   interface availability {
@@ -18,5 +18,5 @@ export const availableData = async function ({email, username, phone}: INonRepea
     return {available: false, data: exists.dataFound} as availability
   }
 
-  return {available: true} as availability
+  return { available: true } as availability
 }

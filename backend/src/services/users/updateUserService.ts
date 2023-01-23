@@ -1,6 +1,9 @@
-import isEmail from "https://deno.land/x/deno_validator@v0.0.5/lib/isEmail.ts";
-import { isMobilePhone } from "https://deno.land/x/deno_validator@v0.0.5/mod.ts";
-import { dataAlreadyRegistered, errorMessageForSameData, updateUserQuery } from "../../utils/forUsers/forUpdatingUsers.ts";
+import isEmail from "https://deno.land/x/deno_validator@v0.0.5/lib/isEmail.ts"
+import { isMobilePhone } from "https://deno.land/x/deno_validator@v0.0.5/mod.ts"
+import { errorMessageForSameData } from "../../utils/forUsers/forUpdatingUsers.ts"
+
+import { updateUser } from "../../repositories/users/updateUser.ts"
+import { dataAlreadyRegistered } from "../../repositories/users/dataAlreadyRegistered.ts"
 import { availableData } from "../../utils/forUsers/utils.ts";
 import { validDate, validDisplayName, validPassword, validUsername } from "../../utils/forUsers/validators.ts"
 import { DeleteUserService } from "./deleteUserService.ts";
@@ -34,7 +37,7 @@ export class UpdateUserService {
     if (birth_date) {
       const {isValidDate, error} = validDate(String(birth_date), created_at)
       if (!isValidDate && error === 'Idade insuficiente!') {
-        await updateUserQuery( {birth_date} as IUpdateUserRequest, user_id)
+        await updateUser( {birth_date} as IUpdateUserRequest, user_id)
         const deleteUserService = new DeleteUserService()
         await deleteUserService.execute(user_id)
         throw new Error("Sua conta foi suspensa por violar os termos de uso do aplicativo.")
@@ -74,10 +77,9 @@ export class UpdateUserService {
     if(bio && bio.length > 160) throw new Error("client: Bio muito longa! Utilize no máximo 160 caracteres.");
 
     // Atualizando:
-
-    if (!lengthOfSame) await updateUserQuery(updatesRequest, user_id)
+    if (!lengthOfSame) await updateUser(updatesRequest, user_id)
     else if (lenghtOfNew) {
-      await updateUserQuery(newData, user_id)
+      await updateUser(newData, user_id)
       const message = `Algumas atualizações foram feitas, mas os seguites dados já estavam cadastrados: ${errorMessageForSameData(sameData)}então foram descartados.`
       console.error(message)
       // throw new Error(message)  

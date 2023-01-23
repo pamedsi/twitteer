@@ -1,5 +1,5 @@
-import { client } from "../../database/database.ts";
 import { User } from "../../models/user.ts";
+
 export const stringForCreateUser = function (user: User) {
 
   let [keys, values, first] = ['', '', true]
@@ -33,11 +33,4 @@ export const stringForCreateUser = function (user: User) {
   }
 
   return [keys, values]
-}
-
-export const insertNewUser = async function (user: User) {
-  const [keys, values] = stringForCreateUser(user)
-  const query = `INSERT INTO public.users (${keys}) VALUES (${values});`
-  await client.queryObject(query)
-  console.log(`\nInserção no banco de dados feita.\nQuery:\n${query}`)
 }

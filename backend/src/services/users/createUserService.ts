@@ -2,7 +2,7 @@ import { hash } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
 import isEmail from "https://deno.land/x/deno_validator@v0.0.5/lib/isEmail.ts";
 import { isMobilePhone } from "https://deno.land/x/deno_validator@v0.0.5/mod.ts";
 import { User } from "../../models/user.ts";
-import { insertNewUser } from "../../utils/forUsers/forCreatingUsers.ts";
+import { insertNewUser } from "../../repositories/users/createNewUser.ts";
 import { availableData } from "../../utils/forUsers/utils.ts";
 import { validDate, validDisplayName, validPassword, validUsername } from "../../utils/forUsers/validators.ts"
 import {is_uri} from "npm: valid-url"
