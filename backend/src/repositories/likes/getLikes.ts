@@ -1,7 +1,7 @@
 import { client } from "../../database/database.ts"
 import { ILikeModel } from "../../models/like.ts"
 import { User } from "../../models/user.ts"
-import { userExists } from "../../utils/helperFunctions.ts"
+import { userExists } from "../users/userExists.ts"
 
 export const getLikes = async function (tweet_id: string) {
   const gettingLikes = `SELECT * FROM public.likes WHERE tweet_liked_id = '${tweet_id}';`
@@ -17,7 +17,7 @@ export const showWhoLiked = async function (likes: ILikeModel[]) {
     const {user_who_liked} = likes[index]
     const user = await userExists('', user_who_liked)
 
-    if (user) usersList.push(user.userFound)
+    if (user && user.userFound.active) usersList.push(user.userFound)
   }
 
   return usersList

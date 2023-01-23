@@ -2,7 +2,7 @@ import validate from "npm: uuid-validate"
 
 import { checkIfFollows } from "../../repositories/follow/checkIfFollows.ts"
 import { unfollow } from "../../repositories/follow/unfollow.ts"
-import { userExists } from "../../utils/helperFunctions.ts"
+import { userExists } from "../../repositories/users/userExists.ts"
 
 export class UnfollowService {
   async execute (unfollower_id: string, unfollowed_id: string) {

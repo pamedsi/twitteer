@@ -1,8 +1,8 @@
 import validate from "npm: uuid-validate"
 
 import { ITweetRequest, Tweet, tweetModel } from "../../models/tweet.ts"
-import { insertNewTweet } from "../../repositories/twets/insertTweet.ts"
-import { sameDateTweet } from "../../utils/forTweets.ts"
+import { insertNewTweet } from "../../repositories/tweets/insertTweet.ts"
+import { sameDateTweet } from "../../repositories/tweets/sameDateTweet.ts"
 
 export class CreateTweetService {
   async execute(user_id: string, {content, location, replies_to}: ITweetRequest){

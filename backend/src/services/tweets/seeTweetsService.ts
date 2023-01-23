@@ -1,7 +1,7 @@
 import validate from "npm: uuid-validate"
 
 import { tweetModel } from "../../models/tweet.ts"
-import { getTweetsFromFollowing, getTweetsOfTheLogged } from "../../repositories/twets/getTweets.ts"
+import { getTweetsFromFollowing, getTweetsOfTheLogged } from "../../repositories/tweets/getTweets.ts"
 
 export class SeeTweetsService {
   async execute (loggedUserID: string) {

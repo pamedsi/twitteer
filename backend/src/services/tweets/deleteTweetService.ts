@@ -1,7 +1,7 @@
 import validate from "npm: uuid-validate";
 
-import { deleteTweet } from "../../repositories/twets/deleteTweet.ts";
-import { tweetExists } from "../../repositories/twets/findTweet.ts";
+import { deleteTweet } from "../../repositories/tweets/deleteTweet.ts";
+import { tweetExists } from "../../repositories/tweets/findTweet.ts";
 
 export class DeleteTweetService {
     async execute(tweet_id: string, tweet_owner_id: string){
