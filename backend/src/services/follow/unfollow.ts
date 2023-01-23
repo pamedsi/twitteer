@@ -1,6 +1,7 @@
-import validate from "npm: uuid-validate";
-import { client } from "../../database/database.ts"
-import { User } from "../../models/user.ts";
+import validate from "npm: uuid-validate"
+
+import { checkIfFollows } from "../../repositories/follow/checkIfFollows.ts"
+import { unfollow } from "../../repositories/follow/unfollow.ts"
 import { userExists } from "../../utils/helperFunctions.ts"
 
 export class UnfollowService {
@@ -19,12 +20,10 @@ export class UnfollowService {
     if (!unfollowedFound.userFound.active) throw new Error("Usuário seguido desativado!")
 
     // Agora vai verificar se os usuários já se seguem:
-    const {rows: alreadyFollows} = await client.queryObject<User>(`SELECT * FROM public.followers WHERE followed_id='${unfollowed_id}' AND follower_id='${unfollower_id}' LIMIT 1;`)
-    if(!alreadyFollows.length) throw new Error("Este usuário não segue ao que você tentou deixar de seguir.")
-
+    if(!checkIfFollows(unfollower_id, unfollowed_id)) throw new Error("Este usuário não segue ao que você tentou deixar de seguir.")
+    
     // E finalmente deleta do banco de dados:
-    const query = `DELETE FROM public.followers WHERE follower_id = '${unfollower_id}' and followed_id = '${unfollowed_id}';`
-    await client.queryObject(query)
-    console.log("\nRemoção no banco de dados feita!\nQuery:\n", query) 
+    await unfollow(unfollower_id, unfollowed_id)
+
   }
 }

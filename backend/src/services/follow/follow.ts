@@ -1,6 +1,7 @@
 import validate from "npm: uuid-validate";
-import { client } from "../../database/database.ts";
-import { User } from "../../models/user.ts";
+
+import { checkIfFollows } from "../../repositories/follow/checkIfFollows.ts";
+import { follow } from "../../repositories/follow/follow.ts";
 import { userExists } from "../../utils/helperFunctions.ts";
 
 export class FollowService {
@@ -19,12 +20,9 @@ export class FollowService {
     if (!followedFound.userFound.active) throw new Error("Usuário seguido desativado!")
 
     // Agora vai verificar se os usuários já se seguem:
-    const {rows: alreadyFollows} = await client.queryObject<User>(`SELECT * FROM public.followers WHERE followed_id='${followed_id}' AND follower_id='${follower_id}' LIMIT 1;`)
-    if(alreadyFollows.length) throw new Error("Este usuário já segue ao que você tentou seguir.");
+    if (await checkIfFollows(follower_id, followed_id)) throw new Error("Este usuário já segue ao que você tentou seguir.");
         
     // E finalmente insere no banco de dados:
-    const query = `INSERT INTO public.followers (follow_id, followed_id, follower_id, created_at) VALUES ('${crypto.randomUUID()}', '${followed_id}'::uuid,'${follower_id}'::uuid, '${new Date().toISOString()}');`
-    await client.queryObject(query)
-    console.log("\nInserção no banco de dados feita!\nQuery:\n", query)
+    await follow(follower_id, followed_id)
   }
 }
