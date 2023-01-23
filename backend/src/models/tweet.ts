@@ -1,4 +1,4 @@
-import { showLikes, showWhoLiked } from "../repositories/twets/getTweetLikes.ts"
+import { getLikes, showWhoLiked } from "../repositories/twets/getTweetLikes.ts"
 import { ILikeModel } from "./like.ts"
 
 export interface tweetModel {
@@ -8,6 +8,7 @@ export interface tweetModel {
     created_at: Date
     location?: string
     replies_to?: string
+    likes?: number
     deleted: boolean
 }
 
@@ -52,8 +53,8 @@ export class Tweet {
         }
     }
 
-    async getLikes () {
-        const likes = await showLikes(this.tweet_id)
+    async getTweetLikes () {
+        const likes = await getLikes(this.tweet_id)
         this.likes = likes.length
         this.likeData = likes
         return {
@@ -64,7 +65,7 @@ export class Tweet {
 
     async seeWhoLiked() {
         if (!this.likeData) {
-            const { likesInfo } = await this.getLikes()
+            const { likesInfo } = await this.getTweetLikes()
             const usersWhoLiked = await showWhoLiked(likesInfo)
             return usersWhoLiked
         }        

@@ -3,7 +3,7 @@ import { ILikeModel } from "../../models/like.ts"
 import { User } from "../../models/user.ts"
 import { userExists } from "../../utils/helperFunctions.ts"
 
-export const showLikes = async function (tweet_id: string) {
+export const getLikes = async function (tweet_id: string) {
   const gettingLikes = `SELECT * FROM public.likes WHERE tweet_liked_id = '${tweet_id}';`
   const { rows: likesList } = await client.queryObject<ILikeModel>(gettingLikes)
   return likesList
