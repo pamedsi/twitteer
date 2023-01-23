@@ -43,7 +43,7 @@ export const userExists = async function (login: string, user_id?: string)  {
   else if (isMobilePhone(login, '', {})) kindOfLogin = 'phone'
   else kindOfLogin = 'username'
 
-  const {rows: result} = (await client.queryObject<User>(`SELECT * FROM public.users WHERE ${kindOfLogin}='${login}' LIMIT 1;`))
+  const {rows: result} = (await client.queryObject<User>(`SELECT * FROM public.users WHERE ${kindOfLogin}='${login}' and active = true LIMIT 1;`))
   if (result.length) return {dataFound: kindOfLogin, userFound: result[0]} as querySearch
 
   return false
