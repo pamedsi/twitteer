@@ -9,6 +9,7 @@ export interface tweetModel {
     location?: string
     replies_to?: string
     likes?: number
+    replies?: tweetModel[]
     deleted: boolean
 }
 
@@ -27,6 +28,7 @@ export class Tweet {
     replies_to?: string
     deleted: boolean
     likes?: number
+    replies?: tweetModel[]
     likeData?: ILikeModel[]
 
     constructor({tweet_id, tweet_owner_id, content, created_at, location, replies_to, deleted}: tweetModel, user_id?: string) {

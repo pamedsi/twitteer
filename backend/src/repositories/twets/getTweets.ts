@@ -1,6 +1,7 @@
 import { client } from "../../database/database.ts";
 import { followerModel } from "../../models/follower.ts";
 import { tweetModel } from "../../models/tweet.ts";
+import { getReplies } from "./getReplies.ts";
 import { getLikes } from "./getTweetLikes.ts";
 
 export const getTweetsOfTheLogged = async function (loggedUserID: string) {
@@ -8,11 +9,12 @@ export const getTweetsOfTheLogged = async function (loggedUserID: string) {
   const {rows: tweetsOfTheLogged} = await client.queryObject<tweetModel>(queryForTweetsFromLogged)
 
   // Colocando o número de likes do tweet.
-  tweetsOfTheLogged.forEach(async (tweet, index) => {
-    const likes = await getLikes(tweet.tweet_id)
-    tweetsOfTheLogged[index].likes = likes.length
-
-  })
+  for (let index = 0; index < tweetsOfTheLogged.length; index++) {
+    const tweet = tweetsOfTheLogged[index];
+    const likesFound = await getLikes(tweet.tweet_id)
+    tweetsOfTheLogged[index].likes = likesFound.length
+    tweetsOfTheLogged[index].replies = await getReplies(tweetsOfTheLogged[index].tweet_id)
+  }
 
   return tweetsOfTheLogged
 }
@@ -22,18 +24,20 @@ export const getTweetsFromFollowing = async function (loggedUserID: string){
   const {rows: IDsFollowedByTheLogged} =  await client.queryObject<followerModel>(queryForFollowing)
   const tweetsOfFollowing: tweetModel[] = []
 
-  for (let index = 0; index < IDsFollowedByTheLogged.length; index++) {
-    const { followed_id } = IDsFollowedByTheLogged[index]
+  for (let i = 0; i < IDsFollowedByTheLogged.length; i++) {
+    const { followed_id } = IDsFollowedByTheLogged[i]
     const queryForTweetsFromFollowed = `SELECT * FROM public.tweets WHERE tweet_owner_id = '${followed_id}' and deleted = false;`
-    const {rows} = await client.queryObject<tweetModel>(queryForTweetsFromFollowed)
+    const {rows: tweets} = await client.queryObject<tweetModel>(queryForTweetsFromFollowed)
 
     // Colocando o número de likes do tweet.
-    rows.forEach(async (tweet, index) => {
+    for (let j = 0; j < tweets.length; j++) {
+      const tweet = tweets[j];
       const likes = await getLikes(tweet.tweet_id)
-      rows[index].likes = likes.length
-    })
+      tweets[j].likes = likes.length
+      tweets[j].replies = await getReplies(tweets[j].tweet_id)
+    }
 
-    tweetsOfFollowing.push(...rows)
+    tweetsOfFollowing.push(...tweets)
   }
 
   return tweetsOfFollowing

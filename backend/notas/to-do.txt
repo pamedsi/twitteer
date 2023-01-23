@@ -13,7 +13,7 @@
   - Padronizar commits:
     https://dev.to/vitordevsp/padronizacao-de-commit-com-commitlint-husky-e-commitizen-3g1n✅
   - Checar se as requisições post estão com status 201✅
-  - Mudar os status de requisição 400 pra erros de requisição do front✅
+  - Mudar os status de requisição 400 pra erros de requisição do client✅
   - Personalizar mensagens de erro no body e não apenas no terminal✅
   - Usar erro 500 pra casos que o erro foi interno✅
   - Fazer merge request com branch main✅
