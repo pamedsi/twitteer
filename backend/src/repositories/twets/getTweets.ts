@@ -2,7 +2,7 @@ import { client } from "../../database/database.ts";
 import { followerModel } from "../../models/follower.ts";
 import { tweetModel } from "../../models/tweet.ts";
 import { getReplies } from "./getReplies.ts";
-import { getLikes } from "./getTweetLikes.ts";
+import { getLikes } from "../likes/getLikes.ts";
 
 export const getTweetsOfTheLogged = async function (loggedUserID: string) {
   const queryForTweetsFromLogged = `SELECT * FROM public.tweets WHERE tweet_owner_id = '${loggedUserID}';`

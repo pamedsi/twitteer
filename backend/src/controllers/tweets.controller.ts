@@ -5,8 +5,9 @@ import { ctxModel } from './../models/context.ts';
 import { CreateTweetService } from '../services/tweets/createTweetService.ts';
 import { DeleteTweetService } from '../services/tweets/deleteTweetService.ts'
 import { SeeTweetsService } from "../services/tweets/seeTweetsService.ts";
-import { LikeTweetService } from "../services/tweets/likeTweetService.ts"
+import { LikeTweetService } from "../services/like/likeTweetService.ts"
 import { ITweetRequest } from "../models/tweet.ts";
+import { UnlikeService } from "../services/like/unlikeService.ts"
 
 export const seeTweets = async function (ctx: Context) {
     try {
@@ -106,6 +107,34 @@ export const likeTweet = async function(ctx: ctxModel) {
         }
         else {
             ctx.response.body = {message: "Nao foi possível curtir o tweet, erro interno, tente novamente mais tarde!"}
+            ctx.response.status = 500
+            console.log(`\nNao foi possível curtir tweet.\n`, error)
+        }
+    }
+}
+
+export const unlikeTweet = async function (ctx: ctxModel) {
+    try {
+        const {tweet_id} = ctx.params
+        const jwt = await ctx.cookies.get('jwt')
+        if (!jwt) throw new Error("JWT Inválido!");
+
+        const {user_id: loggedUser} = decode(jwt)[1] as Payload
+        const likeTweetService = new UnlikeService()
+        await likeTweetService.execute(String(tweet_id), String(loggedUser))
+
+        ctx.response.body = {message: "Tweet descurtido!"}
+        ctx.response.status = 200
+    }
+    catch (error) {
+        const clientError = String(error).split('\n')[0].split(': ')
+        if (clientError[1] === 'client') {
+            console.log(`\nNao foi possível descurtir o tweet.\n`, error)
+            ctx.response.body = {message: clientError[2]}
+            ctx.response.status = 400
+        }
+        else {
+            ctx.response.body = {message: "Nao foi possível descurtir o tweet, erro interno, tente novamente mais tarde!"}
             ctx.response.status = 500
             console.log(`\nNao foi possível curtir tweet.\n`, error)
         }

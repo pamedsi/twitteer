@@ -1,7 +1,7 @@
 import validate from "npm: uuid-validate";
 import { Like } from "../../models/like.ts";
-import { canLikeTWeet } from "../../repositories/twets/canLikeTweet.ts";
-import { insertNewLike } from "../../repositories/twets/likeTweet.ts";
+import { canLikeTWeet } from "../../repositories/likes/canLike.ts";
+import { insertNewLike } from "../../repositories/likes/like.ts";
 
 export class LikeTweetService {
     async execute(tweetToBeLiked: string, loggedUser: string){

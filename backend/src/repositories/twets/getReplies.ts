@@ -1,6 +1,6 @@
-import { client } from "../../database/database.ts";
-import { tweetModel } from "../../models/tweet.ts";
-import { getLikes } from "./getTweetLikes.ts";
+import { client } from "../../database/database.ts"
+import { tweetModel } from "../../models/tweet.ts"
+import { getLikes } from "../likes/getLikes.ts"
 
 export const getReplies = async function (tweet_id: string) {
   const queryForFindingReplies = `SELECT * FROM public.tweets WHERE replies_to = '${tweet_id}' and deleted = false;`

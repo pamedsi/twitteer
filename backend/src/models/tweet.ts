@@ -1,4 +1,4 @@
-import { getLikes, showWhoLiked } from "../repositories/twets/getTweetLikes.ts"
+import { getLikes, showWhoLiked } from "../repositories/likes/getLikes.ts"
 import { ILikeModel } from "./like.ts"
 
 export interface tweetModel {
