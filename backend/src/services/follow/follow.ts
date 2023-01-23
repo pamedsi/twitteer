@@ -23,7 +23,7 @@ export class FollowService {
     if(alreadyFollows.length) throw new Error("Este usuário já segue ao que você tentou seguir.");
         
     // E finalmente insere no banco de dados:
-    const query = `INSERT INTO public.followers (followed_id, follower_id, created_at) VALUES ('${followed_id}'::uuid,'${follower_id}'::uuid, '${new Date().toISOString()}');`
+    const query = `INSERT INTO public.followers (follow_id, followed_id, follower_id, created_at) VALUES ('${crypto.randomUUID()}', '${followed_id}'::uuid,'${follower_id}'::uuid, '${new Date().toISOString()}');`
     await client.queryObject(query)
     console.log("\nInserção no banco de dados feita!\nQuery:\n", query)
   }

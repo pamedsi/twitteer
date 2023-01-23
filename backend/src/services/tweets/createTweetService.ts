@@ -1,6 +1,6 @@
 import validate from "npm: uuid-validate"
 
-import { ITweetRequest, Tweet } from "../../models/tweet.ts"
+import { ITweetRequest, Tweet, tweetModel } from "../../models/tweet.ts"
 import { insertNewTweet } from "../../repositories/twets/insertTweet.ts"
 import { sameDateTweet } from "../../utils/forTweets.ts"
 
@@ -13,7 +13,7 @@ export class CreateTweetService {
     if (content.length === 0) throw new Error("client: Seu tweet não pode estar vazio!")
     if (content.length > 280) throw new Error("client: Seu tweet não pode ter mais que 280 caracteres.")
 
-    const newTweet = new Tweet(user_id, {content, location, replies_to})
+    const newTweet = new Tweet({content, location, replies_to} as tweetModel, user_id)
     await insertNewTweet(newTweet)
   }
 }
