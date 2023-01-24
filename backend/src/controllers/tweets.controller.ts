@@ -1,21 +1,43 @@
 import { decode, Payload } from "https://deno.land/x/djwt@v2.7/mod.ts";
-import {Context} from "https://deno.land/x/oak@v10.6.0/mod.ts";
+import { Context } from "https://deno.land/x/oak@v10.6.0/mod.ts";
 
 import { ctxModel } from './../models/context.ts';
 import { CreateTweetService } from '../services/tweets/createTweetService.ts';
 import { DeleteTweetService } from '../services/tweets/deleteTweetService.ts'
-import { SeeTweetsService } from "../services/tweets/seeTweetsService.ts";
 import { LikeTweetService } from "../services/like/likeTweetService.ts"
-import { ITweetRequest } from "../models/tweet.ts";
+import { ITweetRequest, tweetModel } from "../models/tweet.ts";
 import { UnlikeService } from "../services/like/unlikeService.ts"
+import { getFeedTweetsFromDB, getUserTweetsFromDB } from "../repositories/tweets/getTweets.ts";
 
-export const seeTweets = async function (ctx: Context) {
+export const getFeedTweets = async function (ctx: Context) {
     try {
         const jwt = await ctx.cookies.get('jwt')
         if (!jwt) throw new Error("client: Usuário não logado!")
         const { user_id: loggedUser } = decode(jwt)[1] as Payload
-        const seeTweetsService = new SeeTweetsService()
-        const tweets = await seeTweetsService.execute(String(loggedUser))
+        const tweets = await getFeedTweetsFromDB(String(loggedUser))
+        
+        ctx.response.body = tweets
+        ctx.response.status = 200
+
+    }
+    catch (error) {
+        console.log(`Requisição mal sucedida!\n`, error)
+        ctx.response.body = {message: "Não foi possível buscar os tweets"}
+        ctx.response.status = 500
+
+    }
+}
+
+export const getUserTweets = async function (ctx: ctxModel) {
+    try {
+        const { user_id } = ctx.params
+        const jwt = await ctx.cookies.get('jwt')
+        if (!jwt) throw new Error("client: Usuário não logado!")
+        const { user_id: loggedUser } = decode(jwt)[1] as Payload
+        let tweets: tweetModel[]
+
+        if (ctx.params.user_id) tweets = await getUserTweetsFromDB(String(user_id))
+        else tweets = await getUserTweetsFromDB(String(loggedUser))
 
         ctx.response.body = tweets
         ctx.response.status = 200

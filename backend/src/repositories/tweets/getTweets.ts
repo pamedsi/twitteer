@@ -4,7 +4,7 @@ import { tweetModel } from "../../models/tweet.ts";
 import { getReplies } from "./getReplies.ts";
 import { getLikes } from "../likes/getLikes.ts";
 
-export const getTweetsOfTheLogged = async function (loggedUserID: string) {
+export const getUserTweetsFromDB = async function (loggedUserID: string) {
   const queryForTweetsFromLogged = `SELECT * FROM public.tweets WHERE tweet_owner_id = '${loggedUserID}';`
   const {rows: tweetsOfTheLogged} = await client.queryObject<tweetModel>(queryForTweetsFromLogged)
 
@@ -19,7 +19,7 @@ export const getTweetsOfTheLogged = async function (loggedUserID: string) {
   return tweetsOfTheLogged
 }
 
-export const getTweetsFromFollowing = async function (loggedUserID: string){
+export const getFeedTweetsFromDB = async function (loggedUserID: string){
   const queryForFollowing = `SELECT * FROM public.followers WHERE follower_id = '${loggedUserID}';`
   const {rows: IDsFollowedByTheLogged} =  await client.queryObject<followerModel>(queryForFollowing)
   const tweetsOfFollowing: tweetModel[] = []

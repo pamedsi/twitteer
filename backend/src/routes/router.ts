@@ -2,7 +2,7 @@ import { Router } from "https://deno.land/x/oak@v10.6.0/mod.ts"
 
 import { createUser, removeUser, updateUser, reactivateUser} from '../controllers/user.controller.ts';
 import { follow, unfollow, seeFollowers, seeFollowing } from '../controllers/follower.controller.ts'
-import { createTweet, likeTweet, removeTweet, seeTweets, unlikeTweet } from './../controllers/tweets.controller.ts';
+import { createTweet, likeTweet, removeTweet, getFeedTweets, getUserTweets, unlikeTweet } from './../controllers/tweets.controller.ts';
 import { login } from './../userAuthenticator/login.ts';
 import { JWTValidator } from './../userAuthenticator/JWTValidator.ts';
 import { homePage, isLogged } from "../utils/helperFunctions.ts";
@@ -33,7 +33,10 @@ router.delete('/api/followers/:unfollowed_id', JWTValidator, unfollow)
 
 // Para tweets:
 
-router.get('/api/tweets', JWTValidator, seeTweets)
+router.get('/api/tweets/feed', JWTValidator, getFeedTweets)
+router.get('/api/tweets', JWTValidator, getUserTweets)
+router.get('/api/tweets/:user_id', JWTValidator, getUserTweets)
+
 router.post('/api/tweet', JWTValidator ,createTweet)
 router.post('/api/like-tweet/:tweet_id', JWTValidator ,likeTweet)
 router.delete('/api/unlike-tweet/:tweet_id', JWTValidator ,unlikeTweet)
