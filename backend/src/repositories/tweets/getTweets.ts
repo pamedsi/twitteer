@@ -5,7 +5,7 @@ import { getReplies } from "./getReplies.ts";
 import { getLikes } from "../likes/getLikes.ts";
 
 export const getUserTweetsFromDB = async function (loggedUserID: string) {
-  const queryForTweetsFromLogged = `SELECT * FROM public.tweets WHERE tweet_owner_id = '${loggedUserID}';`
+  const queryForTweetsFromLogged = `SELECT * FROM public.tweets WHERE tweet_owner_id = '${loggedUserID}' and deleted = false;`
   const {rows: tweetsOfTheLogged} = await client.queryObject<tweetModel>(queryForTweetsFromLogged)
 
   // Colocando o número de likes do tweet.
