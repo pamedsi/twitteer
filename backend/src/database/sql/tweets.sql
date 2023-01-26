@@ -3,7 +3,7 @@ CREATE TABLE public.tweets (
 	tweet_id uuid NOT NULL PRIMARY KEY,
 	tweet_owner_id uuid NOT NULL,
 	"location" varchar,
-	"content" varchar NOT NULL,
+	"content" varchar (280) NOT NULL,
 	created_at timestamp NOT NULL,
 	deleted boolean NOT NULL DEFAULT false,
 	replies_to uuid,

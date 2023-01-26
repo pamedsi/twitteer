@@ -1,4 +1,4 @@
-import {config} from "https://deno.land/x/dotenv@v3.2.0/mod.ts"
+import { config } from "https://deno.land/x/dotenv@v3.2.0/mod.ts"
 
 export const jwtKey = await crypto.subtle.generateKey(
     { name: "HMAC", hash: "SHA-512" },

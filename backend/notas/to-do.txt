@@ -1,10 +1,11 @@
 🔴 Implementações mais urgentes:
 
   - Criar documentação com swagger
+  - Descobrir porque .env não está sendo lido
   - Usar docker
-  - Quantificar os campos de varchar no sql
   - Salvar métodos no banco de dados
-
+  
+  - Quantificar os campos de varchar no sql✅
   - Colocar queries do service de follow no repositories✅
   - Permitir deletar a conta por requisição apenas quem tá logado, e quem tá tentando deletar a própria conta, tweet ou comentário✅
   - Adicionar erro 404 para rotas não encontradas✅

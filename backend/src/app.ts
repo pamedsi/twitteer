@@ -1,4 +1,4 @@
-import {Application} from "https://deno.land/x/oak@v10.6.0/mod.ts";
+import { Application } from "https://deno.land/x/oak@v10.6.0/mod.ts";
 import { router } from './routes/router.ts';
 import { env } from './env.ts';
 
