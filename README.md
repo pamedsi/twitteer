@@ -23,31 +23,43 @@ Instale também o Postgresql, de preferência a versão mais recente. Encontre a
 As informações referente à conexão com o banco de dados estão no arquivo "backend/src/database/database.ts".
 O seguinte objeto é passado como argumento da nova instância de "Client" criada no arquivo acima.
 
-      user: "postgres",
-      database: "postgres",
-      hostname: "localhost",
-      port: 5432,
-      password: '4002'
+      user: "",
+      database: "",
+      hostname: "",
+      port: ,
+      password: ''
 
 
-A porta padrão do Postgres é 5432, mas caso sua porta seja outra ou seu perfil Postgres esteja com alguma informação diferente, é necessário modificá-la no código.
+Os valores de cada propriedade devem ser preenchidos através do .env, na pasta /backend/src.
+Ex:
+      user=postgres
+      database=postgres
+      hostname=localhost
+      port=5432
+      password="myDatabasePassword"
+      HOST="127.0.0.1"
+      PORT=8080
 
 Para criar as tabelas no banco de dados, é necessário executar todos os scripts SQL que estão em "backend/src/database/sql".
 
-Para iniciar o servidor e poder usar a API é necessário executar o arquivo "backend/src/app.ts" com o seguinte comando:
- 
+Para iniciar o servidor e poder usar a API é necessário executar o arquivo "backend/src/app.ts":
+OBS: Para que o .env seja lido, é necessário executar o comando estando dentro da pasta "src", ex:
 ```
-$ deno run backend/src/app.ts
+$ cd backend/src/
+```
+ E depois disso:
+```
+$ deno run app.ts
 ```
 Aparecerão alguns pedidos de autorização, para permitir, digite "Y" e aperte Enter.
 
 Caso queira autorizar todos os pedidos de permissões de uma vez (não recomendado) insira a flag --allow-all:
 
 ```
-$ deno run --allow-all backend/src/app.ts
+$ deno run --allow-all app.ts
 ```
 
-Em seguida o servidor iniciará na porta 8080.
+Em seguida o servidor iniciará na porta configurada no arquivo ".env".
 
 # Implementações feitas até então no backend:
 
@@ -66,3 +78,5 @@ Em seguida o servidor iniciará na porta 8080.
 - Utilizar docker.
 
 OBS: No twitter, a senha é exigida apenas que tenha, no mínimo, 10 caracteres. E é recomendado que a senha que misture caractereses especiais, números e letras maiúsculas e minúsculas. Nesta aplicação eu tornei essas recomendações obrigatórias, junto com o mínimo de caracteres.
+
+Enquanto a documentação não está pronta, o arquivo "/backend/src/routes/router.ts" pode auxiliar na compreensão dos endpoints.
