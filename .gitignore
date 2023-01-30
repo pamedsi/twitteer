@@ -5,3 +5,4 @@ teste.json
 .env
 .idea
 dockerinit.sh
+lib.ts

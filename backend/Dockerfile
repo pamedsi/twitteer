@@ -1,10 +1,8 @@
-FROM denoland/deno
+FROM denoland/deno:1.30.0
 
 
 WORKDIR /app
 
 COPY src .
 
-EXPOSE 3333
-
-CMD [ "deno", "run", "--allow-all", "app.ts" ]
+CMD [ "deno", "run", "--allow-all", "app.ts"]
