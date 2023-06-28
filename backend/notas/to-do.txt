@@ -9,6 +9,5 @@
 
 🟢 Implementações menos urgentes:
 
-  - Pesquisar como guardar informação da localização geográfica do usuário.(campo "location")
   - Adicionar a propriedade de localização (location) no tweet.
   - Pesquisar como guardar a foto da capa e de perfil no banco de dados. (campos: "profile_pic" e "cover_pic")
